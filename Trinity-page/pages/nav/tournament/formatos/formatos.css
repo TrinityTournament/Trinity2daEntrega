@@ -1,0 +1,80 @@
+/* ══ Formatos de competencia — estilos propios ══ */
+
+/* ── Bracket (eliminación directa) ── */
+
+.bracket {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+}
+@media (min-width: 900px) {
+    .bracket { flex-direction: row; align-items: center; }
+}
+
+.bracket-round {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 1.5rem;
+    min-width: 240px;
+}
+
+.bracket-round-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 0.25rem;
+}
+
+.bracket-pair {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.bracket-slot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.6rem 0.9rem;
+    font-size: 13.5px;
+}
+.bracket-slot.winner { border-color: rgba(192,0,10,0.5); background: rgba(192,0,10,0.08); font-weight: 700; }
+.bracket-slot.pending { color: var(--text-muted); }
+
+.bracket-champion {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: linear-gradient(135deg, rgba(192,0,10,0.25), rgba(0,0,0,0.3));
+    border: 1px solid rgba(192,0,10,0.4);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+}
+
+/* ── Tabs de ronda (sistema suizo) ── */
+
+.round-tabs { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+.round-tab {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12.5px;
+    font-weight: 700;
+    padding: 0.45rem 0.8rem;
+    border-radius: 6px;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+}
+.round-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.round-tab.disabled { opacity: 0.4; }

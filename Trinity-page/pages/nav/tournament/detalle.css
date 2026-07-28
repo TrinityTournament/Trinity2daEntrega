@@ -1,0 +1,67 @@
+/* ══ Detalle de torneo — estilos propios ══ */
+
+.tournament-banner {
+    padding: 7.5rem 5vw 2.5rem;
+    background-size: cover;
+    background-position: center;
+}
+.tournament-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(28px, 5.5vw, 46px);
+    font-weight: 900;
+    margin-top: 0.6rem;
+}
+.tournament-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 0.75rem;
+    font-size: 13.5px;
+    color: var(--text-muted);
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+@media (min-width: 800px) { .info-grid { grid-template-columns: 1.4fr 1fr; } }
+
+.info-block h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+.info-block p { line-height: 1.7; font-size: 14.5px; }
+
+.info-facts {
+    display: grid;
+    gap: 0.7rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.1rem 1.25rem;
+}
+.info-facts div { display: flex; justify-content: space-between; gap: 1rem; font-size: 13.5px; }
+.info-facts dt { color: var(--text-muted); }
+.info-facts dd { font-weight: 600; }
+
+.bracket-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-width: 320px;
+    margin-bottom: 0.75rem;
+}
+.bracket-match {
+    display: flex;
+    justify-content: space-between;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.5rem 0.85rem;
+    font-size: 13.5px;
+}

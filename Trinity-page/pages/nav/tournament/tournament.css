@@ -1,0 +1,190 @@
+/* tournament.css — v5 (fix: aspect-ratio aplicado al flex-item real) */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background: var(--bg, #0a0000);
+    color: var(--text, #f5f0f0);
+    font-family: 'Barlow', sans-serif;
+    min-height: 100vh;
+}
+
+.tournaments-page {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 56px 24px 80px;
+}
+
+/* ── Encabezado ── */
+.tournaments-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.tournaments-header h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(48px, 8vw, 90px);
+    font-weight: 900;
+    letter-spacing: 6px;
+    display: inline-block;
+    padding-bottom: 10px;
+    border-bottom: 4px solid var(--accent, #c0000a);
+}
+
+.tournament-header h2 {
+    margin-top: 14px;
+    display: inline-block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px;
+    letter-spacing: 1px;
+}
+
+.tournaments-header .how-to-join {
+    margin-top: 14px;
+    display: inline-block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--accent2, #ff2a2a);
+    text-decoration: underline;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* ── Grilla de juegos ── */
+.games-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 44px;
+}
+
+/* .game-card-wrap es el hijo directo de .games-grid (el flex-item real).
+   Antes el ancho/alto/aspect-ratio estaban en .game-card (el <a> de adentro,
+   que NO es flex-item), por eso las cards colapsaban angostas y altas. */
+.game-card-wrap {
+    position: relative;
+    flex: 1 1 calc(33.333% - 14px);
+    max-width: calc(33.333% - 14px);
+    aspect-ratio: 3 / 2;    /* tarjeta horizontal, ratio medido de la referencia */
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border, rgba(180,0,0,0.15));
+    isolation: isolate;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.game-card-wrap:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(192, 0, 10, 0.25);
+}
+
+/* .game-card ahora solo llena el wrap; ya no necesita sus propias medidas */
+.game-card {
+    position: absolute;
+    inset: 0;
+    display: block;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+/* Capa de imagen de fondo con blur. Se agranda un poco (scale) para que el
+   desenfoque no deje ver bordes nítidos/transparentes en los cantos de la tarjeta. */
+.game-card .card-bg {
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    background-size: cover;
+    background-position: center;
+    filter: blur(4px);
+    transform: scale(1.08);
+    z-index: 0;
+}
+
+.game-card .scrim {
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.55) 100%);
+    z-index: 1;
+}
+
+/* Ícono del juego centrado sobre la tarjeta. Reemplazar los src PLACEHOLDER
+   en el HTML por los íconos reales de cada juego. */
+.game-card .game-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 206px;
+    height: 206px;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 14px rgba(0,0,0,0.6));
+    pointer-events: none;
+}
+
+/* ── Texto de invitación ── */
+.tournaments-cta {
+    text-align: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: clamp(16px, 2.4vw, 22px);
+    letter-spacing: 0.5px;
+    line-height: 1.4;
+    color: var(--text, #f5f0f0);
+    max-width: 900px;
+    margin: 0 auto 48px;
+}
+
+/* ── Bloque de pasos ── */
+.steps-section {
+    max-width: 700px;
+}
+
+.login-link-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: var(--text-muted, #8a6a6a);
+    text-decoration: none;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    margin-bottom: 14px;
+}
+
+.login-link-tag .arrow {
+    color: var(--text-muted, #8a6a6a);
+    font-size: 12px;
+}
+
+.login-link-tag:hover { color: var(--text, #f5f0f0); }
+
+.steps-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.steps-list li {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: clamp(22px, 4vw, 34px);
+    letter-spacing: 0.5px;
+}
+
+.steps-list li .crea {
+    color: var(--accent, #c0000a);
+}
+
+@media (max-width: 760px) {
+    .game-card-wrap { flex-basis: calc(50% - 10px); max-width: calc(50% - 10px); }
+}
+
+@media (max-width: 480px) {
+    .game-card-wrap { flex-basis: 100%; max-width: 100%; }
+    .tournaments-header h1 { letter-spacing: 3px; }
+}

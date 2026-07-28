@@ -1,0 +1,38 @@
+/* ══ Nosotros — estilos propios ══ */
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+@media (min-width: 800px) { .about-grid { grid-template-columns: repeat(3, 1fr); } }
+
+.about-block {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.5rem;
+}
+.about-block h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+    margin-bottom: 0.6rem;
+}
+.about-block p { font-size: 14px; line-height: 1.7; color: var(--text-muted); }
+
+.team-logo {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+}
+
+.team-member-card { padding-bottom: 1.5rem; }

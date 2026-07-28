@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de organizador — Trinity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../components/nav.css">
+    <link rel="stylesheet" href="../../components/ui.css">
+    <link rel="stylesheet" href="organizador.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.ico">
+</head>
+<body class="lite-shell">
+
+<!-- ══ NAV ══ -->
+<script src="../../components/nav.js"></script>
+
+    <!-- ══ SIDEBAR ══ -->
+    <aside class="lite-sidebar">
+        <nav>
+            <a href="#torneos" class="lite-nav-item active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4ZM7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4"/></svg>
+                Mis torneos
+            </a>
+            <a href="#participantes" class="lite-nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 19c.5-3 3-5 6.5-5s6 2 6.5 5M16.5 6.5A3 3 0 1 1 17 12.4M21.5 19c-.3-2-1.8-3.7-4-4.5"/></svg>
+                Participantes
+            </a>
+            <a href="#rondas" class="lite-nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>
+                Rondas y resultados
+            </a>
+            <a href="../../index.html" class="lite-nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Volver al sitio
+            </a>
+        </nav>
+    </aside>
+
+    <!-- ══ CONTENIDO ══ -->
+    <main class="lite-main">
+
+        <section id="torneos">
+            <div class="lite-header">
+                <h1>Mis torneos</h1>
+                <p>Torneos que organizás o co-organizás.</p>
+            </div>
+
+            <div class="data-table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr><th>Torneo</th><th>Disciplina</th><th>Formato</th><th>Estado</th><th>Inscriptos</th><th></th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Copa Trinity — Clash Royale</td><td>Clash Royale</td><td>Eliminación directa</td>
+                            <td><span class="badge badge-abierto">Abierto</span></td><td class="num">18/32</td>
+                            <td><a href="../nav/tournament/detalle.html" class="btn-ghost btn-sm">Gestionar</a></td>
+                        </tr>
+                        <tr>
+                            <td>Liga Trinity — Fortnite</td><td>Fortnite</td><td>Liga</td>
+                            <td><span class="badge badge-en_curso">En curso</span></td><td class="num">16/16</td>
+                            <td><a href="../nav/tournament/formatos/liga.html" class="btn-ghost btn-sm">Gestionar</a></td>
+                        </tr>
+                        <tr>
+                            <td>Brawl Open #3</td><td>Brawl Stars</td><td>Eliminación directa</td>
+                            <td><span class="badge badge-finalizado">Finalizado</span></td><td class="num">64/64</td>
+                            <td><a href="../nav/tournament/formatos/eliminacion.html" class="btn-ghost btn-sm">Ver</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="lite-header" style="margin-top:2rem;">
+                <a href="../nav/tournament/crear.html" class="btn-primary">+ Crear torneo</a>
+            </div>
+        </section>
+
+        <section id="participantes" style="margin-top:3rem;">
+            <div class="lite-header">
+                <h1>Participantes — Copa Trinity (Clash Royale)</h1>
+                <p>Aprobá o rechazá las inscripciones pendientes.</p>
+            </div>
+
+            <div class="data-table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr><th>Participante</th><th>Equipo</th><th>Fecha de inscripción</th><th>Estado</th><th></th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>FacuGamer</td><td>—</td><td>20 jul</td>
+                            <td><span class="badge badge-abierto">Aceptado</span></td>
+                            <td><button type="button" class="btn-ghost btn-sm">Quitar</button></td>
+                        </tr>
+                        <tr>
+                            <td>WitchKing</td><td>—</td><td>21 jul</td>
+                            <td><span class="badge badge-en_creacion">Pendiente</span></td>
+                            <td>
+                                <button type="button" class="btn-secondary btn-sm">Aceptar</button>
+                                <button type="button" class="btn-ghost btn-sm">Rechazar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Tronco99</td><td>—</td><td>22 jul</td>
+                            <td><span class="badge badge-en_creacion">Pendiente</span></td>
+                            <td>
+                                <button type="button" class="btn-secondary btn-sm">Aceptar</button>
+                                <button type="button" class="btn-ghost btn-sm">Rechazar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="rondas" style="margin-top:3rem;">
+            <div class="lite-header">
+                <h1>Rondas y resultados</h1>
+                <p>Generá la siguiente ronda o cargá los resultados pendientes.</p>
+            </div>
+
+            <div class="round-actions">
+                <article class="round-card">
+                    <div>
+                        <strong>16avos de final</strong>
+                        <span class="badge badge-en_curso">En curso</span>
+                    </div>
+                    <a href="../nav/tournament/resultados.html" class="btn-secondary btn-sm">Cargar resultados</a>
+                </article>
+                <article class="round-card">
+                    <div>
+                        <strong>Octavos de final</strong>
+                        <span class="badge badge-en_creacion">No generada</span>
+                    </div>
+                    <button type="button" class="btn-primary btn-sm">Generar ronda</button>
+                </article>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

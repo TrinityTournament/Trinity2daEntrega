@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trinity — Panel de Administración</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.ico">
+</head>
+<body>
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <span class="logo-text">TRINITY</span>
+            <span class="logo-badge">ADMIN</span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a class="nav-item active" href="#section-usuarios">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                Usuarios
+            </a>
+            <a class="nav-item" href="#section-torneos">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+                Torneos
+            </a>
+            <a class="nav-item" href="#section-configuracion">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+                Configuración
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="admin-info">
+                <div class="admin-avatar">A</div>
+                <span class="admin-name">Santiago R.</span>
+            </div>
+            <a href="../../index.html" class="btn-back">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+                Volver al sitio
+            </a>
+        </div>
+    </aside>
+
+    <!-- ── CONTENIDO PRINCIPAL ── -->
+    <main class="main">
+
+        <!-- SECCIÓN: USUARIOS -->
+        <section id="section-usuarios" class="section active">
+            <div class="section-header">
+                <div>
+                    <h1 class="section-title">Usuarios</h1>
+                    <p class="section-sub">128 usuarios registrados</p>
+                </div>
+                <div class="header-actions">
+                    <input type="text" class="search-input" placeholder="Buscar por nombre o @usuario...">
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Email</th>
+                            <th>Rol</th>
+                            <th>Torneos</th>
+                            <th>Registro</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><div class="user-cell"><div class="user-cell-avatar">S</div><div><div class="user-cell-name">Santiago R.</div><div class="user-cell-user">@santiagor</div></div></div></td>
+                            <td>santiago@trinity.gg</td>
+                            <td><select class="rol-select"><option selected>Admin</option><option>Organizador</option><option>Participante</option></select></td>
+                            <td>5</td>
+                            <td>12 mar 2026</td>
+                        </tr>
+                        <tr>
+                            <td><div class="user-cell"><div class="user-cell-avatar">L</div><div><div class="user-cell-name">LuciaPro</div><div class="user-cell-user">@luciapro</div></div></div></td>
+                            <td>lucia@trinity.gg</td>
+                            <td><select class="rol-select"><option>Admin</option><option selected>Organizador</option><option>Participante</option></select></td>
+                            <td>12</td>
+                            <td>3 abr 2026</td>
+                        </tr>
+                        <tr>
+                            <td><div class="user-cell"><div class="user-cell-avatar">F</div><div><div class="user-cell-name">FacuGamer</div><div class="user-cell-user">@facugamer</div></div></div></td>
+                            <td>facu@trinity.gg</td>
+                            <td><select class="rol-select"><option>Admin</option><option>Organizador</option><option selected>Participante</option></select></td>
+                            <td>8</td>
+                            <td>20 abr 2026</td>
+                        </tr>
+                        <tr>
+                            <td><div class="user-cell"><div class="user-cell-avatar">N</div><div><div class="user-cell-name">NightFury</div><div class="user-cell-user">@nightfury</div></div></div></td>
+                            <td>nightfury@trinity.gg</td>
+                            <td><select class="rol-select"><option>Admin</option><option>Organizador</option><option selected>Participante</option></select></td>
+                            <td>6</td>
+                            <td>2 may 2026</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: TORNEOS -->
+        <section id="section-torneos" class="section">
+            <div class="section-header">
+                <div>
+                    <h1 class="section-title">Torneos</h1>
+                    <p class="section-sub">24 torneos creados</p>
+                </div>
+                <div class="header-actions">
+                    <select class="filter-select">
+                        <option value="">Todos los estados</option>
+                        <option value="en_creacion">En creación</option>
+                        <option value="abierto">Abierto</option>
+                        <option value="en_curso">En curso</option>
+                        <option value="finalizado">Finalizado</option>
+                        <option value="cancelado">Cancelado</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Torneo</th>
+                            <th>Deporte</th>
+                            <th>Estado</th>
+                            <th>Organizador</th>
+                            <th>Fecha inicio</th>
+                            <th>Participantes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Copa Trinity — Clash Royale</td>
+                            <td>Clash Royale</td>
+                            <td><span class="badge badge-abierto">Abierto</span></td>
+                            <td>Santiago R.</td>
+                            <td>14 ago 2026</td>
+                            <td>18 / 32</td>
+                        </tr>
+                        <tr>
+                            <td>Liga Trinity — Fortnite</td>
+                            <td>Fortnite</td>
+                            <td><span class="badge badge-en_curso">En curso</span></td>
+                            <td>LuciaPro</td>
+                            <td>1 jul 2026</td>
+                            <td>16 / 16</td>
+                        </tr>
+                        <tr>
+                            <td>Clasificatorio Dota 2</td>
+                            <td>Dota 2</td>
+                            <td><span class="badge badge-abierto">Abierto</span></td>
+                            <td>Santiago R.</td>
+                            <td>2 sep 2026</td>
+                            <td>9 / 24</td>
+                        </tr>
+                        <tr>
+                            <td>Brawl Open #3</td>
+                            <td>Brawl Stars</td>
+                            <td><span class="badge badge-finalizado">Finalizado</span></td>
+                            <td>FacuGamer</td>
+                            <td>10 jun 2026</td>
+                            <td>64 / 64</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: CONFIGURACIÓN -->
+        <section id="section-configuracion" class="section">
+            <div class="section-header">
+                <div>
+                    <h1 class="section-title">Configuración</h1>
+                    <p class="section-sub">Ajustes del sistema</p>
+                </div>
+            </div>
+            <div class="placeholder-card">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+                <p>Próximamente</p>
+                <span>Esta sección está en desarrollo.</span>
+            </div>
+        </section>
+
+    </main>
+
+</body>
+</html>

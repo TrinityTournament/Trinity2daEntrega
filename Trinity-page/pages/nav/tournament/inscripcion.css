@@ -1,0 +1,28 @@
+/* ══ Inscripción — estilos propios ══ */
+
+.inscripcion-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+@media (min-width: 800px) {
+    .inscripcion-layout { grid-template-columns: 280px 1fr; }
+}
+
+.tournament-summary {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+}
+.tournament-summary-body { padding: 1.1rem 1.25rem; }
+.tournament-summary-body h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+    margin-bottom: 0.8rem;
+}
+
+.option-cards-2 { grid-template-columns: 1fr; }
+@media (min-width: 480px) { .option-cards-2 { grid-template-columns: 1fr 1fr; } }

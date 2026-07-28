@@ -1,0 +1,405 @@
+/* ══════════════════════════════════════════
+   TRINITY — Componentes UI compartidos
+   Usado por las páginas nuevas (maquetado, sin lógica).
+   Incluir siempre junto a nav.css y footer.css.
+   Las variables :root ya las define nav.css — no se repiten aquí.
+   ══════════════════════════════════════════ */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background:  var(--bg);
+    color:       var(--text);
+    font-family: 'Barlow', sans-serif;
+    min-height:  100vh;
+}
+
+a { color: inherit; }
+
+/* ── HERO DE SECCIÓN (igual criterio que ranking-hero) ── */
+
+.page-hero {
+    padding: 7.5rem 5vw 2.5rem;
+    background: linear-gradient(180deg, rgba(192,0,10,0.12), transparent);
+    border-bottom: 1px solid var(--border);
+}
+
+.page-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent2);
+}
+
+.page-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(32px, 6vw, 52px);
+    font-weight: 900;
+    letter-spacing: 1px;
+    margin-top: 0.4rem;
+}
+
+.page-subtitle {
+    margin-top: 0.6rem;
+    max-width: 60ch;
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.page-hero-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+/* ── BOTONES ── */
+
+.btn-primary {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--accent);
+    border: none;
+    border-radius: 8px;
+    padding: 0.85rem 1.6rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background 0.2s, transform 0.2s;
+}
+.btn-primary:hover { background: var(--accent2); transform: translateY(-1px); }
+
+.btn-secondary {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text);
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.85rem 1.6rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: border-color 0.2s, background 0.2s;
+}
+.btn-secondary:hover { border-color: rgba(180,0,0,0.4); background: rgba(192,0,10,0.06); }
+
+.btn-ghost {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 0.5rem 0.75rem;
+}
+.btn-ghost:hover { color: var(--text); }
+
+.btn-sm { padding: 0.5rem 1rem; font-size: 11px; }
+.btn-block { width: 100%; justify-content: center; }
+
+/* ── CAMPOS DE FORMULARIO ── */
+
+.field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1.1rem; }
+
+.field-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.field-hint { font-size: 12px; color: var(--text-muted); }
+
+.field-input,
+.field-select,
+.field-textarea {
+    font-family: 'Barlow', sans-serif;
+    font-size: 14.5px;
+    color: var(--text);
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    width: 100%;
+    transition: border-color 0.2s, background 0.2s;
+}
+.field-input::placeholder,
+.field-textarea::placeholder { color: var(--text-muted); }
+.field-input:focus,
+.field-select:focus,
+.field-textarea:focus {
+    outline: none;
+    border-color: rgba(192,0,10,0.5);
+    background: rgba(192,0,10,0.07);
+}
+.field-select { appearance: none; cursor: pointer; }
+.field-select option { background: #1a0000; }
+.field-textarea { min-height: 96px; resize: vertical; line-height: 1.5; }
+
+.field-row { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+@media (min-width: 700px) {
+    .field-row.cols-2 { grid-template-columns: 1fr 1fr; }
+    .field-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+}
+
+/* Tarjetas de opción (radio estilizado), p. ej. tipo de torneo */
+.option-cards { display: grid; grid-template-columns: 1fr; gap: 0.75rem; }
+@media (min-width: 700px) { .option-cards { grid-template-columns: repeat(3, 1fr); } }
+
+.option-card {
+    position: relative;
+    display: block;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+}
+.option-card input { position: absolute; opacity: 0; pointer-events: none; }
+.option-card:has(input:checked) { border-color: var(--accent); background: rgba(192,0,10,0.08); }
+.option-card-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+.option-card-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.5; }
+
+.checkline { display: flex; align-items: flex-start; gap: 0.6rem; font-size: 13.5px; color: var(--text-muted); }
+.checkline input { margin-top: 3px; accent-color: var(--accent); }
+
+.form-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.75rem;
+}
+
+.form-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.5rem; }
+
+.form-note {
+    margin-top: 1.25rem;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    border-top: 1px dashed var(--border);
+    padding-top: 0.9rem;
+}
+
+/* ── BADGES DE ESTADO (mismas clases que admin.css) ── */
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0.3rem 0.65rem;
+    border-radius: 6px;
+}
+.badge-en_creacion { background: rgba(138,106,106,0.15); color: var(--text-muted); }
+.badge-abierto     { background: rgba(29,185,84,0.15);   color: #1db954; }
+.badge-en_curso    { background: rgba(192,0,10,0.15);    color: var(--accent2); }
+.badge-finalizado  { background: rgba(255,255,255,0.07); color: #aaa; }
+.badge-cancelado   { background: rgba(192,0,10,0.08);    color: #c06060; }
+
+/* ── TABLA GENÉRICA (mismo criterio que admin-table) ── */
+
+.data-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; }
+.data-table { width: 100%; border-collapse: collapse; min-width: 560px; }
+.data-table thead { background: rgba(255,255,255,0.03); }
+.data-table th {
+    text-align: left;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 0.9rem 1.1rem;
+    border-bottom: 1px solid var(--border);
+}
+.data-table td {
+    padding: 0.85rem 1.1rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+}
+.data-table tbody tr:last-child td { border-bottom: none; }
+.data-table tbody tr:hover { background: rgba(255,255,255,0.02); }
+.data-table .num { text-align: center; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; }
+
+/* ── TARJETAS EN GRILLA (torneos / equipos) ── */
+
+.grid-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+}
+@media (min-width: 620px)  { .grid-cards { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 980px)  { .grid-cards { grid-template-columns: repeat(3, 1fr); } }
+
+.entity-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--text);
+    transition: border-color 0.2s, transform 0.2s;
+}
+.entity-card:hover { border-color: rgba(180,0,0,0.35); transform: translateY(-2px); }
+
+.entity-banner {
+    height: 110px;
+    background: linear-gradient(135deg, rgba(192,0,10,0.35), rgba(0,0,0,0.5));
+    display: flex;
+    align-items: flex-end;
+    padding: 0.75rem 1rem;
+}
+
+.entity-body { padding: 1rem 1.1rem 1.2rem; display: flex; flex-direction: column; gap: 0.5rem; flex: 1; }
+
+.entity-name { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 800; }
+
+.entity-meta { font-size: 12.5px; color: var(--text-muted); display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+.entity-foot {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    padding-top: 0.6rem;
+    border-top: 1px solid var(--border);
+}
+
+/* ── ESTADO VACÍO / EN CONSTRUCCIÓN (mismo criterio que placeholder-card) ── */
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.6rem;
+    padding: 3rem 1.5rem;
+    border: 1px dashed var(--border);
+    border-radius: 14px;
+    color: var(--text-muted);
+}
+.empty-state svg { width: 40px; height: 40px; stroke: var(--text-muted); opacity: 0.5; }
+.empty-state strong { color: var(--text); font-family: 'Barlow Condensed', sans-serif; font-size: 16px; }
+
+/* ── SUB-NAV DE ANCLAS (detalle de torneo) ── */
+
+.subnav {
+    position: sticky;
+    top: 64px;
+    z-index: 10;
+    display: flex;
+    gap: 0.25rem;
+    overflow-x: auto;
+    background: rgba(10,0,0,0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 5vw;
+}
+.subnav a {
+    flex-shrink: 0;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 0.9rem 0.9rem;
+    border-bottom: 2px solid transparent;
+}
+.subnav a:hover { color: var(--text); border-color: rgba(180,0,0,0.4); }
+
+/* ── SECCIONES GENERALES ── */
+
+.content-section { padding: 2.75rem 5vw; }
+.content-section + .content-section { border-top: 1px solid var(--border); }
+.content-section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 1.25rem;
+}
+
+/* ── SIDEBAR LIVIANO (panel organizador, mismo criterio que admin sidebar) ── */
+
+.lite-shell { display: flex; flex-direction: column; min-height: 100vh; padding-top: 64px; }
+@media (min-width: 900px) { .lite-shell { flex-direction: row; } }
+
+.lite-sidebar {
+    display: flex;
+    gap: 0.4rem;
+    overflow-x: auto;
+    padding: 1rem 5vw;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg2);
+}
+.lite-sidebar nav { display: contents; }
+@media (min-width: 900px) {
+    .lite-sidebar {
+        flex-direction: column;
+        width: 240px;
+        min-height: calc(100vh - 64px);
+        border-bottom: none;
+        border-right: 1px solid var(--border);
+        padding: 1.75rem 1rem;
+        overflow-x: visible;
+    }
+}
+
+.lite-nav-item {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.7rem 0.9rem;
+    border-radius: 8px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    text-decoration: none;
+}
+.lite-nav-item.active { background: rgba(192,0,10,0.15); color: var(--text); }
+.lite-nav-item:hover  { background: rgba(192,0,10,0.08); color: var(--text); }
+.lite-nav-item svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+.lite-main { flex: 1; padding: 2rem 5vw 3rem; }
+@media (min-width: 900px) { .lite-main { padding: 2.25rem 2.5rem 3rem; } }
+
+.lite-header { margin-bottom: 1.5rem; }
+.lite-header h1 { font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 800; }
+.lite-header p { color: var(--text-muted); font-size: 13.5px; margin-top: 0.25rem; }

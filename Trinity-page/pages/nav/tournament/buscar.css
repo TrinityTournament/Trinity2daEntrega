@@ -1,0 +1,40 @@
+/* ══ Buscar torneos — estilos propios ══ */
+
+.search-filters {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    align-items: end;
+}
+@media (min-width: 700px) {
+    .search-filters { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1100px) {
+    .search-filters {
+        grid-template-columns: 2fr 1fr 1fr 1fr auto;
+    }
+    .search-filters .field { margin-bottom: 0; }
+}
+
+.search-field-grow { grid-column: 1 / -1; }
+@media (min-width: 1100px) { .search-field-grow { grid-column: auto; } }
+
+.search-submit { height: 48px; }
+
+.results-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+.results-count { font-size: 13px; color: var(--text-muted); }
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+.pagination-info { font-size: 13px; color: var(--text-muted); }

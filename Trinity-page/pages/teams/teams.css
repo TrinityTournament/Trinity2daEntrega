@@ -1,0 +1,110 @@
+/* ══ Equipos — estilos propios ══ */
+
+.team-banner {
+    align-items: center;
+    justify-content: center;
+}
+.team-logo {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+}
+
+.entity-card-new {
+    align-items: center;
+    justify-content: center;
+    border-style: dashed;
+}
+.entity-card-new:hover { border-color: rgba(180,0,0,0.5); }
+
+/* ── Perfil de equipo (equipo.html) ── */
+
+.team-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+    padding: 7.5rem 5vw 2.5rem;
+    background: linear-gradient(180deg, rgba(192,0,10,0.14), transparent);
+    border-bottom: 1px solid var(--border);
+}
+.team-header-logo {
+    width: 84px;
+    height: 84px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 26px;
+    margin-bottom: 0.5rem;
+}
+
+.team-stats {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+.team-stat { text-align: center; }
+.team-stat strong {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+}
+.team-stat span { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+
+.member-row {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--border);
+}
+.member-row:last-child { border-bottom: none; }
+.member-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.member-info { flex: 1; }
+.member-name { font-weight: 600; }
+.member-role { font-size: 12px; color: var(--text-muted); }
+
+/* ── Invitar miembros (crear-equipo.html) ── */
+
+.invite-input-row { display: flex; gap: 0.6rem; }
+.invite-input-row .field-input { flex: 1; }
+.invite-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
+.invite-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 0.3rem 0.5rem 0.3rem 0.7rem;
+    font-size: 13px;
+}
+.invite-chip button {
+    background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 14px; line-height: 1;
+}

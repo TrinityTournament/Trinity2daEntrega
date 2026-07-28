@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noticias — Trinity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../../components/nav.css">
+    <link rel="stylesheet" href="../../../components/footer.css">
+    <link rel="stylesheet" href="../../../components/ui.css">
+    <link rel="stylesheet" href="news.css">
+    <link rel="icon" type="image/png" href="../../../assets/favicon.ico">
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<script src="../../../components/nav.js"></script>
+
+<main>
+<!-- ══ HERO ══ -->
+<section class="page-hero">
+    <p class="page-eyebrow">Trinity · Noticias</p>
+    <h1 class="page-title">Últimas novedades</h1>
+    <p class="page-subtitle">
+        Enterate de nuevos torneos, actualizaciones, resultados y anuncios de la comunidad.
+    </p>
+</section>
+
+<!-- ══ FILTROS ══ -->
+<div class="filters-wrap">
+    <div class="filters-scroll">
+        <span class="filter-pill active">Todas</span>
+        <span class="filter-pill">Torneos</span>
+        <span class="filter-pill">Actualizaciones</span>
+        <span class="filter-pill">Resultados</span>
+        <span class="filter-pill">Comunidad</span>
+        <span class="filter-pill">Anuncios</span>
+    </div>
+</div>
+
+<!-- ══ NOTICIA DESTACADA ══ -->
+<section class="content-section news-featured-section">
+    <article class="news-featured">
+        <div class="news-featured-image">
+            <div class="news-featured-placeholder">🏆</div>
+        </div>
+        <div class="news-featured-body">
+            <span class="badge badge-torneo">Torneo</span>
+            <h2 class="news-featured-title">Comienzan las inscripciones para la Trinity Cup #3</h2>
+            <p class="news-featured-text">
+                Las inscripciones estarán abiertas hasta el 27 de julio. No te pierdas la
+                oportunidad de competir por increíbles premios y sumar puntos en el ranking.
+            </p>
+            <a href="#" class="btn-primary">Leer más</a>
+        </div>
+    </article>
+</section>
+
+<!-- ══ ÚLTIMAS NOTICIAS ══ -->
+<section class="content-section">
+    <h2 class="content-section-title">Últimas noticias</h2>
+    <div class="grid-cards news-grid">
+
+        <article class="entity-card news-card">
+            <div class="news-card-image">
+                <img src="../../../assets/videogames/tournament-banner/FortBG.jpg" alt="">
+            </div>
+            <div class="entity-body">
+                <span class="badge badge-actualizacion">Actualización</span>
+                <p class="entity-name news-card-title">Balance del parche 4.2 — lo que cambia</p>
+                <p class="entity-meta">📅 20 de julio</p>
+            </div>
+        </article>
+
+        <article class="entity-card news-card">
+            <div class="news-card-image">
+                <img src="../../../assets/videogames/tournament-banner/FreeBG.png" alt="">
+            </div>
+            <div class="entity-body">
+                <span class="badge badge-comunidad">Comunidad</span>
+                <p class="entity-name news-card-title">Free Fire regresa este fin de semana</p>
+                <p class="entity-meta">📅 18 de julio</p>
+            </div>
+        </article>
+
+        <article class="entity-card news-card">
+            <div class="news-card-image">
+                <img src="../../../assets/videogames/tournament-banner/MineBG.jpg" alt="">
+            </div>
+            <div class="entity-body">
+                <span class="badge badge-comunidad">Comunidad</span>
+                <p class="entity-name news-card-title">Mapa secreto en Minecraft multijugador</p>
+                <p class="entity-meta">📅 15 de julio</p>
+            </div>
+        </article>
+
+        <article class="entity-card news-card">
+            <div class="news-card-image">
+                <img src="../../../assets/videogames/tournament-banner/D2BG.jpg" alt="">
+            </div>
+            <div class="entity-body">
+                <span class="badge badge-resultado">Resultados</span>
+                <p class="entity-name news-card-title">Resultados de la Trinity Cup #2</p>
+                <p class="entity-meta">📅 10 de julio</p>
+            </div>
+        </article>
+
+    </div>
+</section>
+</main>
+
+<script src="../../../components/footer.js"></script>
+
+</body>
+</html>

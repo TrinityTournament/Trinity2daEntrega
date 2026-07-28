@@ -1,0 +1,21 @@
+/* ══ Error 404 — estilos propios ══ */
+
+.error-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.6rem;
+    min-height: 100vh;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.error-code {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(80px, 18vw, 160px);
+    font-weight: 900;
+    letter-spacing: 4px;
+    color: var(--accent);
+    line-height: 1;
+}

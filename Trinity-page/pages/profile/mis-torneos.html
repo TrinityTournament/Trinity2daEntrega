@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis torneos — Trinity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../components/nav.css">
+    <link rel="stylesheet" href="../../components/footer.css">
+    <link rel="stylesheet" href="../../components/ui.css">
+    <link rel="stylesheet" href="mis-torneos.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.ico">
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<script src="../../components/nav.js"></script>
+
+<main>
+<section class="page-hero">
+    <p class="page-eyebrow">Trinity · Perfil</p>
+    <h1 class="page-title">Mis torneos</h1>
+    <p class="page-subtitle">Torneos en los que estás inscripto, organizados por estado.</p>
+</section>
+
+<section class="content-section">
+    <div class="mis-torneos-tabs">
+        <span class="round-tab active">Activos</span>
+        <span class="round-tab">Finalizados</span>
+        <span class="round-tab">Invitaciones</span>
+    </div>
+
+    <div class="grid-cards">
+
+        <article class="entity-card-wrap">
+            <a href="../nav/tournament/detalle.html" class="entity-card">
+                <div class="entity-banner" style="background-image:linear-gradient(135deg, rgba(192,0,10,.5), rgba(0,0,0,.6)), url('../../assets/tournament-banner/ClashBG.jpeg'); background-size:cover; background-position:center;">
+                    <span class="badge badge-abierto">Abierto</span>
+                </div>
+                <div class="entity-body">
+                    <h3 class="entity-name">Copa Trinity — Clash Royale</h3>
+                    <div class="entity-meta"><span>Eliminación directa</span><span>·</span><span>Próximo: 14 ago</span></div>
+                </div>
+                <div class="entity-foot">
+                    <span>Tu posición: —</span>
+                    <span>16avos de final</span>
+                </div>
+            </a>
+        </article>
+
+        <article class="entity-card-wrap">
+            <a href="../nav/tournament/formatos/liga.html" class="entity-card">
+                <div class="entity-banner" style="background-image:linear-gradient(135deg, rgba(192,0,10,.5), rgba(0,0,0,.6)), url('../../assets/tournament-banner/FortBG.jpg'); background-size:cover; background-position:center;">
+                    <span class="badge badge-en_curso">En curso</span>
+                </div>
+                <div class="entity-body">
+                    <h3 class="entity-name">Liga Trinity — Fortnite</h3>
+                    <div class="entity-meta"><span>Liga</span><span>·</span><span>Ronda 5 de 8</span></div>
+                </div>
+                <div class="entity-foot">
+                    <span>Tu posición: 2°</span>
+                    <span>Equipo: Trinity Esports</span>
+                </div>
+            </a>
+        </article>
+
+    </div>
+</section>
+
+</main>
+
+<script src="../../components/footer.js"></script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rankings — Trinity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../../components/nav.css">
+    <link rel="stylesheet" href="../../../components/footer.css">
+    <link rel="stylesheet" href="ranking.css">
+    <link rel="icon" type="image/png" href="../../../assets/favicon.ico">
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<script src="../../../components/nav.js"></script>
+
+<main>
+<!-- ══ HERO ══ -->
+<section class="ranking-hero">
+    <div class="ranking-hero-content">
+        <p class="ranking-eyebrow">Trinity · Rankings</p>
+        <h1 class="ranking-title">Tabla de posiciones</h1>
+        <p class="ranking-subtitle">
+            Elegí un juego para ver quién va liderando. El orden se
+            calcula por torneos ganados.
+        </p>
+    </div>
+</section>
+
+<!-- ══ FILTROS ══ -->
+<div class="filters-wrap">
+    <div class="filters-scroll" id="filters-scroll">
+        <span class="filter-pill active"><span class="fp-emoji">🏆</span> Todos</span>
+        <span class="filter-pill"><span class="fp-emoji">⚔️</span> Clash Royale</span>
+        <span class="filter-pill"><span class="fp-emoji">🏗️</span> Fortnite</span>
+        <span class="filter-pill"><span class="fp-emoji">⚽</span> Futbol</span>
+        <span class="filter-pill"><span class="fp-emoji">💎</span> Brawl Stars</span>
+        <span class="filter-pill"><span class="fp-emoji">⛏️</span> Minecraft</span>
+        <span class="filter-pill"><span class="fp-emoji">🧊</span> Free Fire</span>
+    </div>
+</div>
+
+<!-- ══ RANKING ══ -->
+<section class="section">
+    <div class="section-header">
+        <h2 class="section-title">Top jugadores</h2>
+        <span class="section-hint">Actualizado al 25 de junio</span>
+    </div>
+
+    <div class="podium" id="podium">
+        <div class="podium-spot podium-spot--2">
+            <span class="podium-medal">🥈</span>
+            <div class="podium-avatar">L</div>
+            <p class="podium-name">LuciaPro</p>
+            <p class="podium-stat"><strong>7</strong> torneos ganados</p>
+        </div>
+        <div class="podium-spot podium-spot--1">
+            <span class="podium-medal">🥇</span>
+            <div class="podium-avatar">F</div>
+            <p class="podium-name">FacuGamer</p>
+            <p class="podium-stat"><strong>11</strong> torneos ganados</p>
+        </div>
+        <div class="podium-spot podium-spot--3 is-you">
+            <span class="podium-medal">🥉</span>
+            <div class="podium-avatar">N</div>
+            <p class="podium-name">NightFury <span class="podium-you-tag">Vos</span></p>
+            <p class="podium-stat"><strong>6</strong> torneos ganados</p>
+        </div>
+    </div>
+
+    <div class="rank-list" id="rank-list">
+        <div class="rank-row">
+            <span class="rank-pos">4</span>
+            <div class="rank-avatar">S</div>
+            <span class="rank-name">SkyCR Gaming</span>
+            <div class="rank-stats"><span class="rank-stat-num">5</span><span class="rank-stat-label">ganados</span></div>
+        </div>
+        <div class="rank-row">
+            <span class="rank-pos">5</span>
+            <div class="rank-avatar">B</div>
+            <span class="rank-name">BarbaroX</span>
+            <div class="rank-stats"><span class="rank-stat-num">4</span><span class="rank-stat-label">ganados</span></div>
+        </div>
+        <div class="rank-row">
+            <span class="rank-pos">6</span>
+            <div class="rank-avatar">M</div>
+            <span class="rank-name">MiniPekka7</span>
+            <div class="rank-stats"><span class="rank-stat-num">3</span><span class="rank-stat-label">ganados</span></div>
+        </div>
+        <div class="rank-row">
+            <span class="rank-pos">7</span>
+            <div class="rank-avatar">T</div>
+            <span class="rank-name">Tronco99</span>
+            <div class="rank-stats"><span class="rank-stat-num">2</span><span class="rank-stat-label">ganados</span></div>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<script src="../../../components/footer.js"></script>
+
+</body>
+</html>

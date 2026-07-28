@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil — Trinity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="profile.css">
+    <link rel="icon" type="image/png" href="../../../assets/favicon.ico">
+    <link rel="stylesheet" href="../../../components/nav.css">
+</head>
+<body>
+
+<script src="../../../components/nav.js"></script>
+
+<!-- ══ MAIN LAYOUT ══ -->
+<main class="profile-layout">
+
+    <!-- COLUMNA IZQUIERDA: CARD DE PERFIL -->
+    <aside class="profile-card">
+        <div class="profile-photo-wrap">
+            <div class="profile-photo">S</div>
+        </div>
+        <div class="profile-card-info">
+            <h1 class="profile-card-name">Santiago R.</h1>
+            <p class="profile-card-user">@santiagor</p>
+            <p class="profile-card-pronouns">He/him</p>
+
+            <div>
+                <a href="../cfg/edit.html" class="btn-edit-profile">Editar perfil</a>
+                <button class="profile-followers followers-btn" type="button">
+                    <span>32</span> Seguidos
+                    <span class="fp-sep">·</span>
+                    <span>58</span> Seguidores
+                </button>
+            </div>
+
+            <div class="profile-divider"></div>
+            <p class="profile-desc">Organizador y jugador de Clash Royale. Capitán de Los Pibardos CR.</p>
+
+            <div class="profile-stats">
+                <div class="profile-divider"></div>
+                <p class="stat-line">8 Torneos</p>
+                <p class="stat-line">3 Torneos ganados</p>
+            </div>
+        </div>
+    </aside>
+
+    <!-- COLUMNA DERECHA: CONTENIDO -->
+    <section class="profile-content">
+
+        <!-- DEPORTES FAVORITOS -->
+        <section>
+            <div class="section-header">
+                <h2 class="section-label">Deportes favoritos</h2>
+            </div>
+            <div class="favorites-grid">
+                <article class="fav-card"><div class="fav-card-art" style="background:linear-gradient(135deg,#2b2b2b,#0a0a0a);"></div><span class="fav-card-label">♟️ Ajedrez</span></article>
+                <article class="fav-card"><div class="fav-card-art" style="background:linear-gradient(135deg,#1d6e3a,#0a2e16);"></div><span class="fav-card-label">⚽ Fútbol</span></article>
+            </div>
+        </section>
+
+        <!-- VIDEOJUEGOS FAVORITOS -->
+        <section>
+            <div class="section-header">
+                <h2 class="section-label">Videojuegos favoritos</h2>
+            </div>
+            <div class="favorites-grid">
+                <article class="fav-card"><div class="fav-card-art" style="background:linear-gradient(135deg,#7a0010,#1a0000);"></div><span class="fav-card-label">⚔️ Clash Royale</span></article>
+                <article class="fav-card"><div class="fav-card-art" style="background:linear-gradient(135deg,#0a3d62,#04101c);"></div><span class="fav-card-label">🏗️ Fortnite</span></article>
+            </div>
+        </section>
+
+    </section>
+</main>
+
+</body>
+</html>

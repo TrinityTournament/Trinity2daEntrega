@@ -1,0 +1,16 @@
+/* ══ Panel organizador — estilos propios ══ */
+
+.round-actions { display: flex; flex-direction: column; gap: 0.9rem; }
+
+.round-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+}
+.round-card > div { display: flex; align-items: center; gap: 0.75rem; }
+.round-card strong { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; }

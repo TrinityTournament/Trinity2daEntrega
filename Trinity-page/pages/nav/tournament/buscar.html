@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar torneos — Trinity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../../components/nav.css">
+    <link rel="stylesheet" href="../../../components/footer.css">
+    <link rel="stylesheet" href="../../../components/ui.css">
+    <link rel="stylesheet" href="buscar.css">
+    <link rel="icon" type="image/png" href="../../../assets/favicon.ico">
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<script src="../../../components/nav.js"></script>
+
+<main>
+<!-- ══ HERO ══ -->
+<section class="page-hero">
+    <p class="page-eyebrow">Trinity · Torneos</p>
+    <h1 class="page-title">Buscar torneos</h1>
+    <p class="page-subtitle">
+        Encontrá torneos abiertos de deportes, juegos de mesa y videojuegos.
+        Filtrá por disciplina, formato y estado para encontrar el tuyo.
+    </p>
+</section>
+
+<!-- ══ FILTROS ══ -->
+<section class="content-section search-filters-section">
+    <form class="search-filters">
+        <div class="field search-field-grow">
+            <label class="field-label" for="f-texto">Buscar</label>
+            <input class="field-input" type="text" id="f-texto" placeholder="Nombre del torneo, juego o deporte...">
+        </div>
+
+        <div class="field">
+            <label class="field-label" for="f-disciplina">Disciplina</label>
+            <select class="field-select" id="f-disciplina">
+                <option value="">Todas</option>
+                <option>Fútbol</option>
+                <option>Brawl Stars</option>
+                <option>Clash Royale</option>
+                <option>Free Fire</option>
+                <option>Fortnite</option>
+                <option>Minecraft</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label class="field-label" for="f-formato">Formato</label>
+            <select class="field-select" id="f-formato">
+                <option value="">Todos</option>
+                <option>Liga</option>
+                <option>Eliminación directa</option>
+                <option>Sistema suizo</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label class="field-label" for="f-estado">Estado</label>
+            <select class="field-select" id="f-estado">
+                <option value="">Todos</option>
+                <option>Abierto</option>
+                <option>En curso</option>
+                <option>Finalizado</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn-primary search-submit">Buscar</button>
+    </form>
+</section>
+
+<!-- ══ RESULTADOS ══ -->
+<section class="content-section">
+    <div class="results-head">
+        <h2 class="content-section-title">Torneos abiertos</h2>
+        <span class="results-count">6 resultados</span>
+    </div>
+
+    <div class="grid-cards">
+
+        <article class="entity-card-wrap">
+            <a href="detalle.html" class="entity-card">
+                <div class="entity-banner" style="background-image:linear-gradient(135deg, rgba(192,0,10,.5), rgba(0,0,0,.6)), url('../../../assets/cards/tournament-banner/ClashBG.jpeg'); background-size:cover; background-position:center;">
+                    <span class="badge badge-abierto">Abierto</span>
+                </div>
+                <div class="entity-body">
+                    <h3 class="entity-name">Copa Trinity — Clash Royale</h3>
+                    <div class="entity-meta">
+                        <span>Eliminación directa</span><span>·</span><span>32 cupos</span>
+                    </div>
+                </div>
+                <div class="entity-foot">
+                    <span>Inicia 14 ago</span>
+                    <span>18/32 inscritos</span>
+                </div>
+            </a>
+        </article>
+
+        <article class="entity-card-wrap">
+            <a href="detalle.html" class="entity-card">
+                <div class="entity-banner" style="background-image:linear-gradient(135deg, rgba(192,0,10,.5), rgba(0,0,0,.6)), url('../../../assets/cards/tournament-banner/FortBG.jpg'); background-size:cover; background-position:center;">
+                    <span class="badge badge-en_curso">En curso</span>
+                </div>
+                <div class="entity-body">
+                    <h3 class="entity-name">Liga Trinity — Fortnite</h3>
+                    <div class="entity-meta">
+                        <span>Liga</span><span>·</span><span>16 equipos</span>
+                    </div>
+                </div>
+                <div class="entity-foot">
+                    <span>Ronda 5 de 8</span>
+                    <span>16/16 inscritos</span>
+                </div>
+            </a>
+        </article>
+
+        <article class="entity-card-wrap">
+            <a href="detalle.html" class="entity-card">
+                <div class="entity-banner" style="background-image:linear-gradient(135deg, rgba(192,0,10,.5), rgba(0,0,0,.6)), url('../../../assets/cards/tournament-banner/FutbolBG.jpg'); background-size:cover; background-position:center;">
+                    <span class="badge badge-abierto">Abierto</span>
+                </div>
+                <div class="entity-body">
+                    <h3 class="entity-name">Copa Trinity - Futbol</h3>
+                    <div class="entity-meta">
+                        <span>Sistema suizo</span><span>·</span><span>8 equipos</span>
+                    </div>
+                </div>
+                <div class="entity-foot">
+                    <span>Inicia 2 sep</span>
+                    <span>2/8 inscritos</span>
+                </div>
+            </a>
+        </article>
+
+        <article class="entity-card-wrap">
+            <a href="detalle.html" class="entity-card">
+                <div class="entity-banner" style="background-image:linear-gradient(135deg, rgba(192,0,10,.5), rgba(0,0,0,.6)), url('../../../assets/cards/tournament-banner/MineBG.jpg'); background-size:cover; background-position:center;">
+                    <span class="badge badge-en_creacion">En creación</span>
+                </div>
+                <div class="entity-body">
+                    <h3 class="entity-name">Build Battle Minecraft</h3>
+                    <div class="entity-meta">
+                        <span>Liga</span><span>·</span><span>40 cupos</span>
+                    </div>
+                </div>
+                <div class="entity-foot">
+                    <span>Sin fecha aún</span>
+                    <span>0/40 inscritos</span>
+                </div>
+            </a>
+        </article>
+
+        <article class="entity-card-wrap">
+            <a href="detalle.html" class="entity-card">
+                <div class="entity-banner" style="background-image:linear-gradient(135deg, rgba(192,0,10,.5), rgba(0,0,0,.6)), url('../../../assets/cards/tournament-banner/BSBG.png'); background-size:cover; background-position:center;">
+                    <span class="badge badge-finalizado">Finalizado</span>
+                </div>
+                <div class="entity-body">
+                    <h3 class="entity-name">Brawl Stars #3</h3>
+                    <div class="entity-meta">
+                        <span>Eliminación directa</span><span>·</span><span>64 cupos</span>
+                    </div>
+                </div>
+                <div class="entity-foot">
+                    <span>Finalizó 30 jun</span>
+                    <span>64/64 inscritos</span>
+                </div>
+            </a>
+        </article>
+
+        <article class="entity-card-wrap">
+            <a href="detalle.html" class="entity-card">
+                <div class="entity-banner" style="background:linear-gradient(135deg, rgba(192,0,10,.45), rgba(0,0,0,.6)), url('../../../assets/cards/tournament-banner/FreeBG.png'); background-size:cover; background-position:center;"> 
+                    <span class="badge badge-abierto">Abierto</span>
+                </div>
+                <div class="entity-body">
+                    <h3 class="entity-name">Copa Trinity - Free Fire</h3>
+                    <div class="entity-meta">
+                        <span>Sistema suizo</span><span>·</span><span>Individual</span>
+                    </div>
+                </div>
+                <div class="entity-foot">
+                    <span>Inicia 20 ago</span>
+                    <span>12/30 inscritos</span>
+                </div>
+            </a>
+        </article>
+
+    </div>
+
+    <div class="pagination">
+        <button class="btn-secondary btn-sm" disabled>← Anterior</button>
+        <span class="pagination-info">Página 1 de 1</span>
+        <button class="btn-secondary btn-sm" disabled>Siguiente →</button>
+    </div>
+</section>
+
+</main>
+
+<script src="../../../components/footer.js"></script>
+</body>
+</html>

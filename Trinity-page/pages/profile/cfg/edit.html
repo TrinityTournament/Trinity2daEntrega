@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar perfil — Trinity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="edit.css">
+    <link rel="icon" type="image/png" href="../../../assets/favicon.ico">
+    <link rel="stylesheet" href="../../../components/nav.css">
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<script src="../../../components/nav.js"></script>
+
+<!-- ══ MAIN LAYOUT ══ -->
+<main class="edit-layout">
+
+    <!-- COLUMNA IZQUIERDA: CARD DE PERFIL (preview) -->
+    <aside class="profile-preview-card">
+        <form class="preview-form">
+            <div class="preview-photo-wrap">
+                <div class="preview-photo">S</div>
+                <label class="btn-change-photo" for="input-photo">
+                    Cambiar foto
+                </label>
+                <input type="file" id="input-photo" accept="image/*" style="display:none;">
+            </div>
+
+            <div class="preview-info">
+                <label class="field-label">Nombre</label>
+                <input type="text" class="preview-input" value="Santiago R.">
+
+                <label class="field-label">Nombre de usuario</label>
+                <input type="text" class="preview-input" value="santiagor">
+
+                <label class="field-label">Pronombres</label>
+                <select class="preview-input preview-select">
+                    <option value="">— Sin especificar —</option>
+                    <option value="He/him" selected>He/him</option>
+                    <option value="She/her">She/her</option>
+                    <option value="He/they">He/they</option>
+                    <option value="She/they">She/they</option>
+                    <option value="They/them">They/them</option>
+                    <option value="Any">Any</option>
+                </select>
+
+                <label class="field-label">Descripción</label>
+                <textarea class="preview-input preview-textarea" placeholder="Contá algo sobre vos...">Organizador y jugador de Clash Royale. Capitán de Los Pibardos CR.</textarea>
+            </div>
+
+            <div class="preview-actions">
+                <button type="submit" class="btn-primary">
+                    &#x1F4BE;&nbsp; GUARDAR CAMBIOS
+                </button>
+            </div>
+        </form>
+    </aside>
+
+    <!-- COLUMNA DERECHA: SECCIONES DE CONFIG -->
+    <div class="edit-sections">
+
+        <!-- ── CAMBIAR CONTRASEÑA ── -->
+        <section class="edit-card">
+            <h2 class="edit-card-title">Cambiar contraseña</h2>
+
+            <form id="pwd-paso1">
+                <p class="edit-card-desc">Te enviaremos un código de verificación para confirmar el cambio.</p>
+                <div class="field" id="pwd-destino-wrap">
+                    <label class="field-label">Enviar código a</label>
+                    <select id="pwd-destino" class="preview-input preview-select">
+                        <option value="email">Email</option>
+                        <option value="telefono">WhatsApp</option>
+                    </select>
+                </div>
+                <div class="card-actions">
+                    <button type="submit" class="btn-primary">
+                        &#x1F4E8;&nbsp; ENVIAR CÓDIGO DE VERIFICACIÓN
+                    </button>
+                </div>
+            </form>
+
+            <div class="pwd-paso2-divider"><span>Paso 2 — Confirmá el código y elegí tu nueva contraseña</span></div>
+            <form id="pwd-paso2">
+                <p class="edit-card-desc">Ingresá el código que te enviamos y tu nueva contraseña.</p>
+                <div class="otp-inputs" id="otp-pwd">
+                    <input maxlength="1">
+                    <input maxlength="1">
+                    <input maxlength="1">
+                    <input maxlength="1">
+                    <input maxlength="1">
+                    <input maxlength="1">
+                </div>
+                <div class="two-fields">
+                    <div class="field">
+                        <label class="field-label">Nueva contraseña</label>
+                        <input type="password" id="pwd-nueva" class="field-input" placeholder="••••••••">
+                    </div>
+                    <div class="field">
+                        <label class="field-label">Confirmar contraseña</label>
+                        <input type="password" id="pwd-confirm" class="field-input" placeholder="••••••••">
+                    </div>
+                </div>
+                <div class="card-actions">
+                    <button type="submit" class="btn-primary">&#x1F511;&nbsp; ACTUALIZAR</button>
+                    <button type="button" class="btn-secondary">Cancelar</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- ── CREDENCIALES ── -->
+        <section class="edit-card">
+            <h2 class="edit-card-title-sub">Credenciales</h2>
+
+            <form class="credentials-form">
+                <div class="credentials-grid">
+                    <!-- Email -->
+                    <div class="field">
+                        <label class="field-label">Correo electrónico</label>
+                        <input type="email" class="field-input" value="santiago@trinity.gg">
+                    </div>
+
+                    <!-- Teléfono -->
+                    <div class="field">
+                        <label class="field-label">Número de teléfono</label>
+                        <div class="phone-wrap">
+                            <select class="phone-prefix">
+                                <option value="598" selected>🇺🇾 +598</option>
+                                <option value="54">🇦🇷 +54</option>
+                                <option value="55">🇧🇷 +55</option>
+                                <option value="56">🇨🇱 +56</option>
+                                <option value="57">🇨🇴 +57</option>
+                                <option value="51">🇵🇪 +51</option>
+                                <option value="52">🇲🇽 +52</option>
+                                <option value="34">🇪🇸 +34</option>
+                                <option value="1">🇺🇸 +1</option>
+                            </select>
+                            <input type="tel" class="field-input phone-input" value="99 123 456">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-actions" style="justify-content:flex-end;">
+                    <button type="submit" class="btn-primary">
+                        &#x1F4BE;&nbsp; GUARDAR CAMBIOS
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- ── NOTIFICACIONES ── -->
+        <section class="edit-card">
+            <h2 class="edit-card-title-sub">Notificaciones</h2>
+            <p class="edit-card-desc">Elegí cómo querés recibir las notificaciones de Trinity.</p>
+
+            <div class="notif-row">
+                <div class="notif-row-info">
+                    <span class="notif-row-label">📧 Email</span>
+                    <span class="notif-row-sub">Siempre activado — te llegan a tu correo registrado.</span>
+                </div>
+                <div class="notif-toggle-wrap">
+                    <label class="toggle-switch toggle-disabled" title="El email siempre está activado">
+                        <input type="checkbox" checked disabled>
+                        <span class="toggle-track"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="notif-row" id="notif-wa-row">
+                <div class="notif-row-info">
+                    <span class="notif-row-label">💬 WhatsApp</span>
+                    <span class="notif-row-sub" id="notif-wa-sub">Activá para recibir notificaciones en tu número.</span>
+                </div>
+                <div class="notif-toggle-wrap">
+                    <label class="toggle-switch" id="notif-wa-label">
+                        <input type="checkbox" id="toggle-notif-wa">
+                        <span class="toggle-track"></span>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── ZONA DE PELIGRO ── -->
+        <section class="edit-card danger-card">
+            <h2 class="edit-card-title danger-title">Zona de peligro</h2>
+            <p class="edit-card-desc">Al eliminar tu cuenta se borrarán permanentemente todos tus datos, torneos e historial. Esta acción no se puede deshacer.</p>
+            <div class="card-actions">
+                <button type="button" class="btn-danger">
+                    &#x1F5D1;&nbsp; Eliminar cuenta
+                </button>
+            </div>
+        </section>
+
+    </div>
+</main>
+
+</body>
+</html>

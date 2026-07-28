@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trinity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="assets/favicon.ico">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="components/nav.css">
+    <link rel="stylesheet" href="components/footer.css">
+    <link rel="stylesheet" href="components/ui.css">
+</head>
+<body>
+
+<!-- Nav inyectado con un modal para poder limpiar codigo -->
+<script src="components/nav.js"></script>
+
+<main>
+<section class="hero">
+    <div class="hero-content">
+        <p class="hero-eyebrow">Plataforma de competencia</p>
+        <h1 class="hero-title">
+            COMPITE.<br>
+            <span class="accent">GANA.</span><br>
+            HAZ HISTORIA.
+        </h1>
+        <p class="hero-subtitle">La plataforma definitiva para organizar y seguir torneos de eSports.</p>
+        <a href="#" class="hero-cta">Explorar torneos →</a>
+    </div>
+    <div class="hero-image">
+        <div class="hero-img-placeholder">
+            <img src="assets/HeroMain.png" alt="Hero"> 
+        </div>
+    </div>
+</section>
+
+<div class="scroll-hint">
+    <a href="#esports">↓</a>
+</div>
+
+<!-- eSPORTS -->
+<section class="section" id="esports">
+    <div class="section-header">
+        <h2 class="section-title">Videojuegos</h2>
+    </div>
+    <div class="cards-scroll-wrapper">
+        <button class="scroll-arrow left" onclick="scrollCards('esports', -1)">‹</button>
+        <div class="cards-scroll" id="scroll-esports">
+
+        <article class="card">
+          <a href="pages/nav/tournament/buscar.html" class="card-link" data-game="Futbol" data-game-id="futbol">
+          <div class="card-banner">
+            <div class="card-banner-image"><img src="assets/cards/tournament-banner/FutbolBG.jpg"></div>
+            <div class="card-logo"><div class="card-logo-placeholder">⚔️</div></div>
+          </div>
+            <div class="card-body">
+              <p class="card-name">Futbol</p>
+              <p class="card-tag">Deporte tradicional</p>
+            </div>
+          </a>
+        </article>
+
+        <article class="card">
+          <a href="pages/nav/tournament/buscar.html" class="card-link" data-game="Brawl Stars" data-game-id="brawlstars">
+          <div class="card-banner">
+            <div class="card-banner-image"><img src="assets/cards/tournament-banner/BSBG.png"></div>
+            <div class="card-logo"><div class="card-logo-placeholder">⚔️</div></div>
+          </div>
+            <div class="card-body">
+              <p class="card-name">Brawl Stars</p>
+              <p class="card-tag">eSport</p>
+            </div>
+          </a>
+        </article>
+
+        <article class="card">
+          <a href="pages/nav/tournament/buscar.html" class="card-link" data-game="Clash Royale" data-game-id="clashroyale">
+          <div class="card-banner">
+            <div class="card-banner-image"><img src="assets/cards/tournament-banner/ClashBG.jpeg"></div>
+            <div class="card-logo"><div class="card-logo-placeholder">♟️</div></div>
+          </div>
+            <div class="card-body">
+              <p class="card-name">Clash Royale</p>
+              <p class="card-tag">eSport</p>
+            </div>
+          </a>
+        </article>
+
+        <article class="card">
+          <a href="pages/nav/tournament/buscar.html" class="card-link" data-game="Fortnite" data-game-id="fortnite">
+          <div class="card-banner">
+            <div class="card-banner-image"><img src="assets/cards/tournament-banner/FortBG.jpg"></div>
+            <div class="card-logo"><div class="card-logo-placeholder">🛠️</div></div>
+          </div>
+            <div class="card-body">
+              <p class="card-name">Fortnite</p>
+              <p class="card-tag">eSport</p>
+            </div>
+          </a>
+        </article>
+
+          <article class="card">
+          <a href="pages/nav/tournament/buscar.html" class="card-link" data-game="Free Fire" data-game-id="freefire">
+          <div class="card-banner">
+            <div class="card-banner-image"><img src="assets/cards/tournament-banner/FreeBG.png"></div>
+            <div class="card-logo"><div class="card-logo-placeholder">⚔️</div></div>
+          </div>
+            <div class="card-body">
+              <p class="card-name">Free Fire</p>
+              <p class="card-tag">eSport</p>
+            </div>
+          </a>
+        </article>
+   
+        <article class="card">
+          <a href="pages/nav/tournament/buscar.html" class="card-link" data-game="Minecraft" data-game-id="minecraft">
+          <div class="card-banner">
+            <div class="card-banner-image"><img src="assets/cards/tournament-banner/MineBG.jpg"></div>
+            <div class="card-logo"><div class="card-logo-placeholder">⚔️</div></div>
+          </div>
+            <div class="card-body">
+              <p class="card-name">Minecraft</p>
+              <p class="card-tag">eSport</p>
+            </div>
+          </a>
+        </article>
+
+        </div>
+        <button class="scroll-arrow right" onclick="scrollCards('esports', 1)">›</button>
+    </div>
+</section>
+</main>
+
+<!-- Footer inyectado para poder hacerlo en todas las paginas :p-->
+<script src="components/footer.js"></script>
+
+<!-- Carrusel de la home -->
+<script src="components/carousel.js"></script>
+</body>
+</html>

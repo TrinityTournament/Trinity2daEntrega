@@ -1,0 +1,15 @@
+/* ══ Mis torneos — estilos propios ══ */
+
+.mis-torneos-tabs { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+
+.round-tab {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12.5px;
+    font-weight: 700;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    cursor: pointer;
+}
+.round-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }

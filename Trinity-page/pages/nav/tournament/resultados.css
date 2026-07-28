@@ -1,0 +1,38 @@
+/* ══ Cargar resultados — estilos propios ══ */
+
+.result-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    align-items: stretch;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 0.9rem;
+}
+@media (min-width: 700px) {
+    .result-row { flex-direction: row; align-items: center; justify-content: space-between; }
+}
+
+.result-match {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    font-size: 14.5px;
+}
+
+.result-round {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: rgba(255,255,255,0.05);
+    border-radius: 5px;
+    padding: 0.2rem 0.5rem;
+}
+
+.score-input { width: 56px; text-align: center; padding: 0.5rem; }

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear equipo — Trinity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../components/nav.css">
+    <link rel="stylesheet" href="../../components/footer.css">
+    <link rel="stylesheet" href="../../components/ui.css">
+    <link rel="stylesheet" href="teams.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.ico">
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<script src="../../components/nav.js"></script>
+
+<main>
+<section class="page-hero">
+    <p class="page-eyebrow">Trinity · Equipos</p>
+    <h1 class="page-title">Crear equipo</h1>
+    <p class="page-subtitle">Armá tu equipo e invitá a tus compañeros a sumarse.</p>
+</section>
+
+<section class="content-section">
+    <form class="form-card" style="max-width:680px;">
+
+        <div class="field">
+            <label class="field-label" for="eq-nombre">Nombre del equipo</label>
+            <input class="field-input" type="text" id="eq-nombre" placeholder="Ej: Los Pibardos CR">
+        </div>
+
+        <div class="field-row cols-2">
+            <div class="field">
+                <label class="field-label" for="eq-disciplina">Disciplina</label>
+                <select class="field-select" id="eq-disciplina">
+                    <option>Fútbol</option>
+                    <option>Ajedrez</option>
+                    <option>Brawl Stars</option>
+                    <option>Clash Royale</option>
+                    <option>Dota 2</option>
+                    <option>Fortnite</option>
+                    <option>Minecraft</option>
+                </select>
+            </div>
+            <div class="field">
+                <label class="field-label" for="eq-logo">Logo del equipo</label>
+                <input class="field-input" type="file" id="eq-logo" accept="image/*">
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="field-label" for="eq-desc">Descripción</label>
+            <textarea class="field-textarea" id="eq-desc" placeholder="Contale a los demás de qué se trata tu equipo."></textarea>
+        </div>
+
+        <div class="field">
+            <label class="field-label" for="eq-invitar">Invitar miembros</label>
+            <div class="invite-input-row">
+                <input class="field-input" type="text" id="eq-invitar" placeholder="Buscar por @usuario...">
+                <button type="button" class="btn-secondary btn-sm">Invitar</button>
+            </div>
+            <div class="invite-chips">
+                <span class="invite-chip">@luciapro <button type="button" aria-label="Quitar">×</button></span>
+                <span class="invite-chip">@nightfury <button type="button" aria-label="Quitar">×</button></span>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="button" class="btn-primary">Crear equipo</button>
+            <a href="mis-equipos.html" class="btn-secondary">Cancelar</a>
+        </div>
+
+        <p class="form-note">
+            Maquetado de la primera entrega: la creación real del equipo y el envío de invitaciones
+            se implementan en la próxima entrega.
+        </p>
+    </form>
+</section>
+
+</main>
+
+<script src="../../components/footer.js"></script>
+</body>
+</html>

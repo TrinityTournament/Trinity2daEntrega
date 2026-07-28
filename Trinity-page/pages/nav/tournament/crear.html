@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear torneo — Trinity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../../components/nav.css">
+    <link rel="stylesheet" href="../../../components/footer.css">
+    <link rel="stylesheet" href="../../../components/ui.css">
+    <link rel="stylesheet" href="crear.css">
+    <link rel="icon" type="image/png" href="../../../assets/favicon.ico">
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<script src="../../../components/nav.js"></script>
+
+<main>
+<section class="page-hero">
+    <p class="page-eyebrow">Trinity · Organizador</p>
+    <h1 class="page-title">Crear torneo</h1>
+    <p class="page-subtitle">
+        Completá los datos básicos para dar de alta un torneo nuevo. Después de creado,
+        vas a poder configurarlo desde el panel de organizador.
+    </p>
+</section>
+
+<section class="content-section">
+    <form class="form-card create-form">
+
+        <div class="field">
+            <label class="field-label" for="ct-nombre">Nombre del torneo</label>
+            <input class="field-input" type="text" id="ct-nombre" placeholder="Ej: Copa Trinity — Clash Royale">
+        </div>
+
+        <div class="field-row cols-2">
+            <div class="field">
+                <label class="field-label" for="ct-disciplina">Disciplina</label>
+                <select class="field-select" id="ct-disciplina">
+                    <option>Fútbol</option>
+                    <option>Ajedrez</option>
+                    <option>Brawl Stars</option>
+                    <option>Clash Royale</option>
+                    <option>Dota 2</option>
+                    <option>Fortnite</option>
+                    <option>Minecraft</option>
+                    <option>Otra...</option>
+                </select>
+            </div>
+            <div class="field">
+                <label class="field-label" for="ct-cupo">Cupo máximo de participantes</label>
+                <input class="field-input" type="number" id="ct-cupo" placeholder="Ej: 32" min="2">
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="field-label">Tipo de competencia</label>
+            <div class="option-cards">
+                <label class="option-card">
+                    <input type="radio" name="formato" checked>
+                    <div class="option-card-title">Liga</div>
+                    <div class="option-card-desc">Todos contra todos. Ideal para grupos chicos o temporadas largas.</div>
+                </label>
+                <label class="option-card">
+                    <input type="radio" name="formato">
+                    <div class="option-card-title">Eliminación directa</div>
+                    <div class="option-card-desc">Llaves con avance directo. El que pierde, queda eliminado.</div>
+                </label>
+                <label class="option-card">
+                    <input type="radio" name="formato">
+                    <div class="option-card-title">Sistema suizo</div>
+                    <div class="option-card-desc">Emparejamientos por rendimiento, sin repetir rivales.</div>
+                </label>
+            </div>
+        </div>
+
+        <div class="field-row cols-2">
+            <div class="field">
+                <label class="field-label" for="ct-fecha">Fecha de inicio</label>
+                <input class="field-input" type="date" id="ct-fecha">
+            </div>
+            <div class="field">
+                <label class="field-label" for="ct-visibilidad">Visibilidad</label>
+                <select class="field-select" id="ct-visibilidad">
+                    <option>Público</option>
+                    <option>Privado (solo con invitación)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="field-label" for="ct-desc">Descripción</label>
+            <textarea class="field-textarea" id="ct-desc" placeholder="Reglas generales, premios, formato de partidos, etc."></textarea>
+        </div>
+
+        <div class="field">
+            <label class="field-label" for="ct-banner">Banner del torneo</label>
+            <input class="field-input" type="file" id="ct-banner" accept="image/*">
+            <span class="field-hint">Recomendado 1200×400px.</span>
+        </div>
+
+        <div class="form-actions">
+            <button type="button" class="btn-primary">Crear torneo</button>
+            <button type="button" class="btn-secondary">Guardar como borrador</button>
+        </div>
+
+        <p class="form-note">
+            Esta pantalla es solo la estructura del formulario (maquetado de la primera entrega).
+            La validación y la creación real del torneo en la base de datos se implementan en la próxima entrega.
+        </p>
+    </form>
+</section>
+
+</main>
+
+<script src="../../../components/footer.js"></script>
+</body>
+</html>

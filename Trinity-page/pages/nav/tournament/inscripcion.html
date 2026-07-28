@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscripción — Trinity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../../components/nav.css">
+    <link rel="stylesheet" href="../../../components/footer.css">
+    <link rel="stylesheet" href="../../../components/ui.css">
+    <link rel="stylesheet" href="inscripcion.css">
+    <link rel="icon" type="image/png" href="../../../assets/favicon.ico">
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<script src="../../../components/nav.js"></script>
+
+<main>
+<section class="page-hero">
+    <p class="page-eyebrow">Trinity · Inscripción</p>
+    <h1 class="page-title">Inscribirme al torneo</h1>
+    <p class="page-subtitle">Confirmá tus datos para participar en el torneo.</p>
+</section>
+
+<section class="content-section inscripcion-layout">
+
+    <aside class="tournament-summary">
+        <div class="entity-banner" style="background-image:linear-gradient(135deg, rgba(192,0,10,.5), rgba(0,0,0,.6)), url('../../../assets/tournament-banner/ClashBG.jpeg'); background-size:cover; background-position:center; border-radius: 12px 12px 0 0;">
+            <span class="badge badge-abierto">Abierto</span>
+        </div>
+        <div class="tournament-summary-body">
+            <h3>Copa Trinity — Clash Royale</h3>
+            <dl class="info-facts">
+                <div><dt>Formato</dt><dd>Eliminación directa</dd></div>
+                <div><dt>Cupo</dt><dd>18 / 32</dd></div>
+                <div><dt>Inicio</dt><dd>14 ago 2026</dd></div>
+            </dl>
+        </div>
+    </aside>
+
+    <form class="form-card inscripcion-form">
+
+        <div class="field">
+            <label class="field-label">Participar como</label>
+            <div class="option-cards option-cards-2">
+                <label class="option-card">
+                    <input type="radio" name="modo" checked>
+                    <div class="option-card-title">Individual</div>
+                    <div class="option-card-desc">Te inscribís con tu propio usuario.</div>
+                </label>
+                <label class="option-card">
+                    <input type="radio" name="modo">
+                    <div class="option-card-title">Equipo</div>
+                    <div class="option-card-desc">Inscribís a uno de tus equipos.</div>
+                </label>
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="field-label" for="ins-equipo">Equipo</label>
+            <select class="field-select" id="ins-equipo" disabled>
+                <option>Seleccioná un equipo...</option>
+                <option>Los Pibardos CR</option>
+                <option>Trinity Esports</option>
+            </select>
+            <span class="field-hint">Se habilita si elegís participar en equipo.</span>
+        </div>
+
+        <div class="field-row cols-2">
+            <div class="field">
+                <label class="field-label" for="ins-tel">Teléfono de contacto</label>
+                <input class="field-input" type="tel" id="ins-tel" placeholder="+598 99 123 456">
+            </div>
+            <div class="field">
+                <label class="field-label" for="ins-tag">Usuario en el juego</label>
+                <input class="field-input" type="text" id="ins-tag" placeholder="Ej: #ABC123">
+            </div>
+        </div>
+
+        <label class="checkline">
+            <input type="checkbox">
+            <span>Leí y acepto el reglamento del torneo y las normas de conducta de Trinity.</span>
+        </label>
+
+        <div class="form-actions">
+            <button type="button" class="btn-primary">Confirmar inscripción</button>
+            <a href="detalle.html" class="btn-secondary">Cancelar</a>
+        </div>
+    </form>
+
+</section>
+
+</main>
+
+<script src="../../../components/footer.js"></script>
+</body>
+</html>
