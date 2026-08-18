@@ -138,12 +138,122 @@ const navBaseURI = (() => {
         }
     });
 
-    // Restaurar sesión
+    // Búsqueda de usuarios (desktop + mobile)
+    wireSearch('nav-search-input', 'nav-search-results');
+    wireSearch('mobile-search-input', 'mobile-search-results');
+
+    // Pintar de inmediato con el último estado conocido (evita parpadeo
+    // "Iniciar sesión" -> "Usuario" mientras responde el servidor)...
     const saved = sessionStorage.getItem('trinity_user');
     if (saved) {
         try { setNavLoggedIn(JSON.parse(saved)); } catch {}
     }
+
+    // ...y siempre confirmamos contra el servidor, que es la fuente de
+    // verdad real (la cookie de sesión pudo expirar, o el usuario pudo
+    // cerrar sesión desde otra pestaña).
+    refreshSessionFromServer();
 })();
+
+// ── SESIÓN (fuente de verdad: el servidor) ─
+
+async function refreshSessionFromServer() {
+    try {
+        const res = await fetch(`${navBaseURI}/api/auth/check-session.php`, {
+            credentials: 'include',
+        });
+
+        if (res.status === 401) {
+            sessionStorage.removeItem('trinity_user');
+            setNavLoggedOut();
+            return;
+        }
+
+        const data = await res.json();
+        if (data.usuario) {
+            sessionStorage.setItem('trinity_user', JSON.stringify(data.usuario));
+            setNavLoggedIn(data.usuario);
+        }
+    } catch {
+        // Sin conexión al backend: dejamos el estado optimista que ya
+        // se pintó desde sessionStorage, sin romper la navegación.
+    }
+}
+
+function setNavLoggedOut() {
+    const guestEl    = document.getElementById('nav-guest');
+    const userEl     = document.getElementById('nav-user');
+    const mobileAuth = document.getElementById('mobile-auth');
+    if (guestEl)    guestEl.style.display  = '';
+    if (userEl)     userEl.classList.remove('active');
+    if (mobileAuth) mobileAuth.style.display = '';
+}
+
+// ── BUSCADOR DE USUARIOS ───────────────────
+
+function wireSearch(inputId, resultsId) {
+    const input   = document.getElementById(inputId);
+    const results = document.getElementById(resultsId);
+    if (!input || !results) return;
+
+    let timer   = null;
+    let lastReq = 0;
+
+    input.addEventListener('input', () => {
+        const q = input.value.trim();
+        clearTimeout(timer);
+
+        if (q.length < 2) {
+            results.innerHTML = '';
+            results.classList.remove('open');
+            return;
+        }
+
+        timer = setTimeout(() => runSearch(q), 250); // debounce
+    });
+
+    document.addEventListener('click', e => {
+        if (!results.contains(e.target) && e.target !== input) {
+            results.classList.remove('open');
+        }
+    });
+
+    async function runSearch(q) {
+        const reqId = ++lastReq;
+        try {
+            const res  = await fetch(`${navBaseURI}/api/users/search-users.php?q=${encodeURIComponent(q)}`, {
+                credentials: 'include',
+            });
+            const data = await res.json();
+            if (reqId !== lastReq) return; // llegó una búsqueda más nueva antes
+
+            const usuarios = data.users || [];
+            results.innerHTML = usuarios.length
+                ? usuarios.map(u => `
+                    <a class="search-result-item" href="${navBaseURI}/pages/profile/acc/view.html?id=${u.id}">
+                        <span class="search-result-avatar">${
+                            u.foto_url
+                                ? `<img src="${u.foto_url}" alt="">`
+                                : (u.usuario || '?')[0].toUpperCase()
+                        }</span>
+                        <span>
+                            <div class="search-result-name">${escapeHtml(u.nombre)}</div>
+                            <div class="search-result-user">@${escapeHtml(u.usuario)}</div>
+                        </span>
+                    </a>`).join('')
+                : `<p class="search-empty">Sin resultados para "<strong>${escapeHtml(q)}</strong>"</p>`;
+            results.classList.add('open');
+        } catch {
+            // Búsqueda falló silenciosamente: no bloqueamos la navegación.
+        }
+    }
+}
+
+function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str ?? '';
+    return div.innerHTML;
+}
 
 // ── AUTH ──────────────────────────────────
 
@@ -176,7 +286,23 @@ function setNavLoggedIn(u) {
     if (adminLink) adminLink.style.display = u.rol === 'admin' ? '' : 'none';
 }
 
-function logout() {
+async function logout() {
+    try {
+        // Necesitamos el csrf_token vigente: se pide justo antes de
+        // cerrar sesión para no depender de que assets/js/api.js esté
+        // cargado en esta página.
+        const tokenRes = await fetch(`${navBaseURI}/api/auth/csrf-token.php`, { credentials: 'include' });
+        const { csrf_token } = await tokenRes.json();
+
+        await fetch(`${navBaseURI}/api/auth/logout.php`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'X-CSRF-Token': csrf_token || '' },
+        });
+    } catch {
+        // Si el logout del servidor falla igual limpiamos el estado local.
+    }
+
     sessionStorage.removeItem('trinity_user');
     window.location.href = `${navBaseURI}/index.html`;
 }

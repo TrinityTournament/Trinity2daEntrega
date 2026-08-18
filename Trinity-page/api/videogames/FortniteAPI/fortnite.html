@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trinity — Fortnite Profile</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #0f0f0f;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 8px;
+      letter-spacing: 2px;
+    }
+
+    h1 span { color: #00b4d8; }
+
+    .subtitle {
+      color: #888;
+      margin-bottom: 32px;
+      font-size: 0.9rem;
+    }
+
+    /* HERO CARD */
+    .hero-card {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 16px;
+      padding: 28px 32px;
+      max-width: 700px;
+      width: 100%;
+      margin-bottom: 24px;
+      animation: fadeIn 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .avatar-circle {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: #1e3a47;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #00b4d8;
+      flex-shrink: 0;
+      letter-spacing: 1px;
+    }
+
+    .hero-info { flex: 1; }
+
+    .hero-info h2 {
+      font-size: 1.8rem;
+      color: #00b4d8;
+      margin-bottom: 4px;
+    }
+
+    .hero-id {
+      font-size: 0.72rem;
+      color: #555;
+      letter-spacing: 1px;
+      word-break: break-all;
+      margin-bottom: 12px;
+    }
+
+    .bp-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #1f1a00;
+      border: 1px solid #3a2e00;
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 0.8rem;
+      color: #f5c518;
+    }
+
+    /* SECTION */
+    .section-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #555;
+      margin-bottom: 12px;
+      max-width: 700px;
+      width: 100%;
+    }
+
+    /* OVERALL GRID */
+    .overall-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      max-width: 700px;
+      width: 100%;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      padding: 16px 14px;
+    }
+
+    .stat-card label {
+      display: block;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #666;
+      margin-bottom: 6px;
+    }
+
+    .stat-card span {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: #ddd;
+    }
+
+    .stat-card small {
+      display: block;
+      font-size: 0.72rem;
+      color: #555;
+      margin-top: 3px;
+    }
+
+    /* TABS */
+    .tabs {
+      display: flex;
+      gap: 8px;
+      max-width: 700px;
+      width: 100%;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      padding: 8px 18px;
+      font-size: 0.85rem;
+      border-radius: 8px;
+      border: 1px solid #2a2a2a;
+      background: transparent;
+      color: #888;
+      cursor: pointer;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      transition: all 0.15s;
+    }
+
+    .tab-btn:hover { border-color: #444; color: #bbb; }
+
+    .tab-btn.active {
+      background: #1a1a1a;
+      border-color: #00b4d8;
+      color: #00b4d8;
+      font-weight: 600;
+    }
+
+    /* MODE CARDS GRID */
+    .modes-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      max-width: 700px;
+      width: 100%;
+    }
+
+    .mode-card {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      overflow: hidden;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .mode-card-header {
+      background: #141414;
+      border-bottom: 1px solid #2a2a2a;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .mode-card-header h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #ccc;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .wins-badge {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: #0a2530;
+      color: #00b4d8;
+      border: 1px solid #00b4d820;
+    }
+
+    .mode-rows {
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .mode-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .mode-row-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #666;
+    }
+
+    .mode-row-val {
+      font-size: 0.92rem;
+      color: #ddd;
+      font-weight: 600;
+    }
+
+    /* PANEL VISIBILITY */
+    .mode-panel { display: none; }
+    .mode-panel.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    @media (max-width: 560px) {
+      .overall-grid { grid-template-columns: repeat(2, 1fr); }
+      .modes-grid   { grid-template-columns: 1fr; }
+      .hero-card    { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<h1>🎮 <span>Fortnite</span> Profile</h1>
+<p class="subtitle">Estadísticas de MiraCertera3343 — Battle Royale</p>
+
+<!-- HERO -->
+<div class="hero-card">
+  <div class="avatar-circle">MC</div>
+  <div class="hero-info">
+    <h2>MiraCertera3343</h2>
+    <div class="hero-id">fdfe6e5e19bc48a39bdc0120d227698e</div>
+    <div class="bp-pill">⭐ Pase de Batalla — Nivel 7 · Progreso 13%</div>
+  </div>
+</div>
+
+<!-- OVERALL -->
+<div class="section-label">Estadísticas generales</div>
+<div class="overall-grid">
+  <div class="stat-card">
+    <label>Victorias</label>
+    <span>89</span>
+    <small>Win rate 3.2%</small>
+  </div>
+  <div class="stat-card">
+    <label>Partidas</label>
+    <span>2,778</span>
+    <small>Jugadas en total</small>
+  </div>
+  <div class="stat-card">
+    <label>Kills</label>
+    <span>6,292</span>
+    <small>2.27 por partida</small>
+  </div>
+  <div class="stat-card">
+    <label>K/D</label>
+    <span>2.34</span>
+    <small>2,689 muertes</small>
+  </div>
+  <div class="stat-card">
+    <label>Horas jugadas</label>
+    <span>292.7h</span>
+    <small>17,560 minutos</small>
+  </div>
+  <div class="stat-card">
+    <label>Score total</label>
+    <span>527K</span>
+    <small>189.8 por partida</small>
+  </div>
+  <div class="stat-card">
+    <label>Top 10</label>
+    <span>228</span>
+    <small>Top 25: 455</small>
+  </div>
+  <div class="stat-card">
+    <label>Eliminados</label>
+    <span>113,974</span>
+    <small>Jugadores superados</small>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="section-label">Estadísticas por modo de entrada</div>
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('km', this)">⌨️ Teclado & Mouse</button>
+  <button class="tab-btn" onclick="switchTab('gp', this)">🎮 Gamepad</button>
+  <button class="tab-btn" onclick="switchTab('tc', this)">📱 Táctil</button>
+</div>
+
+<!-- KM -->
+<div class="mode-panel active" id="panel-km">
+  <div class="modes-grid">
+
+    <div class="mode-card">
+      <div class="mode-card-header">
+        <h3>Solo</h3>
+        <div class="wins-badge">40 victorias</div>
+      </div>
+      <div class="mode-rows">
+        <div class="mode-row"><span class="mode-row-label">Partidas</span><span class="mode-row-val">1,597</span></div>
+        <div class="mode-row"><span class="mode-row-label">Kills</span><span class="mode-row-val">3,930</span></div>
+        <div class="mode-row"><span class="mode-row-label">Muertes</span><span class="mode-row-val">1,557</span></div>
+        <div class="mode-row"><span class="mode-row-label">K/D</span><span class="mode-row-val">2.52</span></div>
+        <div class="mode-row"><span class="mode-row-label">Win rate</span><span class="mode-row-val">2.5%</span></div>
+        <div class="mode-row"><span class="mode-row-label">Horas</span><span class="mode-row-val">182.7h</span></div>
+        <div class="mode-row"><span class="mode-row-label">Score/partida</span><span class="mode-row-val">196.6</span></div>
+      </div>
+    </div>
+
+    <div class="mode-card">
+      <div class="mode-card-header">
+        <h3>Duo</h3>
+        <div class="wins-badge">5 victorias</div>
+      </div>
+      <div class="mode-rows">
+        <div class="mode-row"><span class="mode-row-label">Partidas</span><span class="mode-row-val">115</span></div>
+        <div class="mode-row"><span class="mode-row-label">Kills</span><span class="mode-row-val">231</span></div>
+        <div class="mode-row"><span class="mode-row-label">Muertes</span><span class="mode-row-val">110</span></div>
+        <div class="mode-row"><span class="mode-row-label">K/D</span><span class="mode-row-val">2.10</span></div>
+        <div class="mode-row"><span class="mode-row-label">Win rate</span><span class="mode-row-val">4.3%</span></div>
+        <div class="mode-row"><span class="mode-row-label">Horas</span><span class="mode-row-val">14.9h</span></div>
+        <div class="mode-row"><span class="mode-row-label">Score/partida</span><span class="mode-row-val">225.9</span></div>
+      </div>
+    </div>
+
+    <div class="mode-card">
+      <div class="mode-card-header">
+        <h3>Escuadra</h3>
+        <div class="wins-badge">7 victorias</div>
+      </div>
+      <div class="mode-rows">
+        <div class="mode-row"><span class="mode-row-label">Partidas</span><span class="mode-row-val">28</span></div>
+        <div class="mode-row"><span class="mode-row-label">Kills</span><span class="mode-row-val">96</span></div>
+        <div class="mode-row"><span class="mode-row-label">Muertes</span><span class="mode-row-val">21</span></div>
+        <div class="mode-row"><span class="mode-row-label">K/D</span><span class="mode-row-val">4.57</span></div>
+        <div class="mode-row"><span class="mode-row-label">Win rate</span><span class="mode-row-val">25%</span></div>
+        <div class="mode-row"><span class="mode-row-label">Horas</span><span class="mode-row-val">5.95h</span></div>
+        <div class="mode-row"><span class="mode-row-label">Score/partida</span><span class="mode-row-val">385.9</span></div>
+      </div>
+    </div>
+
+    <div class="mode-card">
+      <div class="mode-card-header">
+        <h3>LTM</h3>
+        <div class="wins-badge">37 victorias</div>
+      </div>
+      <div class="mode-rows">
+        <div class="mode-row"><span class="mode-row-label">Partidas</span><span class="mode-row-val">1,017</span></div>
+        <div class="mode-row"><span class="mode-row-label">Kills</span><span class="mode-row-val">1,992</span></div>
+        <div class="mode-row"><span class="mode-row-label">Muertes</span><span class="mode-row-val">980</span></div>
+        <div class="mode-row"><span class="mode-row-label">K/D</span><span class="mode-row-val">2.03</span></div>
+        <div class="mode-row"><span class="mode-row-label">Win rate</span><span class="mode-row-val">3.6%</span></div>
+        <div class="mode-row"><span class="mode-row-label">Horas</span><span class="mode-row-val">87.7h</span></div>
+        <div class="mode-row"><span class="mode-row-label">Score/partida</span><span class="mode-row-val">170.1</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- GAMEPAD -->
+<div class="mode-panel" id="panel-gp">
+  <div class="modes-grid">
+
+    <div class="mode-card">
+      <div class="mode-card-header">
+        <h3>Solo</h3>
+        <div class="wins-badge">0 victorias</div>
+      </div>
+      <div class="mode-rows">
+        <div class="mode-row"><span class="mode-row-label">Partidas</span><span class="mode-row-val">2</span></div>
+        <div class="mode-row"><span class="mode-row-label">Kills</span><span class="mode-row-val">2</span></div>
+        <div class="mode-row"><span class="mode-row-label">Muertes</span><span class="mode-row-val">2</span></div>
+        <div class="mode-row"><span class="mode-row-label">K/D</span><span class="mode-row-val">1.0</span></div>
+        <div class="mode-row"><span class="mode-row-label">Win rate</span><span class="mode-row-val">0%</span></div>
+        <div class="mode-row"><span class="mode-row-label">Horas</span><span class="mode-row-val">0.15h</span></div>
+        <div class="mode-row"><span class="mode-row-label">Top 25</span><span class="mode-row-val">1</span></div>
+      </div>
+    </div>
+
+    <div class="mode-card">
+      <div class="mode-card-header">
+        <h3>LTM</h3>
+        <div class="wins-badge">0 victorias</div>
+      </div>
+      <div class="mode-rows">
+        <div class="mode-row"><span class="mode-row-label">Partidas</span><span class="mode-row-val">7</span></div>
+        <div class="mode-row"><span class="mode-row-label">Kills</span><span class="mode-row-val">24</span></div>
+        <div class="mode-row"><span class="mode-row-label">Muertes</span><span class="mode-row-val">7</span></div>
+        <div class="mode-row"><span class="mode-row-label">K/D</span><span class="mode-row-val">3.43</span></div>
+        <div class="mode-row"><span class="mode-row-label">Win rate</span><span class="mode-row-val">0%</span></div>
+        <div class="mode-row"><span class="mode-row-label">Horas</span><span class="mode-row-val">0.48h</span></div>
+        <div class="mode-row"><span class="mode-row-label">Score/partida</span><span class="mode-row-val">211.3</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- TOUCH -->
+<div class="mode-panel" id="panel-tc">
+  <div class="modes-grid">
+
+    <div class="mode-card">
+      <div class="mode-card-header">
+        <h3>Solo</h3>
+        <div class="wins-badge">0 victorias</div>
+      </div>
+      <div class="mode-rows">
+        <div class="mode-row"><span class="mode-row-label">Partidas</span><span class="mode-row-val">10</span></div>
+        <div class="mode-row"><span class="mode-row-label">Kills</span><span class="mode-row-val">15</span></div>
+        <div class="mode-row"><span class="mode-row-label">Muertes</span><span class="mode-row-val">10</span></div>
+        <div class="mode-row"><span class="mode-row-label">K/D</span><span class="mode-row-val">1.5</span></div>
+        <div class="mode-row"><span class="mode-row-label">Win rate</span><span class="mode-row-val">0%</span></div>
+        <div class="mode-row"><span class="mode-row-label">Horas</span><span class="mode-row-val">0.93h</span></div>
+        <div class="mode-row"><span class="mode-row-label">Top 25</span><span class="mode-row-val">1</span></div>
+      </div>
+    </div>
+
+    <div class="mode-card">
+      <div class="mode-card-header">
+        <h3>LTM</h3>
+        <div class="wins-badge">1 victoria</div>
+      </div>
+      <div class="mode-rows">
+        <div class="mode-row"><span class="mode-row-label">Partidas</span><span class="mode-row-val">5</span></div>
+        <div class="mode-row"><span class="mode-row-label">Kills</span><span class="mode-row-val">10</span></div>
+        <div class="mode-row"><span class="mode-row-label">Muertes</span><span class="mode-row-val">4</span></div>
+        <div class="mode-row"><span class="mode-row-label">K/D</span><span class="mode-row-val">2.5</span></div>
+        <div class="mode-row"><span class="mode-row-label">Win rate</span><span class="mode-row-val">20%</span></div>
+        <div class="mode-row"><span class="mode-row-label">Horas</span><span class="mode-row-val">0.47h</span></div>
+        <div class="mode-row"><span class="mode-row-label">Score/partida</span><span class="mode-row-val">278</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function switchTab(mode, el) {
+    document.querySelectorAll('.mode-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+    document.getElementById('panel-' + mode).classList.add('active');
+    el.classList.add('active');
+  }
+</script>
+
+</body>
+</html>

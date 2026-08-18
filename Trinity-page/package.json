@@ -1,0 +1,34 @@
+{
+  "name": "trinity-final-project",
+  "version": "1.0.0",
+  "description": "Trinity.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TrinityTournament/trinity-page/issues"
+  },
+  "homepage": "https://github.com/TrinityTournament/trinity-page/#readme",
+  "dependencies": {
+    "@getbrevo/brevo": "^2.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "readline": "^1.3.0",
+    "ws": "^8.21.0",
+    "@discordjs/collection": "^2.1.1",
+    "@hapi/boom": "^10.0.1",
+    "axios": "^1.12.2",
+    "baileys": "^7.0.0-rc.5",
+    "pino": "^9.6.0"
+  }
+}

@@ -255,6 +255,8 @@ body {
 .panel + .panel { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px dashed var(--border); }
 
 .msg { font-size: 13px; color: rgba(255,200,200,0.75); min-height: 18px; text-align: center; }
+.msg-error { color: #ff6b6b; }
+.msg-ok    { color: #4ade80; }
 
 .toggle-link { font-size: 13px; color: var(--muted); text-align: center; margin-top: 0.25rem; }
 .toggle-link a { color: var(--text); font-weight: 600; text-decoration: none; }

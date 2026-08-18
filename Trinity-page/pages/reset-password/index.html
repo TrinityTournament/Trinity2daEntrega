@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restablecer contraseña - Trinity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../login/style.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.ico">
+    <script src="../../assets/js/api.js"></script>
+</head>
+<body>
+
+<main>
+    <!-- ══ VERIFICANDO TOKEN ══ -->
+    <div class="login-card" id="card-verificando">
+        <div class="step">
+            <div class="card-header">
+                <h2>Verificando link…</h2>
+                <p>Un momento por favor.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══ FORMULARIO NUEVA CONTRASEÑA ══ -->
+    <div class="login-card" id="card-form" style="display:none;">
+        <form class="step" id="form-nueva-password" onsubmit="return false;">
+            <div class="card-header">
+                <h2>Elegí tu nueva contraseña</h2>
+                <p>Mínimo 6 caracteres.</p>
+            </div>
+            <div class="field">
+                <label>Nueva contraseña</label>
+                <div class="input-with-icon">
+                    <input type="password" id="nueva-password" placeholder="••••••••">
+                    <span class="eye-icon" onclick="togglePassword('nueva-password', this)">👁</span>
+                </div>
+            </div>
+            <div class="field">
+                <label>Confirmar contraseña</label>
+                <div class="input-with-icon">
+                    <input type="password" id="confirmar-password" placeholder="••••••••">
+                    <span class="eye-icon" onclick="togglePassword('confirmar-password', this)">👁</span>
+                </div>
+            </div>
+            <p class="msg" id="msg-reset"></p>
+            <button type="submit" class="btn-primary" id="btn-reset">Restablecer contraseña</button>
+        </form>
+    </div>
+
+    <!-- ══ LINK INVÁLIDO / EXPIRADO ══ -->
+    <div class="login-card" id="card-invalido" style="display:none;">
+        <div class="step">
+            <div class="card-header">
+                <h2>Este link ya no es válido</h2>
+                <p>Puede haber expirado (15 minutos) o ya haber sido usado.</p>
+            </div>
+            <a href="../login/login.html#recuperar" class="btn-primary" style="display:block;text-align:center;text-decoration:none;">Solicitar un nuevo link</a>
+        </div>
+    </div>
+
+    <!-- ══ ÉXITO ══ -->
+    <div class="login-card" id="card-exito" style="display:none;">
+        <div class="step">
+            <div class="card-header">
+                <h2>¡Contraseña actualizada!</h2>
+                <p>Ya podés iniciar sesión con tu nueva contraseña.</p>
+            </div>
+            <a href="../login/login.html" class="btn-primary" style="display:block;text-align:center;text-decoration:none;">Ir a iniciar sesión</a>
+        </div>
+    </div>
+</main>
+
+<script src="./script.js"></script>
+</body>
+</html>

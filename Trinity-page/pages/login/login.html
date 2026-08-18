@@ -7,13 +7,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./style.css">
     <link rel="icon" type="image/png" href="../../assets/favicon.ico">
+    <script src="../../assets/js/api.js"></script>
 </head>
 <body>
 
 <main>
     <!-- ══ INICIAR SESIÓN ══ -->
     <div class="login-card" id="card">
-        <form class="step" onsubmit="return false;">
+        <form class="step" id="form-login" onsubmit="return false;">
             <div class="card-header">
                 <h2>Bienvenido de nuevo</h2>
                 <p>Ingresá tus datos para continuar</p>
@@ -29,7 +30,8 @@
                     <span class="eye-icon" onclick="togglePassword('password-login', this)">👁</span>
                 </div>
             </div>
-            <button type="submit" class="btn-primary">Iniciar sesión</button>
+            <p class="msg" id="msg-login"></p>
+            <button type="submit" class="btn-primary" id="btn-login">Iniciar sesión</button>
             <div class="login-footer-links">
                 <p class="toggle-link">¿No tenés cuenta? <a href="#registro">Registrate</a></p>
                 <a href="#recuperar" class="forgot-link">¿Olvidaste tu contraseña?</a>
@@ -87,7 +89,7 @@
                             <label>Tu correo electrónico</label>
                             <div class="input-with-btn">
                                 <input type="email" id="email-registro" placeholder="correo@ejemplo.com">
-                                <button type="button">Solicitar código</button>
+                                <button type="button" id="btn-code-email" onclick="solicitarCodigoEmail()">Solicitar código</button>
                             </div>
                         </div>
                         <div class="field">
@@ -124,7 +126,7 @@
                         <div class="field">
                             <div class="input-with-btn" style="margin-bottom:0.75rem;">
                                 <span style="flex:1;font-size:13px;color:var(--muted);padding:0 12px;display:flex;align-items:center;">Solicitá el código al elegir canal</span>
-                                <button type="button">Solicitar código</button>
+                                <button type="button" id="btn-code-tel" onclick="solicitarCodigoTelefono()">Solicitar código</button>
                             </div>
                         </div>
                         <div class="field">
@@ -141,6 +143,7 @@
                         </div>
                     </form>
 
+                    <button type="button" id="btn-crear-cuenta" class="btn-primary" style="display:none;margin:0.5rem 1.5rem 1.5rem;" onclick="crearCuenta()">Crear cuenta</button>
                 </div>
             </div>
         </div>
@@ -148,7 +151,7 @@
 
     <!-- ══ RECUPERAR CONTRASEÑA ══ -->
     <div class="login-card" id="recuperar">
-        <form class="step" onsubmit="return false;">
+        <form class="step" id="form-recuperar" onsubmit="return false;">
             <div class="card-header">
                 <h2>Recuperar contraseña</h2>
                 <p>Ingresá tu email y te enviaremos un link para restablecer tu contraseña.</p>
@@ -157,7 +160,7 @@
                 <label>Tu correo electrónico</label>
                 <input type="email" id="forgot-email" placeholder="correo@ejemplo.com">
             </div>
-            <button type="submit" class="btn-primary">Enviar link →</button>
+            <button type="submit" class="btn-primary" id="btn-recuperar">Enviar link →</button>
 <p class="msg" id="msg-forgot"></p>
 <p class="toggle-link"><a href="#card">Volver a iniciar sesión</a></p>
 
