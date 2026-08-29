@@ -1,1 +1,0 @@
-### El repositorio está en una carpeta para cuidar las redirecciones.

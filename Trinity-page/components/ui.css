@@ -401,5 +401,5 @@ a { color: inherit; }
 @media (min-width: 900px) { .lite-main { padding: 2.25rem 2.5rem 3rem; } }
 
 .lite-header { margin-bottom: 1.5rem; }
-.lite-header h1 { font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 800; }
+.lite-header h1, .lite-header h2 { font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 800; }
 .lite-header p { color: var(--text-muted); font-size: 13.5px; margin-top: 0.25rem; }

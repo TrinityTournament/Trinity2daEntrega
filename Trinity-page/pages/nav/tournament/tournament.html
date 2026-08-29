@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../../style.css">
     <link rel="stylesheet" href="../../../components/nav.css">
+    <link rel="stylesheet" href="../../../components/footer.css">
     <link rel="stylesheet" href="../../../pages/nav/tournament/tournament.css">
     <link rel="icon" type="image/png" href="../../../assets/favicon.ico">
 </head>
@@ -15,12 +16,14 @@
 
 <main class="tournaments-page">
 
-    <div class="tournaments-header">
-        <h1>TORNEOS</h1>
-        <br>
-        <h2>Enlaza tus cuentas para poder registrarte en los torneos</h2>
-        <a href="../../../pages/nav/tournament/buscar.html" class="how-to-join">¿CÓMO ME INSCRIBO?</a>
-    </div>
+    <header class="tournaments-header">
+        <div class="header-content">
+            <h1>TORNEOS</h1>
+            <br>
+            <h2>Enlaza tus cuentas para poder registrarte en los torneos</h2>
+            <a href="../../../pages/nav/tournament/buscar.html" class="how-to-join">¿CÓMO ME INSCRIBO?</a>
+        </div>
+    </header>
 
     <section class="games-grid" id="gamesGrid">
 
@@ -74,10 +77,12 @@
 
     </section>
 
-    <p class="tournaments-cta">
-        PARTICIPA EN TORNEOS SEMANALES DE TUS JUEGOS FAVORITOS. INSCRÍBETE, COMPITE Y
-        ESCALA POSICIONES EN EL RANKING DE TRINITY.
-    </p>
+    <div class="tournaments-cta-wrap">
+        <p class="tournaments-cta">
+            PARTICIPA EN TORNEOS SEMANALES DE TUS JUEGOS FAVORITOS. INSCRÍBETE, COMPITE Y
+            ESCALA POSICIONES EN EL RANKING DE TRINITY.
+        </p>
+    </div>
 
     <section class="steps-section">
         <a href="../../../pages/login/login.html" class="login-link-tag">
@@ -94,5 +99,6 @@
     </section>
 </main>
 
+<script src="../../../components/footer.js"></script>
 </body>
 </html>

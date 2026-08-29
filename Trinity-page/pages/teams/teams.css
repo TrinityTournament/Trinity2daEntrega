@@ -52,6 +52,13 @@
     margin-bottom: 0.5rem;
 }
 
+.team-header-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
 .team-stats {
     display: flex;
     gap: 2rem;

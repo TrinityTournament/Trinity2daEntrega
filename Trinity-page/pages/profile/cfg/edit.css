@@ -133,6 +133,7 @@ main.edit-layout {
     flex-direction: column;
     gap:            0;
 }
+.aside-content { display: contents; }
 .preview-form { display: contents; }
 
 .preview-photo-wrap {

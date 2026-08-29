@@ -49,6 +49,14 @@
 .info-facts dt { color: var(--text-muted); }
 .info-facts dd { font-weight: 600; }
 
+.results-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
 .bracket-preview {
     display: flex;
     flex-direction: column;

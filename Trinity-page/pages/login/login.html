@@ -13,18 +13,18 @@
 
 <main>
     <!-- ══ INICIAR SESIÓN ══ -->
-    <div class="login-card" id="card">
+    <section class="login-card" id="card">
         <form class="step" id="form-login" onsubmit="return false;">
-            <div class="card-header">
+            <header class="card-header">
                 <h2>Bienvenido de nuevo</h2>
                 <p>Ingresá tus datos para continuar</p>
-            </div>
+            </header>
             <div class="field">
-                <label>Email o número de teléfono</label>
+                <label for="login-identifier">Email o número de teléfono</label>
                 <input type="text" id="login-identifier" placeholder="correo@ejemplo.com / +598...">
             </div>
             <div class="field">
-                <label>Contraseña</label>
+                <label for="password-login">Contraseña</label>
                 <div class="input-with-icon">
                     <input type="password" id="password-login" placeholder="••••••••">
                     <span class="eye-icon" onclick="togglePassword('password-login', this)">👁</span>
@@ -32,34 +32,34 @@
             </div>
             <p class="msg" id="msg-login"></p>
             <button type="submit" class="btn-primary" id="btn-login">Iniciar sesión</button>
-            <div class="login-footer-links">
+            <footer class="login-footer-links">
                 <p class="toggle-link">¿No tenés cuenta? <a href="#registro">Registrate</a></p>
                 <a href="#recuperar" class="forgot-link">¿Olvidaste tu contraseña?</a>
-            </div>
+            </footer>
         </form>
-    </div>
+    </section>
 
     <!-- ══ REGISTRO — LAYOUT 2 COLUMNAS ══ -->
-    <div class="login-card wide" id="registro">
+    <section class="login-card wide" id="registro">
         <div class="step">
             <div class="registro-grid">
 
                 <!-- COLUMNA IZQUIERDA -->
                 <form class="col-izq" onsubmit="return false;">
-                    <div class="card-header">
+                    <header class="card-header">
                         <h2>Creá tu cuenta</h2>
                         <p>Completá tus datos para registrarte</p>
-                    </div>
+                    </header>
                     <div class="field">
-                        <label>Nombre y apellido</label>
+                        <label for="nombre">Nombre y apellido</label>
                         <input type="text" id="nombre" placeholder="Juan Pérez">
                     </div>
                     <div class="field">
-                        <label>Nombre de usuario</label>
+                        <label for="usuario">Nombre de usuario</label>
                         <input type="text" id="usuario" placeholder="juanp99">
                     </div>
                     <div class="field">
-                        <label>Contraseña</label>
+                        <label for="password-registro">Contraseña</label>
                         <div class="input-with-icon">
                             <input type="password" id="password-registro" placeholder="••••••••">
                             <span class="eye-icon" onclick="togglePassword('password-registro', this)">👁</span>
@@ -86,15 +86,15 @@
                     <form class="panel" id="panel-email" onsubmit="return false;">
                         <p class="metodo-label">Verificación por correo</p>
                         <div class="field">
-                            <label>Tu correo electrónico</label>
+                            <label for="email-registro">Tu correo electrónico</label>
                             <div class="input-with-btn">
                                 <input type="email" id="email-registro" placeholder="correo@ejemplo.com">
                                 <button type="button" id="btn-code-email" onclick="solicitarCodigoEmail()">Solicitar código</button>
                             </div>
                         </div>
                         <div class="field">
-                            <label>Ingresar código</label>
-                            <div class="otp-inputs" id="otp-email">
+                            <label id="otp-email-label">Ingresar código</label>
+                            <div class="otp-inputs" id="otp-email" aria-labelledby="otp-email-label">
                                 <input maxlength="1" oninput="otpNext(this,'otp-email')" onkeydown="otpBack(event,this,'otp-email')">
                                 <input maxlength="1" oninput="otpNext(this,'otp-email')" onkeydown="otpBack(event,this,'otp-email')">
                                 <input maxlength="1" oninput="otpNext(this,'otp-email')" onkeydown="otpBack(event,this,'otp-email')">
@@ -110,12 +110,12 @@
                     <form class="panel" id="panel-telefono" onsubmit="return false;">
                         <p class="metodo-label">Verificación por WhatsApp</p>
                         <div class="field">
-                            <label>Tu número de teléfono</label>
+                            <label for="telefono-registro">Tu número de teléfono</label>
                             <input type="tel" id="telefono-registro" placeholder="+598 99 123 456">
                         </div>
                         <div class="field">
-                            <label>Elegí dónde recibir el código</label>
-                            <div class="canal-btns">
+                            <label id="canal-label">Elegí dónde recibir el código</label>
+                            <div class="canal-btns" aria-labelledby="canal-label">
                                 <button type="button" id="btn-whatsapp" class="canal-btn active" onclick="seleccionarCanal('whatsapp')">
                                     <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
                                     <span>WhatsApp</span>
@@ -130,8 +130,8 @@
                             </div>
                         </div>
                         <div class="field">
-                            <label>Código</label>
-                            <div class="otp-inputs" id="otp-tel">
+                            <label id="otp-tel-label">Código</label>
+                            <div class="otp-inputs" id="otp-tel" aria-labelledby="otp-tel-label">
                                 <input maxlength="1" oninput="otpNext(this,'otp-tel')" onkeydown="otpBack(event,this,'otp-tel')">
                                 <input maxlength="1" oninput="otpNext(this,'otp-tel')" onkeydown="otpBack(event,this,'otp-tel')">
                                 <input maxlength="1" oninput="otpNext(this,'otp-tel')" onkeydown="otpBack(event,this,'otp-tel')">
@@ -147,26 +147,24 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- ══ RECUPERAR CONTRASEÑA ══ -->
-    <div class="login-card" id="recuperar">
+    <section class="login-card" id="recuperar">
         <form class="step" id="form-recuperar" onsubmit="return false;">
-            <div class="card-header">
+            <header class="card-header">
                 <h2>Recuperar contraseña</h2>
                 <p>Ingresá tu email y te enviaremos un link para restablecer tu contraseña.</p>
-            </div>
+            </header>
             <div class="field">
-                <label>Tu correo electrónico</label>
+                <label for="forgot-email">Tu correo electrónico</label>
                 <input type="email" id="forgot-email" placeholder="correo@ejemplo.com">
             </div>
             <button type="submit" class="btn-primary" id="btn-recuperar">Enviar link →</button>
-<p class="msg" id="msg-forgot"></p>
-<p class="toggle-link"><a href="#card">Volver a iniciar sesión</a></p>
-
-            
+            <p class="msg" id="msg-forgot"></p>
+            <p class="toggle-link"><a href="#card">Volver a iniciar sesión</a></p>
         </form>
-    </div>
+    </section>
 </main>
 
 <script src="./script.js"></script>

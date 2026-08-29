@@ -13,31 +13,31 @@
 
 <main>
     <!-- ══ VERIFICANDO TOKEN ══ -->
-    <div class="login-card" id="card-verificando">
+    <section class="login-card" id="card-verificando">
         <div class="step">
-            <div class="card-header">
+            <header class="card-header">
                 <h2>Verificando link…</h2>
                 <p>Un momento por favor.</p>
-            </div>
+            </header>
         </div>
-    </div>
+    </section>
 
     <!-- ══ FORMULARIO NUEVA CONTRASEÑA ══ -->
-    <div class="login-card" id="card-form" style="display:none;">
+    <section class="login-card" id="card-form" style="display:none;">
         <form class="step" id="form-nueva-password" onsubmit="return false;">
-            <div class="card-header">
+            <header class="card-header">
                 <h2>Elegí tu nueva contraseña</h2>
                 <p>Mínimo 6 caracteres.</p>
-            </div>
+            </header>
             <div class="field">
-                <label>Nueva contraseña</label>
+                <label for="nueva-password">Nueva contraseña</label>
                 <div class="input-with-icon">
                     <input type="password" id="nueva-password" placeholder="••••••••">
                     <span class="eye-icon" onclick="togglePassword('nueva-password', this)">👁</span>
                 </div>
             </div>
             <div class="field">
-                <label>Confirmar contraseña</label>
+                <label for="confirmar-password">Confirmar contraseña</label>
                 <div class="input-with-icon">
                     <input type="password" id="confirmar-password" placeholder="••••••••">
                     <span class="eye-icon" onclick="togglePassword('confirmar-password', this)">👁</span>
@@ -46,29 +46,35 @@
             <p class="msg" id="msg-reset"></p>
             <button type="submit" class="btn-primary" id="btn-reset">Restablecer contraseña</button>
         </form>
-    </div>
+    </section>
 
     <!-- ══ LINK INVÁLIDO / EXPIRADO ══ -->
-    <div class="login-card" id="card-invalido" style="display:none;">
+    <section class="login-card" id="card-invalido" style="display:none;">
         <div class="step">
-            <div class="card-header">
+            <header class="card-header">
                 <h2>Este link ya no es válido</h2>
                 <p>Puede haber expirado (15 minutos) o ya haber sido usado.</p>
-            </div>
+            </header>
             <a href="../login/login.html#recuperar" class="btn-primary" style="display:block;text-align:center;text-decoration:none;">Solicitar un nuevo link</a>
         </div>
-    </div>
+    </section>
 
     <!-- ══ ÉXITO ══ -->
-    <div class="login-card" id="card-exito" style="display:none;">
+    <section class="login-card" id="card-exito" style="display:none;">
         <div class="step">
-            <div class="card-header">
+            <header class="card-header">
                 <h2>¡Contraseña actualizada!</h2>
                 <p>Ya podés iniciar sesión con tu nueva contraseña.</p>
-            </div>
+            </header>
             <a href="../login/login.html" class="btn-primary" style="display:block;text-align:center;text-decoration:none;">Ir a iniciar sesión</a>
         </div>
-    </div>
+    </section>
+
+    <footer class="login-footer-links">
+        <div class="footer-actions">
+            <a href="../login/login.html">← Volver a iniciar sesión</a>
+        </div>
+    </footer>
 </main>
 
 <script src="./script.js"></script>

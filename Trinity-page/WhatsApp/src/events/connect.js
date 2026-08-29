@@ -13,6 +13,9 @@ export async function connect() {
         backends: {
             sqlite: createSqliteStore({ path: './.auth/state.sqlite' })
         },
+
+        // WhatsApp entrega muchas cosas al iniciar sesión, aqui podemos configurar cuales guardar.
+        // En nuestro caso, guardamos todo lo relacionado a la información y NO guardamos mensajes; hilos ni contactos
         providers: {
             auth: 'sqlite',
             signal: 'sqlite',
@@ -32,15 +35,17 @@ export async function connect() {
                                 createNoopLogger())
     await bot.connect()
     
+    // Al momento de recibir la conexión, se activa este evento para confirmarlo.
     bot.on('auth_paired', ({ credentials }) => {
         console.log('Conectado como: ', credentials.meJid + "\n")
     })
 
     const credentials = await bot.auth.authStore.load()
-    
+
+    // Si no hay credenciales, el bot solicita codigo al numero.
     if (!credentials?.meJid) {
         const code = await bot.auth.requestPairingCode(
-            '59892928797', 'true', 'VRVGVAYS' // El codigo no puede contener los siguientes caracteres: 0, O, U, I.
+            '59892928797', 'true', '12345678' // El codigo no puede contener los siguientes caracteres: 0, O, U, I. No tengo idea porqué.
         )                                    // Los parametros de la función son estos: 
                                             // requestPairingCode(phoneNumber, shouldShowPushNotification?, customCode?)
         console.log('\nIngresa este codigo para vincular: ', code)    

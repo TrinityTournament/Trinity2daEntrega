@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="edit.css">
     <link rel="icon" type="image/png" href="../../../assets/favicon.ico">
     <link rel="stylesheet" href="../../../components/nav.css">
+    <link rel="stylesheet" href="../../../components/footer.css">
 </head>
 <body>
 
@@ -19,6 +20,7 @@
 
     <!-- COLUMNA IZQUIERDA: CARD DE PERFIL (preview) -->
     <aside class="profile-preview-card">
+      <div class="aside-content">
         <form class="preview-form">
             <div class="preview-photo-wrap">
                 <div class="preview-photo">S</div>
@@ -29,14 +31,14 @@
             </div>
 
             <div class="preview-info">
-                <label class="field-label">Nombre</label>
-                <input type="text" class="preview-input" value="Santiago R.">
+                <label class="field-label" for="edit-nombre">Nombre</label>
+                <input type="text" id="edit-nombre" class="preview-input" value="Santiago R.">
 
-                <label class="field-label">Nombre de usuario</label>
-                <input type="text" class="preview-input" value="santiagor">
+                <label class="field-label" for="edit-usuario">Nombre de usuario</label>
+                <input type="text" id="edit-usuario" class="preview-input" value="santiagor">
 
-                <label class="field-label">Pronombres</label>
-                <select class="preview-input preview-select">
+                <label class="field-label" for="edit-pronombres">Pronombres</label>
+                <select id="edit-pronombres" class="preview-input preview-select">
                     <option value="">— Sin especificar —</option>
                     <option value="He/him" selected>He/him</option>
                     <option value="She/her">She/her</option>
@@ -46,8 +48,8 @@
                     <option value="Any">Any</option>
                 </select>
 
-                <label class="field-label">Descripción</label>
-                <textarea class="preview-input preview-textarea" placeholder="Contá algo sobre vos...">Organizador y jugador de Clash Royale. Capitán de Los Pibardos CR.</textarea>
+                <label class="field-label" for="edit-descripcion">Descripción</label>
+                <textarea id="edit-descripcion" class="preview-input preview-textarea" placeholder="Contá algo sobre vos...">Organizador y jugador de Clash Royale. Capitán de Los Pibardos CR.</textarea>
             </div>
 
             <div class="preview-actions">
@@ -56,6 +58,7 @@
                 </button>
             </div>
         </form>
+      </div>
     </aside>
 
     <!-- COLUMNA DERECHA: SECCIONES DE CONFIG -->
@@ -68,7 +71,7 @@
             <form id="pwd-paso1">
                 <p class="edit-card-desc">Te enviaremos un código de verificación para confirmar el cambio.</p>
                 <div class="field" id="pwd-destino-wrap">
-                    <label class="field-label">Enviar código a</label>
+                    <label class="field-label" for="pwd-destino">Enviar código a</label>
                     <select id="pwd-destino" class="preview-input preview-select">
                         <option value="email">Email</option>
                         <option value="telefono">WhatsApp</option>
@@ -81,10 +84,11 @@
                 </div>
             </form>
 
-            <div class="pwd-paso2-divider"><span>Paso 2 — Confirmá el código y elegí tu nueva contraseña</span></div>
+            <h3 class="pwd-paso2-divider"><span>Paso 2 — Confirmá el código y elegí tu nueva contraseña</span></h3>
             <form id="pwd-paso2">
                 <p class="edit-card-desc">Ingresá el código que te enviamos y tu nueva contraseña.</p>
-                <div class="otp-inputs" id="otp-pwd">
+                <label class="field-label" id="pwd-otp-label">Código de verificación</label>
+                <div class="otp-inputs" id="otp-pwd" aria-labelledby="pwd-otp-label">
                     <input maxlength="1">
                     <input maxlength="1">
                     <input maxlength="1">
@@ -94,11 +98,11 @@
                 </div>
                 <div class="two-fields">
                     <div class="field">
-                        <label class="field-label">Nueva contraseña</label>
+                        <label class="field-label" for="pwd-nueva">Nueva contraseña</label>
                         <input type="password" id="pwd-nueva" class="field-input" placeholder="••••••••">
                     </div>
                     <div class="field">
-                        <label class="field-label">Confirmar contraseña</label>
+                        <label class="field-label" for="pwd-confirm">Confirmar contraseña</label>
                         <input type="password" id="pwd-confirm" class="field-input" placeholder="••••••••">
                     </div>
                 </div>
@@ -117,15 +121,15 @@
                 <div class="credentials-grid">
                     <!-- Email -->
                     <div class="field">
-                        <label class="field-label">Correo electrónico</label>
-                        <input type="email" class="field-input" value="santiago@trinity.gg">
+                        <label class="field-label" for="edit-email">Correo electrónico</label>
+                        <input type="email" id="edit-email" class="field-input" value="santiago@trinity.gg">
                     </div>
 
                     <!-- Teléfono -->
                     <div class="field">
-                        <label class="field-label">Número de teléfono</label>
+                        <label class="field-label" for="edit-telefono">Número de teléfono</label>
                         <div class="phone-wrap">
-                            <select class="phone-prefix">
+                            <select class="phone-prefix" aria-label="Prefijo telefónico" id="edit-telefono-prefijo">
                                 <option value="598" selected>🇺🇾 +598</option>
                                 <option value="54">🇦🇷 +54</option>
                                 <option value="55">🇧🇷 +55</option>
@@ -136,7 +140,7 @@
                                 <option value="34">🇪🇸 +34</option>
                                 <option value="1">🇺🇸 +1</option>
                             </select>
-                            <input type="tel" class="field-input phone-input" value="99 123 456">
+                            <input type="tel" id="edit-telefono" class="field-input phone-input" value="99 123 456">
                         </div>
                     </div>
                 </div>
@@ -195,5 +199,6 @@
     </div>
 </main>
 
+<script src="../../../components/footer.js"></script>
 </body>
 </html>
