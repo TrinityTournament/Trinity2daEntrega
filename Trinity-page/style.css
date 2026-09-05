@@ -238,7 +238,7 @@ nav {
     background-repeat: no-repeat;
 }
 
-/* Degradez sobre el fondo para que el texto se lea, + el glow rojo de marca */
+/* Degradé sobre el fondo para que el texto se lea, + el glow rojo de marca */
 .hero::before {
     content: '';
     position: absolute;
@@ -310,6 +310,14 @@ nav {
     background: var(--accent2);
     transform: translateY(-2px);
     box-shadow: 0 0 40px rgba(255,42,42,0.4);
+}
+
+/* En PC (escritorio) usamos una imagen de fondo distinta para el hero.
+   Mobile-first: por defecto (no-PC) se usa HeroMain.png; a partir de 900px
+   (mismo breakpoint que usa nav.css para pasar a layout de escritorio)
+   se reemplaza por HeroMainPC.png */
+@media (min-width: 900px) {
+    .hero { background-image: url('assets/HeroMainPC.png'); }
 }
 
 /* Pantallas de poca altura (celulares/tablets en horizontal): el hero mide

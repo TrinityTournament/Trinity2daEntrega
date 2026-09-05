@@ -18,6 +18,7 @@ const navBaseURI = (() => {
 
 (function injectNav() {
     const nav = document.createElement('nav');
+    nav.className = 'site-nav';
     nav.innerHTML = `
         <a href="${navBaseURI}/index.html" class="nav-logo">TRINITY</a>
 

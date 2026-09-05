@@ -6,7 +6,7 @@
 // ══════════════════════════════════════════
 
 let metodoActual  = null; // 'email' | 'telefono'
-let canalActual   = null; // 'whatsapp'
+let canalActual   = 'whatsapp'; // 'whatsapp' — ya viene marcado como activo en el HTML
 let codigoListo   = false; // true cuando el OTP del método activo tiene 6 dígitos
 
 // ── NAVEGACIÓN ENTRE VISTAS ───────────────────────────────
@@ -35,14 +35,12 @@ function mostrarCardActiva() {
 
 function resetRegistro() {
     metodoActual = null;
-    canalActual  = null;
+    canalActual  = 'whatsapp'; // único canal disponible por ahora, arranca preseleccionado
 
     document.querySelectorAll('.metodo-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.panel').forEach(p => p.classList.remove('visible'));
-    document.querySelectorAll('.canal-btn').forEach(b => {
-        b.classList.remove('active');
-        b.disabled = false;
-    });
+    document.querySelectorAll('.canal-btn').forEach(b => b.disabled = false);
+    document.getElementById('btn-whatsapp').classList.add('active');
     document.getElementById('col-der').classList.remove('visible');
     limpiarOtp('otp-email');
     limpiarOtp('otp-tel');
@@ -76,11 +74,9 @@ function seleccionarMetodo(metodo) {
     document.getElementById('panel-telefono').classList.toggle('visible', metodo === 'telefono');
 
     if (metodo !== 'telefono') {
-        canalActual = null;
-        document.querySelectorAll('.canal-btn').forEach(b => {
-            b.classList.remove('active');
-            b.disabled = false;
-        });
+        canalActual = 'whatsapp'; // se preserva el default; no hay otro canal aún
+        document.querySelectorAll('.canal-btn').forEach(b => b.disabled = false);
+        document.getElementById('btn-whatsapp').classList.add('active');
     }
 
     actualizarBotonCrearCuenta();

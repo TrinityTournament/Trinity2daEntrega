@@ -21,6 +21,25 @@ class TournamentService
         'cancelado'   => 'Cancelado',
     ];
 
+    private const FORMATOS_VALIDOS = ['liga', 'eliminacion', 'suizo'];
+
+    // El form de crear.html manda las etiquetas visibles (radios/<select>
+    // sin `value`), no los códigos internos — se traducen acá.
+    private const FORMATO_LABELS = [
+        'liga'                  => 'liga',
+        'eliminación directa'   => 'eliminacion',
+        'eliminacion directa'   => 'eliminacion',
+        'sistema suizo'         => 'suizo',
+    ];
+
+    private const VISIBILIDAD_LABELS = [
+        'público'                          => 'publico',
+        'publico'                          => 'publico',
+        'privado (solo con invitación)'    => 'privado',
+        'privado (solo con invitacion)'    => 'privado',
+        'privado'                          => 'privado',
+    ];
+
     private TournamentModel $tournaments;
     private UserModel $users;
     private NotificationService $notifications;
@@ -30,6 +49,99 @@ class TournamentService
         $this->tournaments   = new TournamentModel();
         $this->users         = new UserModel();
         $this->notifications = new NotificationService();
+    }
+
+    /**
+     * Crea un torneo. $publicar=true → queda 'abierto' y (si es público)
+     * dispara el aviso por email/WhatsApp a los usuarios interesados en
+     * ese deporte. $publicar=false → 'en_creacion' (borrador, el
+     * organizador puede invitar gente antes de abrirlo).
+     *
+     * @return array<string,mixed>
+     */
+    public function create(array $organizador, string $titulo, string $deporte, string $descripcion, string $formatoInput, int $cupo, string $fecha, string $visibilidadInput, ?string $bannerUrl, bool $publicar): array
+    {
+        $titulo = trim($titulo);
+        if (mb_strlen($titulo) < 3) {
+            throw new ApiException('El nombre del torneo tiene que tener al menos 3 caracteres.', 400);
+        }
+        if (mb_strlen($titulo) > 120) {
+            throw new ApiException('El nombre del torneo es demasiado largo (máximo 120 caracteres).', 400);
+        }
+
+        $deporte = trim($deporte);
+        if (!$deporte) {
+            throw new ApiException('Elegí una disciplina.', 400);
+        }
+
+        if ($cupo < 2) {
+            throw new ApiException('El cupo mínimo es de 2 participantes.', 400);
+        }
+        if ($cupo > 1000) {
+            throw new ApiException('El cupo máximo es de 1000 participantes.', 400);
+        }
+
+        $fechaObj = \DateTime::createFromFormat('Y-m-d', $fecha);
+        if (!$fechaObj || $fechaObj->format('Y-m-d') !== $fecha) {
+            throw new ApiException('La fecha de inicio no es válida.', 400);
+        }
+        if ($fechaObj < new \DateTime('today')) {
+            throw new ApiException('La fecha de inicio no puede ser en el pasado.', 400);
+        }
+
+        $formato = self::FORMATO_LABELS[mb_strtolower(trim($formatoInput))] ?? null;
+        if (!$formato || !in_array($formato, self::FORMATOS_VALIDOS, true)) {
+            throw new ApiException('El formato de competencia no es válido.', 400);
+        }
+
+        $visibilidad = self::VISIBILIDAD_LABELS[mb_strtolower(trim($visibilidadInput))] ?? 'publico';
+
+        $descripcion = trim($descripcion);
+        if (mb_strlen($descripcion) > 1000) {
+            throw new ApiException('La descripción es demasiado larga (máximo 1000 caracteres).', 400);
+        }
+
+        $estado = $publicar ? 'abierto' : 'en_creacion';
+
+        $torneoId = $this->tournaments->create([
+            'organizador_id'    => $organizador['id'],
+            'titulo'            => $titulo,
+            'deporte'           => $deporte,
+            'descripcion'       => $descripcion ?: null,
+            'formato'           => $formato,
+            'max_participantes' => $cupo,
+            'fecha_inicio'      => $fecha,
+            'visibilidad'       => $visibilidad,
+            'banner_url'        => $bannerUrl ?: null,
+            'estado'            => $estado,
+        ]);
+
+        $resultado = [
+            'id'      => $torneoId,
+            'estado'  => $estado,
+            'mensaje' => $publicar ? 'Torneo creado y publicado.' : 'Torneo guardado como borrador.',
+        ];
+
+        // Solo se avisa por email/WhatsApp si quedó público y abierto —
+        // un torneo privado se maneja por invitación (ver invite()).
+        if ($publicar && $visibilidad === 'publico') {
+            try {
+                $resultado['notificaciones'] = $this->notify(
+                    $titulo,
+                    $descripcion ?: "Nuevo torneo de {$deporte}.",
+                    $fecha,
+                    $deporte,
+                    'deporte',
+                    ''
+                );
+            } catch (\Throwable $e) {
+                // Un fallo al notificar no debe tirar abajo la creación ya confirmada.
+                error_log('[TournamentService::create] Error notificando: ' . $e->getMessage());
+                $resultado['notificaciones'] = ['ok' => false, 'mensaje' => 'El torneo se creó pero no se pudo avisar a los usuarios.'];
+            }
+        }
+
+        return $resultado;
     }
 
     /**

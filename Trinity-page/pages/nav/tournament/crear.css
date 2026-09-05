@@ -1,3 +1,10 @@
 /* ══ Crear torneo — estilos propios ══ */
 
 .create-form { max-width: 720px; }
+
+#crear-msg:empty      { display: none; }
+#crear-msg.msg-error { color: #ff6b6b; }
+#crear-msg.msg-ok    { color: #4ade80; }
+
+.btn-primary:disabled,
+.btn-secondary:disabled { opacity: 0.6; cursor: not-allowed; }

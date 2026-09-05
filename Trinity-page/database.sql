@@ -190,13 +190,63 @@ CREATE TABLE IF NOT EXISTS notificaciones (
 -- ═══════════════════════════════════════════════════════════════════
 
 -- ═══════════════════════════════════════════════════════════════════
---  ALCANCE DE ESTA ENTREGA
---  El módulo de torneos (tablas torneos, torneo_invitaciones,
---  torneo_participantes) queda fuera de alcance: esta entrega
---  normaliza y refuerza el modelo existente de usuarios, autenticación,
---  seguidores, notificaciones y cuentas de videojuego. Los endpoints
---  que dependían de esas tablas (get-my-tournaments.php,
---  get-all-tournament.php, invite-tournament.php) siguen existiendo
---  y responden 501 de forma controlada en vez de romper — ver
---  Trinity\Models\TournamentModel para el detalle.
+--  MÓDULO DE TORNEOS
+--  Antes quedaba fuera de alcance (ver TournamentModel, que respondía
+--  501 de forma controlada mientras no existían estas tablas). Cubre
+--  crear/buscar/inscribirse/invitar. Los brackets/resultados quedan
+--  para una entrega futura — por ahora `estado` solo trackea el ciclo
+--  de vida general del torneo, no el avance de partidos.
 -- ═══════════════════════════════════════════════════════════════════
+
+CREATE TABLE IF NOT EXISTS torneos (
+    id                  INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+    organizador_id      INT UNSIGNED  NOT NULL,
+    titulo              VARCHAR(120)  NOT NULL,
+    deporte             VARCHAR(60)   NOT NULL,
+    descripcion         VARCHAR(1000) NULL,
+    formato             ENUM('liga','eliminacion','suizo') NOT NULL,
+    max_participantes   INT UNSIGNED  NOT NULL,
+    fecha_inicio        DATE          NOT NULL,
+    visibilidad         ENUM('publico','privado') NOT NULL DEFAULT 'publico',
+    banner_url          MEDIUMTEXT    NULL,
+    estado              ENUM('en_creacion','abierto','en_curso','finalizado','cancelado') NOT NULL DEFAULT 'en_creacion',
+    creado_en           TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id),
+    INDEX idx_organizador (organizador_id, estado),
+    INDEX idx_publico (visibilidad, estado, fecha_inicio),
+    FOREIGN KEY (organizador_id) REFERENCES usuarios(id) ON DELETE CASCADE
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS torneo_participantes (
+    id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    torneo_id   INT UNSIGNED NOT NULL,
+    usuario_id  INT UNSIGNED NOT NULL,
+    inscrito_en TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_torneo_usuario (torneo_id, usuario_id),
+    FOREIGN KEY (torneo_id)  REFERENCES torneos(id)  ON DELETE CASCADE,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS torneo_invitaciones (
+    id             INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    torneo_id      INT UNSIGNED NOT NULL,
+    organizador_id INT UNSIGNED NOT NULL,
+    invitado_id    INT UNSIGNED NOT NULL,
+    estado         ENUM('pendiente','aceptada','rechazada') NOT NULL DEFAULT 'pendiente',
+    creado_en      TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id),
+    INDEX idx_invitado (invitado_id, estado),
+    FOREIGN KEY (torneo_id)      REFERENCES torneos(id)   ON DELETE CASCADE,
+    FOREIGN KEY (organizador_id) REFERENCES usuarios(id)  ON DELETE CASCADE,
+    FOREIGN KEY (invitado_id)    REFERENCES usuarios(id)  ON DELETE CASCADE
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci;

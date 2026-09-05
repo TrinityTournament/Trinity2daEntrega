@@ -41,12 +41,26 @@ final class WhatsAppClient
         ], 60);
     }
 
-    private static function post(string $path, array $payload, int $timeout): bool
+    private static function baseUrl(): string
     {
+        // Si WA_BOT_URL está seteada (túnel público: ngrok, Cloudflare
+        // Tunnel, etc.) se usa tal cual, con su propio esquema (https)
+        // y sin necesidad de puerto explícito.
+        $full = trim(Env::get('WA_BOT_URL', ''));
+        if ($full !== '') {
+            return rtrim($full, '/');
+        }
+
+        // Sin WA_BOT_URL: modo local/Docker de siempre.
         // WA_BOT_HOST es "127.0.0.1" en local y "whatsapp" en Docker.
         $host = Env::get('WA_BOT_HOST', '127.0.0.1');
         $port = Env::get('WA_BOT_PORT', '3001');
-        $url  = 'http://' . $host . ':' . $port . $path;
+        return 'http://' . $host . ':' . $port;
+    }
+
+    private static function post(string $path, array $payload, int $timeout): bool
+    {
+        $url = self::baseUrl() . $path;
 
         $ch = curl_init($url);
         curl_setopt_array($ch, [
@@ -56,15 +70,34 @@ final class WhatsAppClient
             CURLOPT_HTTPHEADER     => [
                 'Content-Type: application/json',
                 'X-WA-Secret: ' . Env::get('WA_SECRET', ''),
+                // Evita la página intersticial de ngrok (plan free) que
+                // intercepta pedidos que no sean del navegador con el
+                // header correcto. Inofensivo si no se usa ngrok.
+                'ngrok-skip-browser-warning: true',
             ],
             CURLOPT_TIMEOUT        => $timeout,
             CURLOPT_CONNECTTIMEOUT => 3,
         ]);
 
-        curl_exec($ch);
-        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $raw      = curl_exec($ch);
+        $curlErrno = curl_errno($ch);
+        $curlErr   = curl_error($ch);
+        $code      = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        return $code === 200;
+        $ok = $curlErrno === 0 && $code === 200;
+
+        if (!$ok) {
+            error_log(sprintf(
+                '[WhatsAppClient] FALLÓ POST %s. curl_errno=%s curl_error="%s" http_code=%s respuesta=%s',
+                $url,
+                $curlErrno,
+                $curlErr,
+                $code,
+                $raw === false ? '(sin respuesta)' : $raw
+            ));
+        }
+
+        return $ok;
     }
 }

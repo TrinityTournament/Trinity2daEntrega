@@ -5,6 +5,8 @@
 // Se puede poner un solo prefijo '!' o varios ['!', '.', '/'].
 export const prefix = '/'
 
+// Números con acceso a comandos marcados como `dev: true` (si en el futuro se agregan).
+// Formato: solo dígitos, sin "+" ni "@s.whatsapp.net" (ej: '598991234567').
 export const devs = [
-    '' // Se elimina el @lid o @s.whatsapp.net porque sino no matchea.
+
 ]

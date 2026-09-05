@@ -17,7 +17,7 @@
 }
 
 /* ══ NAV BASE ══ */
-nav {
+.site-nav {
     position:        fixed;
     top: 0; left: 0; right: 0;
     z-index:         100;
@@ -502,7 +502,7 @@ nav {
 }
 
 @media (max-width: 600px) {
-    nav { padding: 0 1rem; }
+    .site-nav { padding: 0 1rem; }
     .nav-search { display: none; }
     .btn-login { display: none; }
     .btn-register { display: none; }

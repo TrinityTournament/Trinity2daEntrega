@@ -8,17 +8,10 @@ use Trinity\Core\ApiException;
 use Trinity\Core\Database;
 
 /**
- * NOTA DE ALCANCE — Esta entrega normaliza y refuerza el modelo de
- * datos existente (usuarios, autenticación, seguidores, notificaciones,
- * cuentas de videojuego) pero NO agrega el módulo completo de torneos
- * (tablas `torneos`, `torneo_invitaciones`, `torneo_participantes`),
- * que queda fuera de alcance de esta entrega.
- *
- * Varios endpoints de pages/nav/tournament/* y pages/organizador/*
- * ya hacían referencia a esas tablas en el código original. En vez de
- * romper con un error 500 sin explicación, este modelo detecta que la
- * tabla no existe (SQLSTATE 42S02) y lo traduce a un error 501 claro,
- * dejando el resto del sistema (gestión de usuarios) intacto.
+ * El wrapper `guarded()` de abajo queda como red de seguridad: si en algún
+ * despliegue las tablas `torneos`/`torneo_*` todavía no se corrieron,
+ * devuelve un 501 claro en vez de un 500 sin explicación, en lugar de
+ * romper el resto del sistema (gestión de usuarios, etc.).
  */
 class TournamentModel
 {
@@ -27,6 +20,57 @@ class TournamentModel
     public function __construct()
     {
         $this->pdo = Database::pdo();
+    }
+
+    /**
+     * Crea un torneo nuevo y devuelve su id.
+     *
+     * @param array<string,mixed> $data claves: organizador_id, titulo, deporte,
+     *   descripcion, formato, max_participantes, fecha_inicio, visibilidad,
+     *   banner_url, estado
+     */
+    public function create(array $data): int
+    {
+        return $this->guarded(function () use ($data) {
+            $stmt = $this->pdo->prepare(
+                'INSERT INTO torneos
+                    (organizador_id, titulo, deporte, descripcion, formato,
+                     max_participantes, fecha_inicio, visibilidad, banner_url, estado)
+                 VALUES
+                    (:organizador_id, :titulo, :deporte, :descripcion, :formato,
+                     :max_participantes, :fecha_inicio, :visibilidad, :banner_url, :estado)'
+            );
+            $stmt->execute([
+                ':organizador_id'    => $data['organizador_id'],
+                ':titulo'            => $data['titulo'],
+                ':deporte'           => $data['deporte'],
+                ':descripcion'       => $data['descripcion'],
+                ':formato'           => $data['formato'],
+                ':max_participantes' => $data['max_participantes'],
+                ':fecha_inicio'      => $data['fecha_inicio'],
+                ':visibilidad'       => $data['visibilidad'],
+                ':banner_url'        => $data['banner_url'],
+                ':estado'            => $data['estado'],
+            ]);
+
+            return (int) $this->pdo->lastInsertId();
+        });
+    }
+
+    public function findById(int $torneoId): ?array
+    {
+        return $this->guarded(function () use ($torneoId) {
+            $stmt = $this->pdo->prepare(
+                'SELECT t.*, u.nombre AS organizador_nombre, u.usuario AS organizador_usuario
+                 FROM   torneos  t
+                 JOIN   usuarios u ON u.id = t.organizador_id
+                 WHERE  t.id = :id
+                 LIMIT 1'
+            );
+            $stmt->execute([':id' => $torneoId]);
+            $row = $stmt->fetch();
+            return $row ?: null;
+        });
     }
 
     /**
@@ -143,8 +187,9 @@ class TournamentModel
         } catch (PDOException $e) {
             if ($e->getCode() === '42S02') {
                 throw new ApiException(
-                    'El módulo de torneos todavía no está implementado en esta entrega '
-                    . '(el alcance actual cubre el modelo de usuarios y autenticación).',
+                    'Las tablas de torneos no existen en esta base de datos. '
+                    . 'Corré el database.sql actualizado (incluye torneos, '
+                    . 'torneo_participantes y torneo_invitaciones).',
                     501
                 );
             }

@@ -21,13 +21,13 @@
     <!-- COLUMNA IZQUIERDA: CARD DE PERFIL (preview) -->
     <aside class="profile-preview-card">
       <div class="aside-content">
-        <form class="preview-form">
+        <form class="preview-form" id="preview-form">
             <div class="preview-photo-wrap">
-                <div class="preview-photo">S</div>
+                <div class="preview-photo" id="preview-photo">S</div>
                 <label class="btn-change-photo" for="input-photo">
                     Cambiar foto
                 </label>
-                <input type="file" id="input-photo" accept="image/*" style="display:none;">
+                <input type="file" id="input-photo" accept="image/png,image/jpeg,image/webp" style="display:none;">
             </div>
 
             <div class="preview-info">
@@ -53,16 +53,102 @@
             </div>
 
             <div class="preview-actions">
-                <button type="submit" class="btn-primary">
+                <button type="submit" class="btn-primary" id="btn-save-preview">
                     &#x1F4BE;&nbsp; GUARDAR CAMBIOS
                 </button>
             </div>
+            <p class="msg" id="preview-msg"></p>
         </form>
       </div>
     </aside>
 
     <!-- COLUMNA DERECHA: SECCIONES DE CONFIG -->
     <div class="edit-sections">
+
+        <!-- ── PREFERENCIAS (deportes / videojuegos favoritos) ── -->
+        <section class="edit-card">
+            <h2 class="edit-card-title-sub">Preferencias</h2>
+            <p class="edit-card-desc">Elegí tus deportes y videojuegos favoritos — se muestran en tu perfil público.</p>
+
+            <div class="field">
+                <label class="field-label">Deportes</label>
+                <div class="pill-select" id="pills-deportes"></div>
+            </div>
+
+            <div class="field" style="margin-top:1rem;">
+                <label class="field-label">Videojuegos</label>
+                <div class="pill-select" id="pills-videojuegos"></div>
+            </div>
+
+            <div class="card-actions" style="justify-content:flex-end;">
+                <button type="button" class="btn-primary" id="btn-save-prefs">
+                    &#x1F4BE;&nbsp; GUARDAR PREFERENCIAS
+                </button>
+            </div>
+            <p class="msg" id="prefs-msg"></p>
+        </section>
+
+        <!-- ── CUENTAS DE VIDEOJUEGO ── -->
+        <section class="edit-card">
+            <h2 class="edit-card-title-sub">Cuentas de videojuego</h2>
+            <p class="edit-card-desc">Vinculá tus cuentas para mostrar estadísticas reales en tu perfil.</p>
+
+            <div class="gamelink-forms" id="gamelink-forms">
+
+                <div class="gamelink-form" data-game="brawlstars" data-path="BRAWLAPI" data-field="tag">
+                    <span class="gamelink-form-emoji">🎯</span>
+                    <div class="gamelink-form-body">
+                        <p class="gamelink-form-title">Brawl Stars</p>
+                        <p class="gamelink-form-current" data-role="current">No vinculada</p>
+                        <div class="gamelink-form-row">
+                            <input type="text" class="field-input" data-role="input" placeholder="#TAG (ej: #ABC123)">
+                            <button type="button" class="btn-secondary" data-role="btn">Vincular</button>
+                        </div>
+                        <p class="msg" data-role="msg"></p>
+                    </div>
+                </div>
+
+                <div class="gamelink-form" data-game="clashroyale" data-path="ClashRoyaleAPI" data-field="tag">
+                    <span class="gamelink-form-emoji">⚔️</span>
+                    <div class="gamelink-form-body">
+                        <p class="gamelink-form-title">Clash Royale</p>
+                        <p class="gamelink-form-current" data-role="current">No vinculada</p>
+                        <div class="gamelink-form-row">
+                            <input type="text" class="field-input" data-role="input" placeholder="#TAG (ej: #ABC123)">
+                            <button type="button" class="btn-secondary" data-role="btn">Vincular</button>
+                        </div>
+                        <p class="msg" data-role="msg"></p>
+                    </div>
+                </div>
+
+                <div class="gamelink-form" data-game="fortnite" data-path="FortniteAPI" data-field="username">
+                    <span class="gamelink-form-emoji">🏗️</span>
+                    <div class="gamelink-form-body">
+                        <p class="gamelink-form-title">Fortnite</p>
+                        <p class="gamelink-form-current" data-role="current">No vinculada</p>
+                        <div class="gamelink-form-row">
+                            <input type="text" class="field-input" data-role="input" placeholder="Nombre de usuario">
+                            <button type="button" class="btn-secondary" data-role="btn">Vincular</button>
+                        </div>
+                        <p class="msg" data-role="msg"></p>
+                    </div>
+                </div>
+
+                <div class="gamelink-form" data-game="minecraft" data-path="MinecraftAPI" data-field="username">
+                    <span class="gamelink-form-emoji">🧱</span>
+                    <div class="gamelink-form-body">
+                        <p class="gamelink-form-title">Minecraft</p>
+                        <p class="gamelink-form-current" data-role="current">No vinculada</p>
+                        <div class="gamelink-form-row">
+                            <input type="text" class="field-input" data-role="input" placeholder="Nombre de usuario Java">
+                            <button type="button" class="btn-secondary" data-role="btn">Vincular</button>
+                        </div>
+                        <p class="msg" data-role="msg"></p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
 
         <!-- ── CAMBIAR CONTRASEÑA ── -->
         <section class="edit-card">
@@ -199,6 +285,25 @@
     </div>
 </main>
 
+<!-- ══ MODAL: RECORTAR FOTO DE PERFIL ══ -->
+<div class="modal-overlay" id="cropper-modal">
+    <div class="modal-box cropper-box">
+        <button type="button" class="modal-close" id="cropper-close">&times;</button>
+        <h3 class="modal-title">Ajustá tu foto</h3>
+        <p class="modal-desc">Arrastrá para mover y usá el control para acercar.</p>
+        <div class="cropper-stage">
+            <canvas id="cropper-canvas" width="320" height="320"></canvas>
+        </div>
+        <input type="range" id="cropper-zoom" class="cropper-zoom-slider" min="1" max="3" step="0.01" value="1">
+        <div class="card-actions" style="justify-content:flex-end;margin-top:1rem;">
+            <button type="button" class="btn-secondary" id="cropper-cancel">Cancelar</button>
+            <button type="button" class="btn-primary" id="cropper-confirm">Usar esta foto</button>
+        </div>
+    </div>
+</div>
+
+<script src="../../../assets/js/api.js"></script>
+<script src="edit.js"></script>
 <script src="../../../components/footer.js"></script>
 </body>
 </html>

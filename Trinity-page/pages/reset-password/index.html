@@ -13,7 +13,7 @@
 
 <main>
     <!-- ══ VERIFICANDO TOKEN ══ -->
-    <section class="login-card" id="card-verificando">
+    <section class="login-card card-activa" id="card-verificando">
         <div class="step">
             <header class="card-header">
                 <h2>Verificando link…</h2>
@@ -23,7 +23,7 @@
     </section>
 
     <!-- ══ FORMULARIO NUEVA CONTRASEÑA ══ -->
-    <section class="login-card" id="card-form" style="display:none;">
+    <section class="login-card" id="card-form">
         <form class="step" id="form-nueva-password" onsubmit="return false;">
             <header class="card-header">
                 <h2>Elegí tu nueva contraseña</h2>
@@ -49,7 +49,7 @@
     </section>
 
     <!-- ══ LINK INVÁLIDO / EXPIRADO ══ -->
-    <section class="login-card" id="card-invalido" style="display:none;">
+    <section class="login-card" id="card-invalido">
         <div class="step">
             <header class="card-header">
                 <h2>Este link ya no es válido</h2>
@@ -60,7 +60,7 @@
     </section>
 
     <!-- ══ ÉXITO ══ -->
-    <section class="login-card" id="card-exito" style="display:none;">
+    <section class="login-card" id="card-exito">
         <div class="step">
             <header class="card-header">
                 <h2>¡Contraseña actualizada!</h2>
@@ -71,9 +71,7 @@
     </section>
 
     <footer class="login-footer-links">
-        <div class="footer-actions">
-            <a href="../login/login.html">← Volver a iniciar sesión</a>
-        </div>
+        <a href="../login/login.html" class="forgot-link">← Volver a iniciar sesión</a>
     </footer>
 </main>
 

@@ -46,14 +46,14 @@ class VerificationService
         SessionManager::setVerificationCode($email, $code, 600);
 
         $html = "
-            <div style='font-family:sans-serif;max-width:480px;margin:auto;padding:32px;background:#0c1120;border-radius:12px;color:#f0f4ff;'>
+            <div style='font-family:sans-serif;max-width:480px;margin:auto;padding:32px;background:#1f1717;border-radius:12px;color:#f0f4ff;'>
                 <h1 style='font-size:28px;margin-bottom:8px;'>TRINITY</h1>
-                <p style='color:#6b7a9f;margin-bottom:24px;'>Verificación de cuenta</p>
+                <p style='color:#ffffff;margin-bottom:24px;'>Verificación de cuenta</p> 
                 <h2 style='font-size:20px;margin-bottom:16px;'>Tu código de verificación</h2>
-                <div style='background:#1a6fff;border-radius:8px;padding:20px;text-align:center;margin-bottom:24px;'>
+                <div style='background:#96232b;border-radius:8px;padding:20px;text-align:center;margin-bottom:24px;'>
                     <span style='font-size:36px;font-weight:700;letter-spacing:12px;'>{$code}</span>
                 </div>
-                <p style='color:#6b7a9f;font-size:14px;'>Expira en 10 minutos. Si no solicitaste este código, ignorá este mensaje.</p>
+                <p style='color:#ffffff;font-size:14px;'>Expira en 10 minutos. Si no solicitaste este código, ignorá este mensaje.</p>
             </div>
         ";
 

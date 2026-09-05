@@ -826,3 +826,52 @@ button.fav-card-empty:hover .fav-plus {
     .modal-box { margin: 1rem; max-width: calc(100% - 2rem); }
     .favorites-grid { grid-template-columns: repeat(2, 1fr); }
 }
+/* ══ CUENTAS DE VIDEOJUEGO VINCULADAS (perfil propio) ══ */
+.gamelink-grid {
+    display:               grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap:                   1rem;
+}
+
+.gamelink-card {
+    background:    var(--card-bg);
+    border:        1px solid var(--border);
+    border-radius: 14px;
+    padding:       1rem 1.1rem 1.2rem;
+}
+
+.gamelink-card-header {
+    display:      flex;
+    align-items:  center;
+    gap:          10px;
+    margin-bottom: 10px;
+}
+.gamelink-emoji { font-size: 20px; }
+.gamelink-card-header h3 {
+    font-family:    'Barlow Condensed', sans-serif;
+    font-size:      16px;
+    font-weight:    800;
+    letter-spacing: 1px;
+    color:          var(--text);
+}
+
+.gamelink-id {
+    font-size:     12px;
+    color:         var(--accent2);
+    margin-bottom: 8px;
+}
+
+.gamelink-stat {
+    display:         flex;
+    justify-content: space-between;
+    font-size:       13px;
+    color:           var(--text-muted);
+    padding:         3px 0;
+}
+.gamelink-stat strong { color: var(--text); font-weight: 700; }
+
+.gamelink-err {
+    font-size: 12px;
+    color:     var(--text-muted);
+    font-style: italic;
+}

@@ -12,7 +12,7 @@ function togglePassword(id, icon) {
 
 function mostrarCard(id) {
     ['card-verificando', 'card-form', 'card-invalido', 'card-exito'].forEach(cardId => {
-        document.getElementById(cardId).style.display = cardId === id ? '' : 'none';
+        document.getElementById(cardId).classList.toggle('card-activa', cardId === id);
     });
 }
 

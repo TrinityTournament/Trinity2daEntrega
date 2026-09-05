@@ -1,0 +1,22 @@
+# ══════════════════════════════════════════════════════════
+#  TRINITY — .htaccess (raíz del proyecto)
+#  Requiere mod_rewrite habilitado y AllowOverride All
+#  (ver apache/trinity.conf).
+# ══════════════════════════════════════════════════════════
+
+# ── Página 404 personalizada ──────────────────────────────
+ErrorDocument 404 /pages/errors/404.html
+
+# ── Carpetas que nunca deben servirse directamente ────────
+# (redundante con los <Directory> de apache/trinity.conf, se
+# deja también acá por si el vhost corre con AllowOverride All)
+RewriteEngine On
+RewriteRule ^api/src/ - [F,L]
+RewriteRule ^vendor/ - [F,L]
+RewriteRule ^scripts/ - [F,L]
+RewriteRule ^WhatsApp/ - [F,L]
+
+# ── Archivos sensibles ─────────────────────────────────────
+<FilesMatch "^(\.env.*|composer\.(json|lock)|package(-lock)?\.json|.*\.sql)$">
+    Require all denied
+</FilesMatch>

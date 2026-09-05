@@ -42,7 +42,6 @@
                     <option>Ajedrez</option>
                     <option>Brawl Stars</option>
                     <option>Clash Royale</option>
-                    <option>Dota 2</option>
                     <option>Fortnite</option>
                     <option>Minecraft</option>
                     <option>Otra...</option>
@@ -101,19 +100,18 @@
         </div>
 
         <div class="form-actions">
-            <button type="button" class="btn-primary">Crear torneo</button>
-            <button type="button" class="btn-secondary">Guardar como borrador</button>
+            <button type="button" class="btn-primary" id="btn-crear">Crear torneo</button>
+            <button type="button" class="btn-secondary" id="btn-borrador">Guardar como borrador</button>
         </div>
 
-        <p class="form-note">
-            Esta pantalla es solo la estructura del formulario (maquetado de la primera entrega).
-            La validación y la creación real del torneo en la base de datos se implementan en la próxima entrega.
-        </p>
+        <p class="form-note" id="crear-msg" role="status"></p>
     </form>
 </section>
 
 </main>
 
+<script src="../../../assets/js/api.js"></script>
+<script src="crear.js"></script>
 <script src="../../../components/footer.js"></script>
 </body>
 </html>

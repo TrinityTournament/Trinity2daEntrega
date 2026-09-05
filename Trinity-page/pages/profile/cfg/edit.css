@@ -514,3 +514,85 @@ main.edit-layout {
     margin-top: 6px;
     font-size:  12px;
 }
+
+/* ══ PILL SELECT (deportes / videojuegos favoritos) ══ */
+.pill-select {
+    display:  flex;
+    flex-wrap: wrap;
+    gap:      8px;
+}
+.pill-option {
+    font-family:    'Barlow Condensed', sans-serif;
+    font-size:      13px;
+    font-weight:    700;
+    letter-spacing: 0.5px;
+    color:          var(--text-muted);
+    background:     rgba(192,0,10,0.06);
+    border:         1px solid var(--border);
+    padding:        7px 16px;
+    border-radius:  20px;
+    cursor:         pointer;
+    transition:     background 0.2s, border-color 0.2s, color 0.2s;
+}
+.pill-option:hover { border-color: rgba(180,0,0,0.3); color: var(--text); }
+.pill-option.selected {
+    background:   rgba(192,0,10,0.28);
+    border-color: rgba(192,0,10,0.5);
+    color:        var(--text);
+}
+
+/* ══ CUENTAS DE VIDEOJUEGO ══ */
+.gamelink-forms {
+    display:               grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap:                   1rem;
+}
+.gamelink-form {
+    display: flex;
+    gap:     10px;
+    background:    rgba(192,0,10,0.04);
+    border:        1px solid var(--border);
+    border-radius: 12px;
+    padding:       12px;
+}
+.gamelink-form-emoji { font-size: 20px; line-height: 1.4; }
+.gamelink-form-body  { flex: 1; min-width: 0; }
+.gamelink-form-title {
+    font-family:    'Barlow Condensed', sans-serif;
+    font-size:      14px;
+    font-weight:    700;
+    letter-spacing: 1px;
+    color:          var(--text);
+    margin-bottom:  2px;
+}
+.gamelink-form-current {
+    font-size:     12px;
+    color:         var(--text-muted);
+    margin-bottom: 8px;
+}
+.gamelink-form-current.linked { color: #1db954; }
+.gamelink-form-row {
+    display: flex;
+    gap:     6px;
+}
+.gamelink-form-row .field-input { flex: 1; min-width: 0; }
+.gamelink-form-row .btn-secondary { white-space: nowrap; padding: 0 14px; }
+
+/* ══ CROPPER DE FOTO ══ */
+.cropper-box { max-width: 380px; }
+.cropper-stage {
+    display:         flex;
+    justify-content: center;
+    margin:          0.5rem 0 1rem;
+}
+#cropper-canvas {
+    border-radius: 50%;
+    background:    #000;
+    cursor:        grab;
+    touch-action:  none;
+}
+#cropper-canvas:active { cursor: grabbing; }
+.cropper-zoom-slider {
+    width:   100%;
+    accent-color: var(--accent);
+}
