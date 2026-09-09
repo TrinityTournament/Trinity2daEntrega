@@ -1,22 +1,41 @@
 // ══════════════════════════════════════════════════════════
 //  TRINITY — Editar perfil (pages/profile/cfg/edit.html)
 //  Datos básicos, foto (con recorte), preferencias de
-//  deportes/videojuegos y vinculación de cuentas de videojuego.
+//  deportes/videojuegos, vinculación de cuentas de videojuego,
+//  y credenciales (email / teléfono).
 //
-//  NOTA DE ALCANCE: esta pantalla también tiene formularios de
-//  contraseña / credenciales / notificaciones / eliminar cuenta
-//  ya maquetados en el HTML — esos NO se tocan acá, son parte de
-//  otro punto del checklist.
+//  NOTA DE ALCANCE: contraseña / notificaciones / eliminar cuenta
+//  ya están maquetados en el HTML pero NO se tocan acá — son parte
+//  de otro punto del checklist.
 // ══════════════════════════════════════════════════════════
 
 const $ = (sel) => document.querySelector(sel);
 
-const DEPORTES_VALIDOS = ['Fútbol', 'Tenis', 'Basketball', 'Volleyball', 'Natación', 'Atletismo'];
-const JUEGOS_VALIDOS   = ['Fortnite', 'Clash Royale', 'Valorant', 'League of Legends', 'Call of Duty', 'Rocket League'];
+const DEPORTES_VALIDOS = ['Fútbol'];
+const JUEGOS_VALIDOS   = ['Brawl Stars', 'Clash Royale', 'Fortnite', 'Free Fire', 'Minecraft'];
+
+// Prefijos que ofrece el <select> de país, ordenados de más a menos
+// dígitos — así al separar un teléfono guardado (ej. "59899123456")
+// probamos primero "598" antes que otros que también podrían calzar.
+const PREFIJOS_TELEFONO = ['598', '54', '55', '56', '57', '51', '52', '34', '1'];
+
+function splitPhone(telefonoCompleto) {
+    const digits = String(telefonoCompleto || '').replace(/\D/g, '');
+    for (const prefijo of PREFIJOS_TELEFONO) {
+        if (digits.startsWith(prefijo)) {
+            return { prefijo, numero: digits.slice(prefijo.length) };
+        }
+    }
+    return { prefijo: '598', numero: digits };
+}
 
 const state = {
     userId: null,
     nombreActual: '',
+    emailActual: '',
+    telefonoActual: '', // dígitos completos (con prefijo), tal como está en la BD
+    telefonoPendiente: null,
+    pwdChangeMethod: null, // { type: 'email'|'telefono', value: string } tras enviar el código
     // undefined = sin cambios; string data:URL = nueva foto recortada
     pendingFotoUrl: undefined,
 };
@@ -31,6 +50,8 @@ async function init() {
     wirePrefs();
     wireCropper();
     wireGameLinks();
+    wireCredentials();
+    wirePasswordChange();
 }
 
 // ══════════════════════════════════════════════════════════
@@ -43,6 +64,15 @@ async function loadProfile() {
         if (!res.ok) return false; // apiFetch ya redirigió al login en un 401
         sessionData = await res.json().catch(() => ({}));
         state.userId = sessionData.usuario.id;
+        state.emailActual = sessionData.usuario.email || '';
+        state.telefonoActual = sessionData.usuario.telefono || '';
+
+        $('#edit-email').value = state.emailActual;
+        if (state.telefonoActual) {
+            const { prefijo, numero } = splitPhone(state.telefonoActual);
+            $('#edit-telefono-prefijo').value = prefijo;
+            $('#edit-telefono').value = numero;
+        }
     } catch (err) {
         console.error('[edit.js]', err);
         return false;
@@ -439,4 +469,278 @@ function setInlineMsg(el, texto, tipo) {
     el.textContent = texto || '';
     el.classList.remove('ok', 'err');
     if (tipo) el.classList.add(tipo);
+}
+
+// ══════════════════════════════════════════════════════════
+//  CREDENCIALES (email / teléfono)
+//
+//  El email se guarda directo. El teléfono requiere un código
+//  de verificación por WhatsApp (send-code.php → update-credentials.php),
+//  igual que el resto de los flujos de verificación del sitio.
+//
+//  Ambos campos se precargan con el valor real del usuario
+//  (agregado a check-session.php: antes solo devolvía el email).
+// ══════════════════════════════════════════════════════════
+function wireCredentials() {
+    const form = $('#credentials-form');
+    if (!form) return;
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        await handleCredentialsSubmit();
+    });
+
+    $('#btn-confirm-telefono').addEventListener('click', confirmTelefonoCode);
+    $('#btn-cancel-telefono').addEventListener('click', cancelTelefonoOtp);
+
+    wireOtpAutoAdvance('#otp-telefono-cred');
+}
+
+async function handleCredentialsSubmit() {
+    const btn = $('#btn-save-credentials');
+    btn.disabled = true;
+    setMsg('credentials-msg', '', null);
+
+    const newEmail = $('#edit-email').value.trim();
+    const prefix   = $('#edit-telefono-prefijo').value;
+    const numero   = $('#edit-telefono').value.trim();
+
+    let emailCambiado = false;
+
+    if (newEmail && newEmail !== state.emailActual) {
+        try {
+            const res  = await apiFetch(`${API_BASE_URL}/api/users/update-credentials.php`, {
+                method: 'POST',
+                body: JSON.stringify({ email: newEmail }),
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) {
+                setMsg('credentials-msg', data.error || 'No se pudo actualizar el email.', 'err');
+                btn.disabled = false;
+                return;
+            }
+            state.emailActual = newEmail;
+            emailCambiado = true;
+        } catch (err) {
+            console.error('[edit.js]', err);
+            setMsg('credentials-msg', 'No se pudo conectar con el servidor.', 'err');
+            btn.disabled = false;
+            return;
+        }
+    }
+
+    if (numero) {
+        const telefonoCompleto = prefix + numero.replace(/\D/g, '');
+        if (telefonoCompleto === state.telefonoActual) {
+            // No cambió nada respecto al que ya tenía guardado — no
+            // tiene sentido re-enviar un código para confirmar el mismo número.
+            setMsg('credentials-msg', emailCambiado ? 'Email actualizado.' : 'No hay cambios para guardar.', emailCambiado ? 'ok' : null);
+            btn.disabled = false;
+            return;
+        }
+        try {
+            const res  = await apiFetch(`${API_BASE_URL}/api/verification/send-code.php`, {
+                method: 'POST',
+                body: JSON.stringify({ telefono: telefonoCompleto, cambio_credencial: true }),
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) {
+                setMsg('credentials-msg', data.error || 'No se pudo enviar el código.', 'err');
+                btn.disabled = false;
+                return;
+            }
+            state.telefonoPendiente = telefonoCompleto;
+            $('#telefono-otp-block').hidden = false;
+            setMsg(
+                'credentials-msg',
+                (emailCambiado ? 'Email actualizado. ' : '') + 'Te enviamos un código por WhatsApp para confirmar el número.',
+                'ok'
+            );
+            btn.disabled = false;
+            return;
+        } catch (err) {
+            console.error('[edit.js]', err);
+            setMsg('credentials-msg', 'No se pudo conectar con el servidor.', 'err');
+            btn.disabled = false;
+            return;
+        }
+    }
+
+    setMsg('credentials-msg', emailCambiado ? 'Cambios guardados.' : 'No hay cambios para guardar.', emailCambiado ? 'ok' : null);
+    btn.disabled = false;
+}
+
+async function confirmTelefonoCode() {
+    const code = Array.from(document.querySelectorAll('#otp-telefono-cred input')).map((i) => i.value).join('');
+    if (code.length !== 6) {
+        setMsg('credentials-msg', 'Ingresá el código completo de 6 dígitos.', 'err');
+        return;
+    }
+
+    const btn = $('#btn-confirm-telefono');
+    btn.disabled = true;
+
+    try {
+        const res  = await apiFetch(`${API_BASE_URL}/api/users/update-credentials.php`, {
+            method: 'POST',
+            body: JSON.stringify({ telefono: state.telefonoPendiente, code }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+            setMsg('credentials-msg', data.error || 'Código incorrecto.', 'err');
+        } else {
+            setMsg('credentials-msg', 'Teléfono confirmado y guardado.', 'ok');
+            state.telefonoActual = state.telefonoPendiente;
+            $('#telefono-otp-block').hidden = true;
+            document.querySelectorAll('#otp-telefono-cred input').forEach((i) => { i.value = ''; });
+            state.telefonoPendiente = null;
+        }
+    } catch (err) {
+        console.error('[edit.js]', err);
+        setMsg('credentials-msg', 'No se pudo conectar con el servidor.', 'err');
+    }
+    btn.disabled = false;
+}
+
+function cancelTelefonoOtp() {
+    $('#telefono-otp-block').hidden = true;
+    document.querySelectorAll('#otp-telefono-cred input').forEach((i) => { i.value = ''; });
+    state.telefonoPendiente = null;
+    setMsg('credentials-msg', '', null);
+}
+
+function wireOtpAutoAdvance(containerSel) {
+    const inputs = Array.from(document.querySelectorAll(`${containerSel} input`));
+    inputs.forEach((input, idx) => {
+        input.addEventListener('input', () => {
+            if (input.value && idx < inputs.length - 1) inputs[idx + 1].focus();
+        });
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Backspace' && !input.value && idx > 0) inputs[idx - 1].focus();
+        });
+    });
+}
+
+// ══════════════════════════════════════════════════════════
+//  CAMBIAR CONTRASEÑA (2 pasos: enviar código, confirmar)
+//
+//  El usuario solo elige destino (Email/WhatsApp); el valor real
+//  (state.emailActual / state.telefonoActual) ya se conoce desde
+//  check-session.php, no hace falta pedirlo de nuevo.
+// ══════════════════════════════════════════════════════════
+function wirePasswordChange() {
+    $('#pwd-paso1').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        await handlePwdPaso1();
+    });
+
+    $('#pwd-paso2').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        await handlePwdPaso2();
+    });
+
+    $('#btn-pwd-cancel').addEventListener('click', () => {
+        document.querySelectorAll('#otp-pwd input').forEach((i) => { i.value = ''; });
+        $('#pwd-nueva').value = '';
+        $('#pwd-confirm').value = '';
+        setMsg('pwd-paso2-msg', '', null);
+    });
+
+    wireOtpAutoAdvance('#otp-pwd');
+}
+
+async function handlePwdPaso1() {
+    const btn = $('#btn-pwd-send');
+    btn.disabled = true;
+    setMsg('pwd-paso1-msg', 'Enviando...', null);
+
+    const destino = $('#pwd-destino').value;
+    let body;
+
+    if (destino === 'email') {
+        if (!state.emailActual) {
+            setMsg('pwd-paso1-msg', 'No encontramos un email en tu cuenta.', 'err');
+            btn.disabled = false;
+            return;
+        }
+        body = { email: state.emailActual, cambio_password: true };
+        state.pwdChangeMethod = { type: 'email', value: state.emailActual };
+    } else {
+        if (!state.telefonoActual) {
+            setMsg('pwd-paso1-msg', 'No tenés un número de WhatsApp registrado. Agregalo primero en "Credenciales".', 'err');
+            btn.disabled = false;
+            return;
+        }
+        body = { telefono: state.telefonoActual, cambio_password: true };
+        state.pwdChangeMethod = { type: 'telefono', value: state.telefonoActual };
+    }
+
+    try {
+        const res  = await apiFetch(`${API_BASE_URL}/api/verification/send-code.php`, {
+            method: 'POST',
+            body: JSON.stringify(body),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+            setMsg('pwd-paso1-msg', data.error || 'No se pudo enviar el código.', 'err');
+        } else {
+            setMsg('pwd-paso1-msg', destino === 'email' ? 'Te enviamos un código a tu email.' : 'Te enviamos un código por WhatsApp.', 'ok');
+        }
+    } catch (err) {
+        console.error('[edit.js]', err);
+        setMsg('pwd-paso1-msg', 'No se pudo conectar con el servidor.', 'err');
+    }
+    btn.disabled = false;
+}
+
+async function handlePwdPaso2() {
+    if (!state.pwdChangeMethod) {
+        setMsg('pwd-paso2-msg', 'Primero pedí un código de verificación arriba.', 'err');
+        return;
+    }
+
+    const code    = Array.from(document.querySelectorAll('#otp-pwd input')).map((i) => i.value).join('');
+    const nueva   = $('#pwd-nueva').value;
+    const confirm = $('#pwd-confirm').value;
+
+    if (code.length !== 6) {
+        setMsg('pwd-paso2-msg', 'Ingresá el código completo de 6 dígitos.', 'err');
+        return;
+    }
+    if (nueva.length < 6) {
+        setMsg('pwd-paso2-msg', 'La contraseña debe tener al menos 6 caracteres.', 'err');
+        return;
+    }
+    if (nueva !== confirm) {
+        setMsg('pwd-paso2-msg', 'Las contraseñas no coinciden.', 'err');
+        return;
+    }
+
+    const btn = $('#btn-pwd-confirm');
+    btn.disabled = true;
+    setMsg('pwd-paso2-msg', 'Actualizando...', null);
+
+    const body = { code, nueva_password: nueva };
+    body[state.pwdChangeMethod.type] = state.pwdChangeMethod.value;
+
+    try {
+        const res  = await apiFetch(`${API_BASE_URL}/api/users/change-password.php`, {
+            method: 'POST',
+            body: JSON.stringify(body),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+            setMsg('pwd-paso2-msg', data.error || 'No se pudo actualizar la contraseña.', 'err');
+        } else {
+            setMsg('pwd-paso2-msg', 'Contraseña actualizada correctamente.', 'ok');
+            document.querySelectorAll('#otp-pwd input').forEach((i) => { i.value = ''; });
+            $('#pwd-nueva').value = '';
+            $('#pwd-confirm').value = '';
+            state.pwdChangeMethod = null;
+        }
+    } catch (err) {
+        console.error('[edit.js]', err);
+        setMsg('pwd-paso2-msg', 'No se pudo conectar con el servidor.', 'err');
+    }
+    btn.disabled = false;
 }

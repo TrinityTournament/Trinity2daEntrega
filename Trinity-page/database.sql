@@ -4,6 +4,7 @@
 --
 --  NORMALIZACIÓN (forma normal aplicada por tabla)
 --  ------------------------------------------------------------------
+--
 --  Todas las tablas cumplen 1FN (atributos atómicos, sin grupos
 --  repetitivos), 2FN (no hay dependencias parciales — todas las claves
 --  primarias son de un solo atributo) y 3FN (ningún atributo no clave
@@ -30,18 +31,21 @@
 --  Si en una futura entrega se necesitara reportar/filtrar masivamente
 --  por deporte, el camino natural es migrar a una tabla de unión.
 --
+-- ═══════════════════════════════════════════════════════════════════
 --  CLAVES FORÁNEAS Y BORRADO EN CASCADA
 --  ------------------------------------------------------------------
+--
 --  Todas las FK usan ON DELETE CASCADE: si se elimina un usuario
 --  (delete-account.php), desaparecen automáticamente sus tokens de
 --  reset, sus relaciones de seguimiento, sus cuentas de videojuego
 --  vinculadas y sus notificaciones. Esto evita filas huérfanas sin
 --  necesidad de borrados manuales en cada endpoint.
+--
 -- ═══════════════════════════════════════════════════════════════════
 
 CREATE DATABASE IF NOT EXISTS trinity
-    CHARACTER SET utf8mb4
-    COLLATE utf8mb4_unicode_ci;
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
 
 USE trinity;
 
@@ -49,6 +53,7 @@ USE trinity;
 -- Entidad central. PK autoincremental de un solo atributo (2FN).
 -- email/usuario/telefono son NULL-ables pero UNIQUE: el registro
 -- mínimo solo exige uno de los dos contactos (ver VerificationService).
+
 CREATE TABLE IF NOT EXISTS usuarios (
     id                          INT UNSIGNED      NOT NULL AUTO_INCREMENT,
     nombre                      VARCHAR(120)      NOT NULL,
@@ -57,6 +62,13 @@ CREATE TABLE IF NOT EXISTS usuarios (
     tipo                        ENUM('deportes','videojuegos') NULL,
     deportes_seleccionados      JSON              NULL,
     videojuegos_seleccionados   JSON              NULL,
+    futbol_rol                  VARCHAR(40)       NULL,
+    futbol_numero               TINYINT UNSIGNED  NULL,
+    futbol_equipo               VARCHAR(100)      NULL,
+    mc_estilo                   VARCHAR(40)       NULL,
+    mc_estrategia               VARCHAR(255)      NULL,
+    mc_especialidad             VARCHAR(40)       NULL,
+    mc_modos                    JSON              NULL,
     password                    VARCHAR(255)      NOT NULL,
     email                       VARCHAR(180)      NULL,
     telefono                    VARCHAR(30)       NULL,
@@ -68,22 +80,24 @@ CREATE TABLE IF NOT EXISTS usuarios (
     notif_whatsapp              TINYINT(1)        NOT NULL DEFAULT 0,
     rol                         ENUM('admin','organizador','participante') NOT NULL DEFAULT 'participante',
     creado_en                   TIMESTAMP         NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
     PRIMARY KEY (id),
     UNIQUE KEY uq_email    (email),
     UNIQUE KEY uq_usuario  (usuario),
     UNIQUE KEY uq_telefono (telefono)
+
     -- Nota: uq_email / uq_usuario / uq_telefono ya son índices por sí
     -- solas (toda UNIQUE KEY es un índice) — no se agregan índices
     -- adicionales redundantes sobre las mismas columnas.
+
 ) ENGINE=InnoDB
-    DEFAULT CHARSET=utf8mb4
-    COLLATE=utf8mb4_unicode_ci;
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
 
 -- ── TABLA: password_resets ────────────────────────────────────────
 -- Un token de un solo uso por solicitud de recuperación de contraseña.
 -- Relación 1:N con usuarios (un usuario puede tener varios tokens
 -- históricos; solo el más reciente y no usado es válido).
+
 CREATE TABLE IF NOT EXISTS password_resets (
     id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
     usuario_id  INT UNSIGNED NOT NULL,
@@ -91,30 +105,30 @@ CREATE TABLE IF NOT EXISTS password_resets (
     expira_en   DATETIME     NOT NULL,
     usado       TINYINT(1)   NOT NULL DEFAULT 0,
     creado_en   TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
     PRIMARY KEY (id),
     UNIQUE KEY uq_token (token),
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+
 ) ENGINE=InnoDB
-  DEFAULT CHARSET=utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
 
 -- ── TABLA: seguidores ─────────────────────────────────────────────
 -- Tabla de unión para la relación N:M reflexiva usuario→usuario
 -- ("sigue a"). La UNIQUE compuesta evita duplicar el mismo follow.
+
 CREATE TABLE IF NOT EXISTS seguidores (
     id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
     seguidor_id INT UNSIGNED NOT NULL,
     seguido_id  INT UNSIGNED NOT NULL,
     creado_en   TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
     PRIMARY KEY (id),
     UNIQUE KEY uq_seguidor_seguido (seguidor_id, seguido_id),
     FOREIGN KEY (seguidor_id) REFERENCES usuarios(id) ON DELETE CASCADE,
     FOREIGN KEY (seguido_id)  REFERENCES usuarios(id) ON DELETE CASCADE
 ) ENGINE=InnoDB
-  DEFAULT CHARSET=utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
 
 -- ── TABLA: codigos_verificacion ───────────────────────────────────
 -- NOTA DE DISEÑO: esta tabla existe para persistir códigos OTP de
@@ -126,6 +140,7 @@ CREATE TABLE IF NOT EXISTS seguidores (
 -- que una futura entrega persista los códigos acá en lugar de en
 -- sesión (auditoría, multi-dispositivo, expiración centralizada en
 -- DB en vez de en memoria del proceso PHP).
+
 CREATE TABLE IF NOT EXISTS codigos_verificacion (
     id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
     destino     VARCHAR(180) NOT NULL,   -- email o telefono
@@ -134,11 +149,11 @@ CREATE TABLE IF NOT EXISTS codigos_verificacion (
     expira_en   DATETIME     NOT NULL,
     usado       TINYINT(1)   NOT NULL DEFAULT 0,
     creado_en   TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
     PRIMARY KEY (id)
+
 ) ENGINE=InnoDB
-  DEFAULT CHARSET=utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
 
 -- ── TABLA: cuentas_videojuego ─────────────────────────────────────
 -- Tabla de unión para la relación N:M usuario↔videojuego: un usuario
@@ -146,6 +161,7 @@ CREATE TABLE IF NOT EXISTS codigos_verificacion (
 -- una cuenta vinculada por usuario. 'juego' es un slug fijo
 -- ('clashroyale', 'brawlstars', 'fortnite', 'minecraft', ...) para
 -- poder sumar más videojuegos sin alterar el esquema.
+
 CREATE TABLE IF NOT EXISTS cuentas_videojuego (
     id              INT UNSIGNED NOT NULL AUTO_INCREMENT,
     usuario_id      INT UNSIGNED NOT NULL,
@@ -153,18 +169,19 @@ CREATE TABLE IF NOT EXISTS cuentas_videojuego (
     identificador   VARCHAR(60)  NOT NULL,  -- tag de CR, nombre de Fortnite, UUID de Minecraft, etc.
     actualizado_en  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     creado_en       TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
     PRIMARY KEY (id),
     UNIQUE KEY uq_usuario_juego (usuario_id, juego),
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+
 ) ENGINE=InnoDB
-  DEFAULT CHARSET=utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
 
 -- ── TABLA: notificaciones ─────────────────────────────────────────
 -- Relación 1:N usuario→notificaciones. El índice compuesto acelera
 -- el caso de uso más frecuente: "notificaciones no leídas de este
 -- usuario, más recientes primero" (ver NotificationModel::paginatedForUser).
+
 CREATE TABLE IF NOT EXISTS notificaciones (
     id          INT UNSIGNED    NOT NULL AUTO_INCREMENT,
     usuario_id  INT UNSIGNED    NOT NULL,
@@ -174,13 +191,14 @@ CREATE TABLE IF NOT EXISTS notificaciones (
     link        VARCHAR(500)    NULL,
     leido       TINYINT(1)      NOT NULL DEFAULT 0,
     creado_en   TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
     PRIMARY KEY (id),
     INDEX idx_notif_usuario (usuario_id, leido, creado_en),
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+
 ) ENGINE=InnoDB
-  DEFAULT CHARSET=utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
+
 
 -- ═══════════════════════════════════════════════════════════════════
 --  NOTA SOBRE CONTRASEÑAS
@@ -188,6 +206,7 @@ CREATE TABLE IF NOT EXISTS notificaciones (
 --  password_hash($plain, PASSWORD_BCRYPT) en PHP. Nunca se guardan
 --  contraseñas en texto plano ni se las puede leer de vuelta.
 -- ═══════════════════════════════════════════════════════════════════
+
 
 -- ═══════════════════════════════════════════════════════════════════
 --  MÓDULO DE TORNEOS
@@ -211,28 +230,28 @@ CREATE TABLE IF NOT EXISTS torneos (
     banner_url          MEDIUMTEXT    NULL,
     estado              ENUM('en_creacion','abierto','en_curso','finalizado','cancelado') NOT NULL DEFAULT 'en_creacion',
     creado_en           TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
     PRIMARY KEY (id),
     INDEX idx_organizador (organizador_id, estado),
     INDEX idx_publico (visibilidad, estado, fecha_inicio),
+
     FOREIGN KEY (organizador_id) REFERENCES usuarios(id) ON DELETE CASCADE
+
 ) ENGINE=InnoDB
-  DEFAULT CHARSET=utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS torneo_participantes (
     id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
     torneo_id   INT UNSIGNED NOT NULL,
     usuario_id  INT UNSIGNED NOT NULL,
     inscrito_en TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
     PRIMARY KEY (id),
     UNIQUE KEY uq_torneo_usuario (torneo_id, usuario_id),
     FOREIGN KEY (torneo_id)  REFERENCES torneos(id)  ON DELETE CASCADE,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 ) ENGINE=InnoDB
-  DEFAULT CHARSET=utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS torneo_invitaciones (
     id             INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -241,12 +260,13 @@ CREATE TABLE IF NOT EXISTS torneo_invitaciones (
     invitado_id    INT UNSIGNED NOT NULL,
     estado         ENUM('pendiente','aceptada','rechazada') NOT NULL DEFAULT 'pendiente',
     creado_en      TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
     PRIMARY KEY (id),
+
     INDEX idx_invitado (invitado_id, estado),
+
     FOREIGN KEY (torneo_id)      REFERENCES torneos(id)   ON DELETE CASCADE,
     FOREIGN KEY (organizador_id) REFERENCES usuarios(id)  ON DELETE CASCADE,
     FOREIGN KEY (invitado_id)    REFERENCES usuarios(id)  ON DELETE CASCADE
 ) ENGINE=InnoDB
-  DEFAULT CHARSET=utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;

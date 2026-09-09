@@ -83,3 +83,7 @@ fi
 
 log "✔ Backup finalizado. Backups guardados: $(find "$BACKUP_DIR" -name "trinity_*.sql.gz" | wc -l)/$MAX_BACKUPS"
 log "════════════════════════════════════════"
+
+# Esta linea de comando esta relacionda con el bot de whatsapp, lo que hace es que al mismo timpo que cron ejecuta el backup, 
+# el backup incia el comprobante de estado del bot para que los respaldos y la comprovación se hagan al mismo tiempo
+bash ./wacheck.sh

@@ -64,6 +64,7 @@ class AuthService
                 'usuario'        => $u['usuario'],
                 'nombre'         => $u['nombre'],
                 'email'          => $u['email'],
+                'telefono'       => $u['telefono'] ?? null,
                 'foto_url'       => $u['foto_url'] ?? null,
                 'rol'            => $u['rol'] ?? 'participante',
                 'notif_whatsapp' => (bool) ($u['notif_whatsapp'] ?? false),

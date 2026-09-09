@@ -14,9 +14,17 @@ class ProfileService
     private FollowModel $follows;
 
     /** Opciones válidas — mismas listas que en el código original. */
-    private const DEPORTES_VALIDOS = ['Fútbol', 'Tenis', 'Basketball', 'Volleyball', 'Natación', 'Atletismo'];
-    private const JUEGOS_VALIDOS   = ['Fortnite', 'Clash Royale', 'Valorant', 'League of Legends', 'Call of Duty', 'Rocket League'];
+    private const DEPORTES_VALIDOS = ['Fútbol'];
+    private const JUEGOS_VALIDOS   = ['Brawl Stars', 'Clash Royale', 'Fortnite', 'Free Fire', 'Minecraft'];
     private const PRONOUNS_VALIDOS = ['', 'He/him', 'She/her', 'He/they', 'She/they', 'They/them', 'Any'];
+
+    // Panel de Fútbol (sin API externa — carga manual, ver panel de perfil).
+    private const ROLES_FUTBOL_VALIDOS = ['Arquero', 'Defensor', 'Mediocampista', 'Delantero'];
+
+    // Panel de Minecraft (Mojang solo confirma usuario/UUID, el resto es manual).
+    private const ESTILOS_MC_VALIDOS        = ['Defensa', 'Estratega', 'Agresivo', 'Sigilo'];
+    private const ESPECIALIDADES_MC_VALIDAS = ['Redstone', 'Minería', 'Construcción', 'PvP', 'Exploración', 'Agricultura'];
+    private const MODOS_MC_VALIDOS          = ['Skyblock', 'Bedwars', 'Lucky Blocks', 'Survival', 'Creativo', 'SMP', 'Parkour'];
 
     public function __construct()
     {
@@ -43,6 +51,9 @@ class ProfileService
             : [];
         $user['videojuegos_seleccionados'] = $user['videojuegos_seleccionados']
             ? (json_decode($user['videojuegos_seleccionados'], true) ?? [])
+            : [];
+        $user['mc_modos'] = $user['mc_modos']
+            ? (json_decode($user['mc_modos'], true) ?? [])
             : [];
 
         $user['ya_sigue'] = false;
@@ -128,6 +139,58 @@ class ProfileService
                 );
             }
             $fields['notif_whatsapp'] = $body['notif_whatsapp'] ? 1 : 0;
+        }
+
+        if (array_key_exists('futbol_rol', $body)) {
+            $rol = trim((string) ($body['futbol_rol'] ?? ''));
+            if ($rol !== '' && !in_array($rol, self::ROLES_FUTBOL_VALIDOS, true)) {
+                throw new ApiException('Rol de fútbol no válido.', 400);
+            }
+            $fields['futbol_rol'] = $rol ?: null;
+        }
+
+        if (array_key_exists('futbol_numero', $body)) {
+            $numero = $body['futbol_numero'];
+            if ($numero === null || $numero === '') {
+                $fields['futbol_numero'] = null;
+            } else {
+                if (!is_numeric($numero) || (int) $numero < 1 || (int) $numero > 99) {
+                    throw new ApiException('El número tiene que ser entre 1 y 99.', 400);
+                }
+                $fields['futbol_numero'] = (int) $numero;
+            }
+        }
+
+        if (array_key_exists('futbol_equipo', $body)) {
+            $fields['futbol_equipo'] = mb_substr(trim((string) ($body['futbol_equipo'] ?? '')), 0, 100) ?: null;
+        }
+
+        if (array_key_exists('mc_estilo', $body)) {
+            $estilo = trim((string) ($body['mc_estilo'] ?? ''));
+            if ($estilo !== '' && !in_array($estilo, self::ESTILOS_MC_VALIDOS, true)) {
+                throw new ApiException('Estilo de juego no válido.', 400);
+            }
+            $fields['mc_estilo'] = $estilo ?: null;
+        }
+
+        if (array_key_exists('mc_estrategia', $body)) {
+            $fields['mc_estrategia'] = mb_substr(trim((string) ($body['mc_estrategia'] ?? '')), 0, 255) ?: null;
+        }
+
+        if (array_key_exists('mc_especialidad', $body)) {
+            $esp = trim((string) ($body['mc_especialidad'] ?? ''));
+            if ($esp !== '' && !in_array($esp, self::ESPECIALIDADES_MC_VALIDAS, true)) {
+                throw new ApiException('Especialidad no válida.', 400);
+            }
+            $fields['mc_especialidad'] = $esp ?: null;
+        }
+
+        if (isset($body['mc_modos'])) {
+            $modos = $this->validarSeleccion($body['mc_modos'], self::MODOS_MC_VALIDOS);
+            if (count($modos) > 3) {
+                throw new ApiException('Elegí como máximo 3 modos de juego.', 400);
+            }
+            $fields['mc_modos'] = json_encode(array_values($modos), JSON_UNESCAPED_UNICODE);
         }
 
         if (array_key_exists('foto_url', $body)) {

@@ -251,6 +251,8 @@ class UserModel
             "SELECT
                 u.id, u.nombre, u.usuario, u.pronouns, u.descripcion, u.foto_url,
                 u.tipo, u.deportes_seleccionados, u.videojuegos_seleccionados,
+                u.futbol_rol, u.futbol_numero, u.futbol_equipo,
+                u.mc_estilo, u.mc_estrategia, u.mc_especialidad, u.mc_modos,
                 u.torneos_jugados, u.torneos_ganados,
                 (SELECT COUNT(*) FROM seguidores WHERE seguido_id  = u.id) AS seguidores,
                 (SELECT COUNT(*) FROM seguidores WHERE seguidor_id = u.id) AS seguidos

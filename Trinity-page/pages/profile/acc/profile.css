@@ -875,3 +875,329 @@ button.fav-card-empty:hover .fav-plus {
     color:     var(--text-muted);
     font-style: italic;
 }
+
+/* ══ PREFERENCIAS: expandir 2da fila cuando hay más de 3 ══ */
+.favorites-wrap { position: relative; }
+.favorites-wrap.has-more { cursor: pointer; }
+
+/* Fila oculta con las preferencias que no entran en la primera fila.
+   Colapsada por default (max-height:0), se revela creciendo de
+   verdad (empuja el contenido de abajo), no como overlay flotante. */
+.favorites-extra {
+    display:               grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:                   1rem;
+    max-height:            0;
+    opacity:               0;
+    overflow:              hidden;
+    margin-top:            0;
+    transition:            max-height 0.4s ease, opacity 0.3s ease, margin-top 0.4s ease;
+}
+/* Desktop: hover revela, con solo sacar el mouse se deshace solo (CSS puro). */
+.favorites-wrap:hover .favorites-extra,
+/* Celular (o click en desktop): una vez tocado queda expandido para siempre. */
+.favorites-wrap.expanded .favorites-extra {
+    max-height: 600px;
+    opacity:    1;
+    margin-top: 1rem;
+}
+
+/* Efecto de stack (cartas apiladas detrás) en la 3ra carta real
+   cuando hay más preferencias ocultas — mismo patrón que ya
+   existía para el placeholder "+" (.fav-card-empty.stacked). */
+.fav-card.has-more::before,
+.fav-card.has-more::after {
+    content:       '';
+    position:      absolute;
+    inset:         0;
+    border-radius: 14px;
+    background:    var(--card-bg);
+    border:        1px solid var(--border);
+}
+.fav-card.has-more::before { transform: rotate(-4deg) translate(-4px, 4px); z-index: -1; }
+.fav-card.has-more::after  { transform: rotate(-8deg) translate(-8px, 8px); z-index: -2; }
+
+.fav-card-more-badge {
+    position:       absolute;
+    top:            8px;
+    right:          8px;
+    background:     rgba(0,0,0,0.7);
+    color:          #fff;
+    font-family:    'Barlow Condensed', sans-serif;
+    font-size:      11px;
+    font-weight:    700;
+    letter-spacing: 0.5px;
+    padding:        2px 7px;
+    border-radius:  10px;
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .favorites-extra { transition: none; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   PANEL DE ESTADÍSTICAS (al clickear una carta de Preferencias)
+   ══════════════════════════════════════════════════════════ */
+.stats-modal-box {
+    max-width: 860px;
+    padding:   0;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+.stats-modal-box .modal-close {
+    top: 16px; right: 18px;
+    z-index: 2;
+    font-size: 22px;
+    color: var(--text);
+    background: rgba(0,0,0,0.35);
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+}
+
+.stats-panel-header {
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+    gap:             1rem;
+    padding:         1.25rem 3.25rem 1.25rem 1.5rem;
+    border-bottom:   1px solid var(--border);
+}
+.stats-panel-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.stats-panel-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: rgba(192,0,10,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800; font-size: 16px;
+    overflow: hidden; flex-shrink: 0;
+}
+.stats-panel-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.stats-panel-username { font-weight: 700; font-size: 14px; }
+.stats-panel-usersub { font-size: 11.5px; color: var(--text-muted); }
+.stats-panel-title {
+    display: flex; align-items: center; gap: 8px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px; font-weight: 800; letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.stats-panel-body {
+    display:               grid;
+    grid-template-columns: 200px 1fr;
+    gap:                   1.5rem;
+    padding:               1.5rem;
+}
+@media (max-width: 640px) {
+    .stats-panel-body { grid-template-columns: 1fr; }
+}
+
+.stats-panel-cover {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+}
+.stats-panel-cover img { width: 100%; height: 100%; object-fit: cover; }
+
+.stats-panel-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 1.25rem;
+}
+.stats-panel-tab {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12.5px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 14px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.stats-panel-tab.active,
+.stats-panel-tab:hover { color: var(--text); border-color: rgba(192,0,10,0.5); background: rgba(192,0,10,0.12); }
+
+.stats-panel-grid {
+    display:               grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap:                   0.75rem;
+}
+.stats-panel-box {
+    background:    rgba(192,0,10,0.05);
+    border:        1px solid var(--border);
+    border-radius: 10px;
+    padding:       0.85rem 0.9rem;
+    text-align:    center;
+}
+.stats-panel-box-icon { font-size: 18px; margin-bottom: 4px; }
+.stats-panel-box-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10.5px; font-weight: 700; letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+.stats-panel-box-value { font-size: 18px; font-weight: 800; color: var(--text); }
+
+.stats-panel-cta {
+    grid-column:   1 / -1;
+    margin-top:    1.5rem;
+    padding:       1rem 1.25rem;
+    border-top:    1px solid var(--border);
+    text-align:    center;
+    font-size:     13px;
+    color:         var(--text-muted);
+    line-height:   1.5;
+}
+
+.stats-panel-empty {
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.6;
+}
+.stats-panel-empty a { color: var(--accent2); font-weight: 600; }
+
+/* ── Clash Royale: mazo actual ── */
+.stats-panel-deck-wrap {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1.25rem;
+}
+.stats-panel-deck {
+    display:               grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap:                   0.5rem;
+    max-width:             340px;
+}
+.stats-panel-card {
+    position: relative;
+    aspect-ratio: 3 / 3.7;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #000;
+    border: 1px solid var(--border);
+}
+.stats-panel-card img { width: 100%; height: 100%; object-fit: cover; }
+.stats-panel-card-level {
+    position: absolute;
+    bottom: 2px; right: 2px;
+    background: rgba(0,0,0,0.75);
+    color: #fff;
+    font-size: 10px; font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 6px;
+}
+.stats-panel-arena {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    text-align: center;
+}
+.stats-panel-arena img { width: 100px; height: 100px; object-fit: contain; }
+.stats-panel-arena-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px; font-weight: 700; letter-spacing: 0.5px;
+    color: var(--text-muted);
+}
+
+/* ── Formularios dentro del panel (Fútbol / Minecraft) ── */
+.stats-panel-form .field { display: flex; flex-direction: column; gap: 4px; margin-bottom: 1rem; }
+.stats-panel-form .field-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11.5px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--text-muted);
+}
+.stats-panel-form .field-input,
+.stats-panel-form select {
+    padding:       10px 14px;
+    background:    rgba(192,0,10,0.04);
+    border:        1px solid var(--border);
+    border-radius: 10px;
+    color:         var(--text);
+    font-size:     14px;
+    font-family:   inherit;
+}
+.stats-panel-form .field-input:focus,
+.stats-panel-form select:focus { border-color: var(--accent); background: rgba(192,0,10,0.09); outline: none; }
+.stats-panel-form .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media (max-width: 480px) { .stats-panel-form .two-col { grid-template-columns: 1fr; } }
+
+.stats-panel-readonly { display: flex; flex-direction: column; gap: 0.6rem; }
+.stats-panel-readonly-row { display: flex; justify-content: space-between; font-size: 14px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.stats-panel-readonly-row span { color: var(--text-muted); }
+.stats-panel-readonly-row strong { color: var(--text); }
+
+.stats-panel-note {
+    margin-top: 1.25rem;
+    padding: 0.85rem 1rem;
+    background: rgba(192,0,10,0.06);
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+/* ── Minecraft: visor de skin ── */
+.stats-panel-skin-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 0.75rem;
+}
+.stats-panel-skin-actions button {
+    flex: 1;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px;
+    text-transform: uppercase;
+    background: rgba(192,0,10,0.08);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-muted);
+    padding: 8px 6px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+.stats-panel-skin-actions button.active,
+.stats-panel-skin-actions button:hover { background: rgba(192,0,10,0.2); color: var(--text); }
+
+.pill-select-mini { display: flex; flex-wrap: wrap; gap: 6px; }
+.pill-select-mini .pill-option { font-size: 12px; padding: 5px 12px; }
+
+@media (max-width: 480px) {
+    .stats-modal-box { max-height: 100vh; border-radius: 0; }
+}
+
+/* Botón genérico reusado dentro de los paneles (Fútbol/Minecraft). */
+.stats-panel-form .btn-primary {
+    background:     var(--accent);
+    color:          #fff;
+    border:         none;
+    border-radius:  10px;
+    padding:        11px 20px;
+    font-family:    'Barlow Condensed', sans-serif;
+    font-size:      13px;
+    font-weight:    700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor:         pointer;
+    transition:     background 0.2s, transform 0.2s;
+}
+.stats-panel-form .btn-primary:hover  { background: var(--accent2); transform: translateY(-1px); }
+.stats-panel-form .btn-primary:disabled { opacity: 0.6; cursor: default; transform: none; }
+
+#mc-skin-canvas { width: 100%; height: 100%; display: block; }

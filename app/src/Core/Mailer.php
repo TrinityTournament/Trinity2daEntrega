@@ -2,9 +2,6 @@
 
 namespace Trinity\Core;
 
-/**
- * Reemplaza a la función global brevo_send().
- */
 final class Mailer
 {
     private function __construct()

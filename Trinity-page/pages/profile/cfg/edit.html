@@ -164,10 +164,11 @@
                     </select>
                 </div>
                 <div class="card-actions">
-                    <button type="submit" class="btn-primary">
+                    <button type="submit" class="btn-primary" id="btn-pwd-send">
                         &#x1F4E8;&nbsp; ENVIAR CÓDIGO DE VERIFICACIÓN
                     </button>
                 </div>
+                <p class="msg" id="pwd-paso1-msg"></p>
             </form>
 
             <h3 class="pwd-paso2-divider"><span>Paso 2 — Confirmá el código y elegí tu nueva contraseña</span></h3>
@@ -193,22 +194,24 @@
                     </div>
                 </div>
                 <div class="card-actions">
-                    <button type="submit" class="btn-primary">&#x1F511;&nbsp; ACTUALIZAR</button>
-                    <button type="button" class="btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn-primary" id="btn-pwd-confirm">&#x1F511;&nbsp; ACTUALIZAR</button>
+                    <button type="button" class="btn-secondary" id="btn-pwd-cancel">Cancelar</button>
                 </div>
+                <p class="msg" id="pwd-paso2-msg"></p>
             </form>
         </section>
 
         <!-- ── CREDENCIALES ── -->
         <section class="edit-card">
             <h2 class="edit-card-title-sub">Credenciales</h2>
+            <p class="edit-card-desc">El email se guarda al instante. El teléfono requiere confirmar un código que te enviamos por WhatsApp.</p>
 
-            <form class="credentials-form">
+            <form class="credentials-form" id="credentials-form">
                 <div class="credentials-grid">
                     <!-- Email -->
                     <div class="field">
                         <label class="field-label" for="edit-email">Correo electrónico</label>
-                        <input type="email" id="edit-email" class="field-input" value="santiago@trinity.gg">
+                        <input type="email" id="edit-email" class="field-input">
                     </div>
 
                     <!-- Teléfono -->
@@ -226,17 +229,37 @@
                                 <option value="34">🇪🇸 +34</option>
                                 <option value="1">🇺🇸 +1</option>
                             </select>
-                            <input type="tel" id="edit-telefono" class="field-input phone-input" value="99 123 456">
+                            <input type="tel" id="edit-telefono" class="field-input phone-input" placeholder="99 123 456">
                         </div>
                     </div>
                 </div>
 
                 <div class="card-actions" style="justify-content:flex-end;">
-                    <button type="submit" class="btn-primary">
+                    <button type="submit" class="btn-primary" id="btn-save-credentials">
                         &#x1F4BE;&nbsp; GUARDAR CAMBIOS
                     </button>
                 </div>
+                <p class="msg" id="credentials-msg"></p>
             </form>
+
+            <!-- Paso 2: solo aparece si se pidió cambiar/agregar el teléfono -->
+            <div class="two-fields" id="telefono-otp-block" hidden style="margin-top:1rem;">
+                <div class="field" style="grid-column:1 / -1;">
+                    <label class="field-label" id="tel-otp-label">Ingresá el código que te enviamos por WhatsApp</label>
+                    <div class="otp-inputs" id="otp-telefono-cred" aria-labelledby="tel-otp-label">
+                        <input maxlength="1">
+                        <input maxlength="1">
+                        <input maxlength="1">
+                        <input maxlength="1">
+                        <input maxlength="1">
+                        <input maxlength="1">
+                    </div>
+                </div>
+                <div class="card-actions" style="grid-column:1 / -1;justify-content:flex-end;">
+                    <button type="button" class="btn-secondary" id="btn-cancel-telefono">Cancelar</button>
+                    <button type="button" class="btn-primary" id="btn-confirm-telefono">Confirmar número</button>
+                </div>
+            </div>
         </section>
 
         <!-- ── NOTIFICACIONES ── -->

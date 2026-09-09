@@ -60,26 +60,17 @@
         </div>
         <p class="no-tournaments" id="profile-error" hidden></p>
 
-        <!-- DEPORTES FAVORITOS -->
-        <section id="section-deportes" hidden>
+        <!-- PREFERENCIAS (deportes + videojuegos favoritos, una sola fila de 3) -->
+        <section id="section-preferencias" hidden>
             <header class="section-header">
-                <h2 class="section-label">Deportes favoritos</h2>
-                <div class="section-actions" id="deportes-actions" style="display:none;">
+                <h2 class="section-label">Preferencias</h2>
+                <div class="section-actions" id="preferencias-actions" style="display:none;">
                     <a href="../cfg/edit.html" class="btn-section-action">Editar</a>
                 </div>
             </header>
-            <div class="favorites-grid" id="grid-deportes"></div>
-        </section>
-
-        <!-- VIDEOJUEGOS FAVORITOS -->
-        <section id="section-videojuegos" hidden>
-            <header class="section-header">
-                <h2 class="section-label">Videojuegos favoritos</h2>
-                <div class="section-actions" id="videojuegos-actions" style="display:none;">
-                    <a href="../cfg/edit.html" class="btn-section-action">Editar</a>
-                </div>
-            </header>
-            <div class="favorites-grid" id="grid-videojuegos"></div>
+            <div class="favorites-wrap" id="preferencias-wrap">
+                <div class="favorites-grid" id="grid-preferencias"></div>
+            </div>
         </section>
 
         <!-- CUENTAS DE VIDEOJUEGO VINCULADAS (solo perfil propio) -->
@@ -95,6 +86,16 @@
 
     </section>
 </main>
+
+<!-- ══ MODAL: PANEL DE ESTADÍSTICAS DE UNA PREFERENCIA ══ -->
+<div class="modal-overlay" id="stats-modal">
+    <div class="modal-box stats-modal-box">
+        <button type="button" class="modal-close" id="stats-modal-close" aria-label="Cerrar">&times;</button>
+        <div id="stats-modal-content">
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+</div>
 
 <script src="../../../assets/js/api.js"></script>
 <script src="view.js"></script>
