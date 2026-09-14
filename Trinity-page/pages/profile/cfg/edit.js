@@ -60,7 +60,7 @@ async function init() {
 async function loadProfile() {
     let sessionData;
     try {
-        const res = await apiFetch(`${API_BASE_URL}/api/auth/check-session.php`);
+        const res = await apiFetch(`${API_BASE_URL}/../app/auth/check-session.php`);
         if (!res.ok) return false; // apiFetch ya redirigió al login en un 401
         sessionData = await res.json().catch(() => ({}));
         state.userId = sessionData.usuario.id;
@@ -79,7 +79,7 @@ async function loadProfile() {
     }
 
     try {
-        const res  = await apiFetch(`${API_BASE_URL}/api/users/get-profile.php?id=${state.userId}`);
+        const res  = await apiFetch(`${API_BASE_URL}/../app/users/get-profile.php?id=${state.userId}`);
         const data = await res.json().catch(() => ({}));
         if (!res.ok) {
             setMsg('preview-msg', data.error || 'No se pudo cargar tu perfil.', 'err');
@@ -146,7 +146,7 @@ function wirePreviewForm() {
         }
 
         try {
-            const res  = await apiFetch(`${API_BASE_URL}/api/users/update-profile.php`, {
+            const res  = await apiFetch(`${API_BASE_URL}/../app/users/update-profile.php`, {
                 method: 'POST',
                 body: JSON.stringify(body),
             });
@@ -192,7 +192,7 @@ function wirePrefs() {
         setMsg('prefs-msg', 'Guardando...', null);
 
         try {
-            const res  = await apiFetch(`${API_BASE_URL}/api/users/update-profile.php`, {
+            const res  = await apiFetch(`${API_BASE_URL}/../app/users/update-profile.php`, {
                 method: 'POST',
                 body: JSON.stringify({ deportes, videojuegos }),
             });
@@ -411,7 +411,7 @@ async function loadGameAccount(form) {
     const currentEl = form.querySelector('[data-role="current"]');
 
     try {
-        const res  = await apiFetch(`${API_BASE_URL}/api/videogames/${path}/get-account.php`);
+        const res  = await apiFetch(`${API_BASE_URL}/../app/videogames/${path}/get-account.php`);
         const data = await res.json().catch(() => ({}));
         if (!res.ok) return;
 
@@ -444,7 +444,7 @@ async function saveGameAccount(form) {
     setInlineMsg(msgEl, 'Vinculando...', null);
 
     try {
-        const res  = await apiFetch(`${API_BASE_URL}/api/videogames/${path}/save-account.php`, {
+        const res  = await apiFetch(`${API_BASE_URL}/../app/videogames/${path}/save-account.php`, {
             method: 'POST',
             body: JSON.stringify({ [field]: value }),
         });
@@ -509,7 +509,7 @@ async function handleCredentialsSubmit() {
 
     if (newEmail && newEmail !== state.emailActual) {
         try {
-            const res  = await apiFetch(`${API_BASE_URL}/api/users/update-credentials.php`, {
+            const res  = await apiFetch(`${API_BASE_URL}/../app/users/update-credentials.php`, {
                 method: 'POST',
                 body: JSON.stringify({ email: newEmail }),
             });
@@ -539,7 +539,7 @@ async function handleCredentialsSubmit() {
             return;
         }
         try {
-            const res  = await apiFetch(`${API_BASE_URL}/api/verification/send-code.php`, {
+            const res  = await apiFetch(`${API_BASE_URL}/../app/verification/send-code.php`, {
                 method: 'POST',
                 body: JSON.stringify({ telefono: telefonoCompleto, cambio_credencial: true }),
             });
@@ -581,7 +581,7 @@ async function confirmTelefonoCode() {
     btn.disabled = true;
 
     try {
-        const res  = await apiFetch(`${API_BASE_URL}/api/users/update-credentials.php`, {
+        const res  = await apiFetch(`${API_BASE_URL}/../app/users/update-credentials.php`, {
             method: 'POST',
             body: JSON.stringify({ telefono: state.telefonoPendiente, code }),
         });
@@ -676,7 +676,7 @@ async function handlePwdPaso1() {
     }
 
     try {
-        const res  = await apiFetch(`${API_BASE_URL}/api/verification/send-code.php`, {
+        const res  = await apiFetch(`${API_BASE_URL}/../app/verification/send-code.php`, {
             method: 'POST',
             body: JSON.stringify(body),
         });
@@ -724,7 +724,7 @@ async function handlePwdPaso2() {
     body[state.pwdChangeMethod.type] = state.pwdChangeMethod.value;
 
     try {
-        const res  = await apiFetch(`${API_BASE_URL}/api/users/change-password.php`, {
+        const res  = await apiFetch(`${API_BASE_URL}/../app/users/change-password.php`, {
             method: 'POST',
             body: JSON.stringify(body),
         });

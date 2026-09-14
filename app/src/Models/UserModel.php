@@ -8,8 +8,7 @@ use Trinity\Core\Database;
 
 /**
  * Acceso a datos de la tabla `usuarios`. Ningún endpoint debería
- * escribir SQL directo sobre esta tabla — todo pasa por acá.
- */
+ * escribir SQL directo sobre esta tabla — todo pasa por acá. */
 class UserModel
 {
     private PDO $pdo;
@@ -93,12 +92,10 @@ class UserModel
         return (bool) $stmt->fetch();
     }
 
-    /**
-     * Crea un usuario mínimo (registro). El resto del perfil se
+    /** Crea un usuario mínimo (registro). El resto del perfil se
      * completa después vía updateFields().
      *
-     * @throws PDOException si viola una restricción UNIQUE.
-     */
+     * @throws PDOException si viola una restricción UNIQUE. */
     public function create(string $nombre, string $usuario, string $passwordHash, ?string $email, ?string $telefono): int
     {
         $stmt = $this->pdo->prepare(
@@ -122,12 +119,10 @@ class UserModel
         $stmt->execute([':pass' => $passwordHash, ':id' => $id]);
     }
 
-    /**
-     * Actualiza un conjunto arbitrario de columnas (whitelist de nombres
+    /** Actualiza un conjunto arbitrario de columnas (whitelist de nombres
      * ya validada por el Service que llama a este método).
      *
-     * @param array<string,mixed> $fields columna => valor
-     */
+     * @param array<string,mixed> $fields columna => valor */
     public function updateFields(int $id, array $fields): void
     {
         if (empty($fields)) {
@@ -154,11 +149,9 @@ class UserModel
         $stmt->execute([':id' => $id]);
     }
 
-    /**
-     * Listado completo para el panel de administración.
+    /** Listado completo para el panel de administración.
      *
-     * @return array<int,array<string,mixed>>
-     */
+     * @return array<int,array<string,mixed>> */
     public function allForAdmin(): array
     {
         $stmt = $this->pdo->query(
@@ -177,9 +170,7 @@ class UserModel
         return $usuarios;
     }
 
-    /**
-     * @return array<int,array<string,mixed>>
-     */
+    /** @return array<int,array<string,mixed>> */
     public function search(string $query, int $limit = 8): array
     {
         $like = '%' . $query . '%';
@@ -201,10 +192,8 @@ class UserModel
         return $stmt->fetchAll();
     }
 
-    /**
-     * Cambia el rol de un usuario. Devuelve true si efectivamente
-     * se modificó una fila (el usuario existía).
-     */
+    // Cambia el rol de un usuario. Devuelve true si efectivamente
+    // se modificó una fila (el usuario existía).
     public function setRole(int $id, string $rol): bool
     {
         $stmt = $this->pdo->prepare('UPDATE usuarios SET rol = :rol WHERE id = :id');
@@ -212,12 +201,10 @@ class UserModel
         return $stmt->rowCount() > 0;
     }
 
-    /**
-     * Usuarios cuyo listado de deportes preferidos incluye $deporte
-     * (usado para segmentar el anuncio masivo de un torneo).
-     *
-     * @return array<int,array<string,mixed>>
-     */
+    /** Usuarios cuyo listado de deportes preferidos incluye $deporte
+      * (usado para segmentar el anuncio masivo de un torneo).
+      *
+      * @return array<int,array<string,mixed>> */
     public function findTargetedBySport(string $deporte): array
     {
         $stmt = $this->pdo->prepare(
@@ -229,22 +216,29 @@ class UserModel
         return $stmt->fetchAll();
     }
 
-    /**
-     * Todos los usuarios con datos de contacto, para un anuncio masivo
-     * sin segmentar.
-     *
-     * @return array<int,array<string,mixed>>
-     */
+    /** Todos los usuarios con datos de contacto, para un anuncio masivo
+      * sin segmentar.
+      *
+      * @return array<int,array<string,mixed>> */
     public function allForBroadcast(): array
     {
         $stmt = $this->pdo->query('SELECT id, email, telefono, notif_whatsapp FROM usuarios');
         return $stmt->fetchAll();
     }
 
-    /**
-     * Perfil público (para pages/profile/acc/view.html), con contadores
-     * de seguidores/seguidos calculados en la misma consulta.
-     */
+    /** Teléfonos de todos los usuarios con rol 'admin' que tengan uno
+      * cargado — usado para el aviso por WhatsApp de nuevas solicitudes
+      * de organizador (ver OrganizerService).
+      *
+      * @return string[] */
+    public function adminPhones(): array
+    {
+        $stmt = $this->pdo->query("SELECT telefono FROM usuarios WHERE rol = 'admin' AND telefono IS NOT NULL AND telefono != ''");
+        return array_column($stmt->fetchAll(), 'telefono');
+    }
+
+    // Perfil público (para pages/profile/acc/view.html), con contadores
+    // de seguidores/seguidos calculados en la misma consulta.
     public function publicProfile(int $targetId): ?array
     {
         $stmt = $this->pdo->prepare(

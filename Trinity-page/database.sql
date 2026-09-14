@@ -270,3 +270,29 @@ CREATE TABLE IF NOT EXISTS torneo_invitaciones (
 ) ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_unicode_ci;
+
+-- ═══════════════════════════════════════════════════════════════════
+--  MÓDULO DE SOLICITUDES DE ORGANIZADOR
+--  Solicitudes para convertirse en organizador.
+--  El usuario acepta los términos, se crea la solicitud y los admins
+--  pueden aprobarla o rechazarla. Al resolverla se registra quién y
+--  cuándo la resolvió.
+-- ═══════════════════════════════════════════════════════════════════
+
+CREATE TABLE IF NOT EXISTS solicitudes_organizador (
+    id                     INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    usuario_id             INT UNSIGNED NOT NULL,
+    estado                 ENUM('pendiente','aprobado','rechazado') NOT NULL DEFAULT 'pendiente',
+    terminos_aceptados_en  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    resuelto_por           INT UNSIGNED NULL,
+    resuelto_en            TIMESTAMP NULL,
+    creado_en              TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    KEY idx_usuario_estado (usuario_id, estado),
+    CONSTRAINT fk_solicitud_usuario FOREIGN KEY (usuario_id)
+        REFERENCES usuarios(id) ON DELETE CASCADE,
+    CONSTRAINT fk_solicitud_admin FOREIGN KEY (resuelto_por)
+        REFERENCES usuarios(id) ON DELETE SET NULL
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;

@@ -41,7 +41,7 @@ async function verificarToken() {
     }
 
     try {
-        const res  = await apiFetch(`${API_BASE_URL}/api/auth/verify-token.php?token=${encodeURIComponent(token)}`);
+        const res  = await apiFetch(`${API_BASE_URL}/../app/auth/verify-token.php?token=${encodeURIComponent(token)}`);
         const data = await res.json();
         mostrarCard(data.valido ? 'card-form' : 'card-invalido');
     } catch {
@@ -69,7 +69,7 @@ async function manejarSubmit(e) {
     btn.textContent = 'Guardando…';
 
     try {
-        const res = await apiFetch(`${API_BASE_URL}/api/auth/do-reset.php`, {
+        const res = await apiFetch(`${API_BASE_URL}/../app/auth/do-reset.php`, {
             method: 'POST',
             body: JSON.stringify({ token, nueva_password: nueva }),
         });

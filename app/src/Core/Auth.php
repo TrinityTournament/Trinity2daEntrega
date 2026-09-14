@@ -2,20 +2,16 @@
 
 namespace Trinity\Core;
 
-/**
- * Reemplaza a middleware.php. Se apoya en SessionManager para leer
- * el usuario autenticado y lanza ApiException (401/403) cuando
- * corresponde, que Controller::handle() traduce a JSON.
- */
+/** Reemplaza a middleware.php. Se apoya en SessionManager para leer
+  * el usuario autenticado y lanza ApiException (401/403) cuando
+  * corresponde, que Controller::handle() traduce a JSON. */
 final class Auth
 {
     private function __construct()
     {
     }
 
-    /**
-     * @return array<string,mixed> el usuario en sesión
-     */
+    /** @return array<string,mixed> el usuario en sesión */
     public static function requireLogin(): array
     {
         if (!SessionManager::isAuthenticated()) {
@@ -25,9 +21,7 @@ final class Auth
         return SessionManager::user();
     }
 
-    /**
-     * @return array<string,mixed> el usuario en sesión
-     */
+    /** @return array<string,mixed> el usuario en sesión */
     public static function requireRole(string ...$roles): array
     {
         $user     = self::requireLogin();
@@ -40,10 +34,9 @@ final class Auth
         return $user;
     }
 
-    /**
-     * Verifica el header X-CSRF-Token contra el guardado en sesión.
-     * Solo aplica a métodos que modifican estado.
-     */
+    
+    // Verifica el header X-CSRF-Token contra el guardado en sesión.
+    // Solo aplica a métodos que modifican estado.
     public static function validateCsrf(): void
     {
         if (in_array(Request::method(), ['GET', 'HEAD', 'OPTIONS'], true)) {
@@ -58,11 +51,10 @@ final class Auth
         }
     }
 
-    /**
-     * Valida la clave maestra de administrador (header X-Admin-Key)
-     * contra ADMIN_KEY del .env. Usado por endpoints de bootstrap
-     * (crear-admin.php) que no requieren sesión.
-     */
+    
+    // Valida la clave maestra de administrador (header X-Admin-Key)
+    // contra ADMIN_KEY del .env. Usado por endpoints de bootstrap
+    // (crear-admin.php) que no requieren sesión.
     public static function requireAdminKey(): void
     {
         $adminKey = Env::get('ADMIN_KEY', '');
@@ -75,6 +67,25 @@ final class Auth
 
         if (!hash_equals($adminKey, $recibida)) {
             throw new ApiException('Clave de administrador incorrecta.', 401);
+        }
+    }
+
+    // Valida el header X-WA-Secret contra WA_SECRET del .env — la misma
+    // clave que usa WhatsAppClient para autenticarse CONTRA el bot, acá
+    // usada al revés: el bot llama de vuelta a la API (resolve.php) para
+    // avisar que un admin respondió /aprobar o /rechazar por WhatsApp. 
+    public static function requireWaSecret(): void
+    {
+        $secret = Env::get('WA_SECRET', '');
+
+        if (!$secret) {
+            throw new ApiException('WA_SECRET no configurada en el servidor.', 500);
+        }
+
+        $recibido = Request::header('X-WA-Secret') ?? '';
+
+        if (!hash_equals($secret, $recibido)) {
+            throw new ApiException('Secreto inválido.', 401);
         }
     }
 }

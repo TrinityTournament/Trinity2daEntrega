@@ -196,4 +196,65 @@ class TournamentModel
             throw $e;
         }
     }
+
+    /**
+     * Búsqueda pública de torneos (buscar.html). Solo torneos con
+     * visibilidad='publico' y que ya salieron de borrador.
+     *
+     * @return array{torneos: array<int, array<string, mixed>>, total: int, page: int}
+     */
+    public function searchPublic(string $texto, string $deporte, string $formato, string $estado, int $page, int $perPage): array
+    {
+        return $this->guarded(function () use ($texto, $deporte, $formato, $estado, $page, $perPage) {
+            $where  = ["visibilidad = 'publico'", "estado != 'en_creacion'"];
+            $params = [];
+
+            if ($texto !== '') {
+                $where[] = '(titulo LIKE :texto OR deporte LIKE :texto)';
+                $params[':texto'] = '%' . $texto . '%';
+            }
+            if ($deporte !== '') {
+                $where[] = 'LOWER(deporte) = LOWER(:deporte)';
+                $params[':deporte'] = $deporte;
+            }
+            if ($formato !== '') {
+                $where[] = 'formato = :formato';
+                $params[':formato'] = $formato;
+            }
+            if ($estado !== '') {
+                $where[] = 'estado = :estado';
+                $params[':estado'] = $estado;
+            }
+
+            $whereSql = implode(' AND ', $where);
+            $offset   = max(0, ($page - 1) * $perPage);
+
+            $countStmt = $this->pdo->prepare("SELECT COUNT(*) FROM torneos WHERE {$whereSql}");
+            $countStmt->execute($params);
+            $total = (int) $countStmt->fetchColumn();
+
+            $stmt = $this->pdo->prepare(
+                "SELECT
+                    t.id, t.titulo, t.deporte, t.formato, t.estado, t.fecha_inicio,
+                    t.max_participantes, t.banner_url, t.creado_en,
+                    (SELECT COUNT(*) FROM torneo_participantes tp WHERE tp.torneo_id = t.id) AS inscritos
+                 FROM torneos t
+                 WHERE {$whereSql}
+                 ORDER BY t.fecha_inicio ASC
+                 LIMIT :limit OFFSET :offset"
+            );
+            foreach ($params as $k => $v) {
+                $stmt->bindValue($k, $v);
+            }
+            $stmt->bindValue(':limit', $perPage, PDO::PARAM_INT);
+            $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+            $stmt->execute();
+
+            return [
+                'torneos' => $stmt->fetchAll(),
+                'total'   => $total,
+                'page'    => $page,
+            ];
+        });
+    }
 }

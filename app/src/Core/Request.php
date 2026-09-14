@@ -2,26 +2,19 @@
 
 namespace Trinity\Core;
 
-/**
- * Envuelve el acceso a la request HTTP entrante ($_SERVER, $_GET, php://input).
- */
+// Envuelve el acceso a la request HTTP entrante ($_SERVER, $_GET, php://input).
 final class Request
 {
     /** @var array<string,mixed>|null */
     private static ?array $bodyCache = null;
 
     private function __construct()
-    {
-    }
+    {}
 
     public static function method(): string
-    {
-        return $_SERVER['REQUEST_METHOD'] ?? 'GET';
-    }
+    { return $_SERVER['REQUEST_METHOD'] ?? 'GET'; }
 
-    /**
-     * Corta la ejecución con 405 si el método no coincide.
-     */
+    // Corta la ejecución con 405 si el método no coincide.
     public static function requireMethod(string ...$methods): void
     {
         if (!in_array(self::method(), $methods, true)) {
@@ -29,11 +22,9 @@ final class Request
         }
     }
 
-    /**
-     * Body JSON de la request, decodificado como array asociativo.
-     *
-     * @return array<string,mixed>
-     */
+    
+    // Body JSON de la request, decodificado como array asociativo.
+    /** @return array<string,mixed> */ 
     public static function body(): array
     {
         if (self::$bodyCache === null) {

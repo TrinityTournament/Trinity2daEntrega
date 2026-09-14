@@ -23,7 +23,7 @@ async function getMCSkin(type, uuid) {
 
 async function minecraftProfile() {
     try {
-        const nametag = "moonrealm_";
+        const nametag = "holylavender";
 
         // 1. Obtener UUID y nombre
         const { data } = await axios.get(

@@ -10,8 +10,12 @@ ErrorDocument 404 /pages/errors/404.html
 # ── Carpetas que nunca deben servirse directamente ────────
 # (redundante con los <Directory> de apache/trinity.conf, se
 # deja también acá por si el vhost corre con AllowOverride All)
+#
+# api/src/ ya no existe acá: la API (app/src/) vive afuera de
+# Trinity-page, ver Alias /app + <Directory app/src> en
+# apache/trinity.conf (un .htaccess de este proyecto no puede
+# proteger una carpeta que está fuera de él).
 RewriteEngine On
-RewriteRule ^api/src/ - [F,L]
 RewriteRule ^vendor/ - [F,L]
 RewriteRule ^scripts/ - [F,L]
 RewriteRule ^WhatsApp/ - [F,L]

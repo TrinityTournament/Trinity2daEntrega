@@ -2,15 +2,12 @@
 
 namespace Trinity\Core;
 
-/**
- * Acceso centralizado a variables de entorno (.env vía vlucas/phpdotenv,
- * con fallback a variables de entorno reales del sistema/Apache).
- */
+// Acceso centralizado a variables de entorno (.env vía vlucas/phpdotenv,
+// con fallback a variables de entorno reales del sistema/Apache).
 final class Env
 {
     private function __construct()
-    {
-    }
+    {}
 
     public static function get(string $key, ?string $default = null): ?string
     {

@@ -328,16 +328,13 @@ class TournamentService
     private function emojiForSport(string $deporte): string
     {
         return match (strtolower($deporte)) {
-            'fútbol', 'futbol'     => '⚽',
-            'basketball'           => '🏀',
-            'volleyball'           => '🏐',
-            'tenis'                => '🎾',
-            'natación', 'natacion' => '🏊',
-            'atletismo'            => '🏃',
-            'valorant'             => '🎯',
-            'lol'                  => '🧙',
-            'fortnite'             => '🔫',
-            default                => '🏆',
+            'fútbol', 'futbol'  => '⚽',
+            'brawl stars'       => '🎯',
+            'clash royale'      => '⚔️',
+            'fortnite'          => '🏗️',
+            'free fire'         => '🔥',
+            'minecraft'         => '🧱',
+            default             => '🏆',
         };
     }
 
@@ -352,5 +349,64 @@ class TournamentService
         }
         $msg .= "\n\n¡Inscribite ahora en " . Env::get('APP_URL', '') . '!';
         return $msg;
+    }
+
+    // ── Reverso de FORMATO_LABELS (código interno -> etiqueta visible) ──
+    private const FORMATO_DISPLAY = [
+        'liga'        => 'Liga',
+        'eliminacion' => 'Eliminación directa',
+        'suizo'       => 'Sistema suizo',
+    ];
+
+    /**
+     * Búsqueda pública de torneos (pages/nav/tournament/buscar.html).
+     * $formatoInput/$estadoInput llegan como texto visible (lo que manda
+     * el <select> del form), no como código interno — se traducen acá,
+     * igual que ya hace create() con FORMATO_LABELS.
+     */
+    public function searchPublic(
+        string $texto,
+        string $deporte,
+        string $formatoInput,
+        string $estadoInput,
+        int $page
+    ): array {
+        $page    = max(1, $page);
+        $perPage = 12;
+
+        $formato = $formatoInput !== ''
+            ? (self::FORMATO_LABELS[mb_strtolower(trim($formatoInput))] ?? '')
+            : '';
+
+        $estadoMap = array_flip(array_map('mb_strtolower', self::ESTADO_LABELS));
+        $estado = $estadoInput !== ''
+            ? ($estadoMap[mb_strtolower(trim($estadoInput))] ?? '')
+            : '';
+
+        $resultado = $this->tournaments->searchPublic(
+            trim($texto),
+            trim($deporte),
+            $formato,
+            $estado,
+            $page,
+            $perPage
+        );
+
+        foreach ($resultado['torneos'] as &$t) {
+            $t['id']              = (int) $t['id'];
+            $t['max_participantes'] = $t['max_participantes'] !== null ? (int) $t['max_participantes'] : null;
+            $t['inscritos']       = (int) $t['inscritos'];
+            $t['estado_label']    = self::ESTADO_LABELS[$t['estado']] ?? ucfirst($t['estado']);
+            $t['formato_label']   = self::FORMATO_DISPLAY[$t['formato']] ?? ucfirst($t['formato']);
+            $t['emoji']           = $this->emojiForSport($t['deporte']);
+        }
+        unset($t);
+
+        return [
+            'torneos'  => $resultado['torneos'],
+            'total'    => $resultado['total'],
+            'page'     => $page,
+            'per_page' => $perPage,
+        ];
     }
 }

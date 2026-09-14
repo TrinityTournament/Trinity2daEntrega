@@ -1,23 +1,36 @@
 <?php
-// ══════════════════════════════════════════════════════════
-//  TRINITY — Router para el servidor embebido de PHP
-//
-//  El servidor embebido (`php -S`) NO lee .htaccess ni entiende
-//  ErrorDocument/mod_rewrite — eso es exclusivo de Apache. Por
-//  eso, al pedir una URL que no existe, PHP muestra su propia
-//  página "Not Found" en vez de pages/errors/404.html.
-//
-//  Este router hace que el server embebido se comporte igual
-//  que Apache con el .htaccess del proyecto: si el archivo
-//  pedido existe lo sirve normal, y si no, muestra el 404
-//  personalizado con status code 404 real.
-//
-//  USO (desde la raíz del proyecto):
-//    php -S localhost:8000 router.php
-// ══════════════════════════════════════════════════════════
 
 $uri  = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 $file = __DIR__ . $uri;
+
+// ── Puente hacia app/ (carpeta hermana, fuera de este proyecto) ──
+if ($uri === '/app' || str_starts_with($uri, '/app/')) {
+    $appDir      = realpath(dirname(__DIR__) . '/app');
+    $appTargetRaw = $appDir . substr($uri, strlen('/app'));
+    // realpath también resuelve "../" -> evita escapar de app/ con
+    // una URL tipo /app/../../../etc/passa.php
+    $appTarget   = realpath($appTargetRaw);
+
+    $esValido = $appDir !== false
+        && $appTarget !== false
+        && str_starts_with($appTarget, $appDir . DIRECTORY_SEPARATOR)
+        && substr($appTarget, -4) === '.php';
+
+    // No servir src/ directo (clases internas, no son endpoints).
+    if ($esValido && str_starts_with($appTarget, $appDir . '/src/')) {
+        http_response_code(403);
+        return true;
+    }
+
+    if ($esValido && is_file($appTarget)) {
+        chdir(dirname($appTarget));
+        require $appTarget;
+        return true;
+    }
+
+    http_response_code(404);
+    return true;
+}
 
 // Archivo real en disco (asset, .php, .css, .js, etc.) -> que lo
 // sirva el propio servidor embebido, tal cual haría con cualquier

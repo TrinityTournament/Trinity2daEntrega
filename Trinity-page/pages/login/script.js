@@ -1,6 +1,6 @@
 // ══════════════════════════════════════════
 //  TRINITY — LOGIN / REGISTRO / RECUPERAR
-//  Conectado a la API real (api/auth, api/verification).
+//  Conectado a la API real (app/auth, app/verification).
 //  Usa apiFetch (assets/js/api.js) para las llamadas: agrega
 //  cookies de sesión + header X-CSRF-Token automáticamente.
 // ══════════════════════════════════════════
@@ -193,7 +193,7 @@ async function manejarLogin(e) {
     btn.textContent = 'Ingresando…';
 
     try {
-        const res = await apiFetch(`${API_BASE_URL}/api/auth/login.php`, {
+        const res = await apiFetch(`${API_BASE_URL}/../app/auth/login.php`, {
             method: 'POST',
             body: JSON.stringify({ identifier, password }),
         });
@@ -231,7 +231,7 @@ async function solicitarCodigoEmail() {
     btn.disabled = true;
 
     try {
-        const res = await apiFetch(`${API_BASE_URL}/api/verification/send-code.php`, {
+        const res = await apiFetch(`${API_BASE_URL}/../app/verification/send-code.php`, {
             method: 'POST',
             body: JSON.stringify({ email }),
         });
@@ -267,7 +267,7 @@ async function solicitarCodigoTelefono() {
     btn.disabled = true;
 
     try {
-        const res = await apiFetch(`${API_BASE_URL}/api/verification/send-code.php`, {
+        const res = await apiFetch(`${API_BASE_URL}/../app/verification/send-code.php`, {
             method: 'POST',
             body: JSON.stringify({ telefono }),
         });
@@ -315,7 +315,7 @@ async function crearCuenta() {
     btn.textContent = 'Creando cuenta…';
 
     try {
-        const res = await apiFetch(`${API_BASE_URL}/api/verification/verify-code.php`, {
+        const res = await apiFetch(`${API_BASE_URL}/../app/verification/verify-code.php`, {
             method: 'POST',
             body: JSON.stringify({ nombre, usuario, password, email, telefono, code }),
         });
@@ -329,7 +329,7 @@ async function crearCuenta() {
 
         // Cuenta creada: iniciamos sesión automáticamente para no
         // pedirle al usuario que vuelva a escribir sus credenciales.
-        const loginRes = await apiFetch(`${API_BASE_URL}/api/auth/login.php`, {
+        const loginRes = await apiFetch(`${API_BASE_URL}/../app/auth/login.php`, {
             method: 'POST',
             body: JSON.stringify({ identifier: email || telefono, password }),
         });
@@ -364,7 +364,7 @@ async function manejarRecuperar(e) {
     btn.textContent = 'Enviando…';
 
     try {
-        const res = await apiFetch(`${API_BASE_URL}/api/auth/request-reset.php`, {
+        const res = await apiFetch(`${API_BASE_URL}/../app/auth/request-reset.php`, {
             method: 'POST',
             body: JSON.stringify({ email }),
         });

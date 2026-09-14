@@ -17,18 +17,18 @@
 <main class="tournaments-page">
 
     <header class="tournaments-header">
-        <div class="header-content">
-            <h1>TORNEOS</h1>
-            <br>
-            <h2>Enlaza tus cuentas para poder registrarte en los torneos</h2>
-            <a href="../../../pages/nav/tournament/buscar.html" class="how-to-join">¿CÓMO ME INSCRIBO?</a>
-        </div>
+        <h1>TORNEOS</h1>
     </header>
+
+    <section class="crear-torneo-cta">
+        <div class="loading-spinner" id="ct-loading"></div>
+        <div id="ct-content" hidden></div>
+    </section>
 
     <section class="games-grid" id="gamesGrid">
 
         <article class="game-card-wrap">
-            <a href="../../../pages/nav/tournament/buscar.html" class="game-card game-lol" data-game="Brawl Stars" data-game-id="brawlstars">
+            <a href="../../../pages/nav/tournament/buscar.html?disciplina=Brawl%20Stars" class="game-card game-lol" data-game="Brawl Stars" data-game-id="brawlstars">
                 <div class="card-bg" style="background-image: url('../../../assets/cards/tournament-banner/BSBG.png');"></div>
                 <div class="scrim"></div>
                 <img class="game-icon" src="../../../assets/cards/tournament-logos/BSLogo.png" alt="Brawl Stars">
@@ -36,7 +36,7 @@
         </article>
 
         <article class="game-card-wrap">
-            <a href="../../../pages/nav/tournament/buscar.html" class="game-card game-clash" data-game="Clash Royale" data-game-id="clashroyale">
+            <a href="../../../pages/nav/tournament/buscar.html?disciplina=Clash%20Royale" class="game-card game-clash" data-game="Clash Royale" data-game-id="clashroyale">
                 <div class="card-bg" style="background-image: url('../../../assets/cards/tournament-banner/ClashBG.jpeg');"></div>
                 <div class="scrim"></div>
                 <img class="game-icon" src="../../../assets/cards/tournament-logos/CRLogo.png" alt="Clash Royale">
@@ -44,7 +44,7 @@
         </article>
 
         <article class="game-card-wrap">
-            <a href="../../../pages/nav/tournament/buscar.html" class="game-card game-cs" data-game="Futbol" data-game-id="futbol">
+            <a href="../../../pages/nav/tournament/buscar.html?disciplina=F%C3%BAtbol" class="game-card game-cs" data-game="Fútbol" data-game-id="futbol">
                 <div class="card-bg" style="background-image: url('../../../assets/cards/tournament-banner/FutbolBG.jpg');"></div>
                 <div class="scrim"></div>
                 <img class="game-icon" src="../../../assets/cards/tournament-logos/FutbolLogo.png" alt="Futbol">
@@ -52,7 +52,7 @@
         </article>
 
         <article class="game-card-wrap">
-            <a href="../../../pages/nav/tournament/buscar.html" class="game-card game-valorant" data-game="Minecraft" data-game-id="minecraft">
+            <a href="../../../pages/nav/tournament/buscar.html?disciplina=Minecraft" class="game-card game-valorant" data-game="Minecraft" data-game-id="minecraft">
                 <div class="card-bg" style="background-image: url('../../../assets/cards/tournament-banner/MineBG.jpg');"></div>
                 <div class="scrim"></div>
                 <img class="game-icon" src="../../../assets/cards/tournament-logos/MinecraftLogo.png" alt="Minecraft">
@@ -60,7 +60,7 @@
         </article>
 
         <article class="game-card-wrap">
-            <a href="../../../pages/nav/tournament/buscar.html" class="game-card game-rocket" data-game="Free Fire">
+            <a href="../../../pages/nav/tournament/buscar.html?disciplina=Free%20Fire" class="game-card game-rocket" data-game="Free Fire">
                 <div class="card-bg" style="background-image: url('../../../assets/cards/tournament-banner/FreeBG.png');"></div>
                 <div class="scrim"></div>
                 <img class="game-icon" src="../../../assets/cards/tournament-logos/FFLogo.png" alt="Free Fire">
@@ -68,7 +68,7 @@
         </article>
 
         <article class="game-card-wrap">
-            <a href="../../../pages/nav/tournament/buscar.html" class="game-card game-fortnite" data-game="Fortnite" data-game-id="fortnite">
+            <a href="../../../pages/nav/tournament/buscar.html?disciplina=Fortnite" class="game-card game-fortnite" data-game="Fortnite" data-game-id="fortnite">
                 <div class="card-bg" style="background-image: url('../../../assets/cards/tournament-banner/FortBG.jpg');"></div>
                 <div class="scrim"></div>
                 <img class="game-icon" src="../../../assets/cards/tournament-logos/FortniteICON.png" alt="Fortnite">
@@ -77,28 +77,100 @@
 
     </section>
 
-    <div class="tournaments-cta-wrap">
-        <p class="tournaments-cta">
-            PARTICIPA EN TORNEOS SEMANALES DE TUS JUEGOS FAVORITOS. INSCRÍBETE, COMPITE Y
-            ESCALA POSICIONES EN EL RANKING DE TRINITY.
+    <!-- ══ AVISO: cuenta vinculada / confirmación ══ -->
+    <section class="acc-check-panel" id="accCheckPanel" hidden>
+        <button type="button" class="acc-check-close" id="accCheckClose" aria-label="Cerrar">&times;</button>
+        <p class="acc-check-title">¿Es esta información correcta?</p>
+        <div class="acc-check-body" id="accCheckBody"></div>
+    </section>
+
+    <section class="how-to-participate">
+        <h2>¿COMO PUEDO PARTICIPAR?</h2>
+        <p class="participate-steps">
+            <a href="../../../pages/login/login.html?m=register"><span class="step-word">CREA</span> UNA CUENTA EN LA PAGINA</a><br>
+            <a href="../../../pages/profile/cfg/edit.html"><span class="step-word">VINCULÁ</span> TUS CUENTAS CON TU PERFIL</a><br>
+            <a href="../../../pages/nav/tournament/buscar.html"><span class="step-word">VOLVÉ</span> A INSCRIBIRTE.</a>
         </p>
-    </div>
-
-    <section class="steps-section">
-        <a href="../../../pages/login/login.html" class="login-link-tag">
-            LINK A LOGIN
-            <span class="arrow">⌄</span>
-        </a>
-
-        <ol class="steps-list">
-            <li>1. <span class="crea">CREA</span> TU CUENTA</li>
-            <li>2. ÚNETE A UN TORNEO</li>
-            <li>3. COMPITE</li>
-            <li>4. GANA PREMIOS Y PUNTOS</li>
-        </ol>
     </section>
 </main>
 
+<!-- ══ MODAL: CONVERTIRSE EN ORGANIZADOR ══ -->
+<div class="modal-overlay" id="organizer-modal">
+    <div class="modal-box organizer-modal-box">
+        <button type="button" class="modal-close" id="organizer-modal-close" aria-label="Cerrar">&times;</button>
+
+        <!-- Paso 1: confirmar teléfono (solo si la cuenta no tiene uno cargado) -->
+        <div id="org-step-phone">
+            <h3 class="modal-title">Confirmá tu WhatsApp</h3>
+            <p class="modal-desc">
+                Necesitamos un número verificado para avisarte por WhatsApp sobre el estado
+                de tu solicitud (y después, sobre tus propios torneos).
+            </p>
+            <div class="field">
+                <label class="field-label" for="org-telefono">Tu número de WhatsApp</label>
+                <div class="phone-wrap">
+                    <select class="phone-prefix" aria-label="Prefijo telefónico" id="org-telefono-prefijo">
+                        <option value="598" selected>🇺🇾 +598</option>
+                        <option value="54">🇦🇷 +54</option>
+                        <option value="55">🇧🇷 +55</option>
+                        <option value="56">🇨🇱 +56</option>
+                        <option value="57">🇨🇴 +57</option>
+                        <option value="51">🇵🇪 +51</option>
+                        <option value="52">🇲🇽 +52</option>
+                        <option value="34">🇪🇸 +34</option>
+                        <option value="1">🇺🇸 +1</option>
+                    </select>
+                    <input type="tel" id="org-telefono" class="field-input" placeholder="99 123 456">
+                </div>
+            </div>
+            <button type="button" class="btn-primary" id="org-btn-send-code">Enviar código</button>
+            <p class="msg" id="org-phone-msg"></p>
+
+            <div id="org-otp-block" hidden>
+                <label class="field-label" id="org-otp-label">Código que te enviamos por WhatsApp</label>
+                <div class="otp-inputs" id="org-otp" aria-labelledby="org-otp-label">
+                    <input maxlength="1"><input maxlength="1"><input maxlength="1">
+                    <input maxlength="1"><input maxlength="1"><input maxlength="1">
+                </div>
+                <button type="button" class="btn-primary" id="org-btn-confirm-code">Confirmar número</button>
+                <p class="msg" id="org-otp-msg"></p>
+            </div>
+        </div>
+
+        <!-- Paso 2: términos y condiciones -->
+        <div id="org-step-terms" hidden>
+            <h3 class="modal-title">Términos y condiciones — Organizadores</h3>
+            <div class="terms-box">
+                <p><strong>[Texto de referencia — reemplazar por el texto legal real de Trinity]</strong></p>
+                <p>Al convertirte en organizador de Trinity, aceptás que:</p>
+                <p>1. Sos responsable de la organización, comunicación y desarrollo justo de los torneos que crees.</p>
+                <p>2. La información que publiques (fechas, formato, premios) debe ser veraz y no puede modificarse de forma arbitraria una vez que haya participantes inscritos.</p>
+                <p>3. Trinity puede suspender o eliminar torneos que incumplan las normas de la comunidad, y podés perder el rol de organizador ante un uso indebido.</p>
+                <p>4. Tus datos de contacto (WhatsApp) pueden usarse para coordinar con los participantes y con el equipo de Trinity.</p>
+                <p>5. Trinity no se hace responsable por acuerdos económicos o premios pactados por fuera de la plataforma entre organizadores y participantes.</p>
+            </div>
+            <label class="terms-check">
+                <input type="checkbox" id="org-terms-checkbox">
+                Acepto los términos y condiciones para organizar torneos en Trinity.
+            </label>
+            <button type="button" class="btn-primary" id="org-btn-submit" disabled>Enviar solicitud</button>
+            <p class="msg" id="org-terms-msg"></p>
+        </div>
+
+        <!-- Paso 3: confirmación -->
+        <div id="org-step-done" hidden>
+            <h3 class="modal-title">¡Listo!</h3>
+            <p class="modal-desc">
+                Le avisamos a los administradores de Trinity por WhatsApp. En cuanto revisen
+                tu solicitud, te llega un mensaje con el resultado.
+            </p>
+            <button type="button" class="btn-primary" id="org-btn-close-done">Entendido</button>
+        </div>
+    </div>
+</div>
+
+<script src="../../../assets/js/api.js"></script>
+<script src="tournament.js"></script>
 <script src="../../../components/footer.js"></script>
 </body>
 </html>

@@ -73,7 +73,7 @@ async function enviarTorneo(publicar) {
             return;
         }
 
-        const res = await apiFetch(`${API_BASE_URL}/api/tournaments/create.php`, {
+        const res = await apiFetch(`${API_BASE_URL}/../app/tournaments/create.php`, {
             method: 'POST',
             body: JSON.stringify({
                 titulo,

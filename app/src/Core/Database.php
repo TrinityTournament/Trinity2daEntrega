@@ -5,20 +5,12 @@ namespace Trinity\Core;
 use PDO;
 use PDOException;
 
-/**
- * Punto único de acceso a la base de datos (patrón Singleton).
- *
- * Reemplaza a la antigua función global db(). Todos los Models
- * reciben la instancia de PDO a través de Database::pdo().
- */
 final class Database
 {
     private static ?PDO $instance = null;
 
     private function __construct()
-    {
-        // No instanciable — solo métodos estáticos.
-    }
+    {} // La clase no debe instanciarse manualmente
 
     public static function pdo(): PDO
     {

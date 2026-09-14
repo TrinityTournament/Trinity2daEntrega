@@ -2,18 +2,13 @@
 
 namespace Trinity\Core;
 
-/**
- * Reemplaza a la antigua función global json_response().
- */
+// Reemplaza a la antigua función global json_response().
 final class Response
 {
     private function __construct()
-    {
-    }
+    {}
 
-    /**
-     * @param array<string,mixed> $data
-     */
+    /** @param array<string,mixed> $data */
     public static function json(array $data, int $status = 200): void
     {
         http_response_code($status);

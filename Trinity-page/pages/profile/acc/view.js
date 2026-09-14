@@ -57,7 +57,7 @@ async function init() {
     state.isOwner = !!(state.viewerId && state.viewerId === state.targetId);
 
     try {
-        const res  = await apiFetch(`${API_BASE_URL}/api/users/get-profile.php?id=${state.targetId}`);
+        const res  = await apiFetch(`${API_BASE_URL}/../app/users/get-profile.php?id=${state.targetId}`);
         const data = await res.json().catch(() => ({}));
         if (!res.ok) {
             showError(data.error || 'No se pudo cargar el perfil.');
@@ -87,7 +87,7 @@ async function init() {
 // estar logueado, así que usamos fetch() directo como hace nav.js.
 async function resolveViewer() {
     try {
-        const res = await fetch(`${API_BASE_URL}/api/auth/check-session.php`, {
+        const res = await fetch(`${API_BASE_URL}/../app/auth/check-session.php`, {
             credentials: 'include',
         });
         if (res.status === 401) { state.viewerId = null; return; }
@@ -251,7 +251,7 @@ function wireFollowButton() {
         btn.disabled = true;
         const accion = siguiendo ? 'unfollow' : 'follow';
         try {
-            const res  = await apiFetch(`${API_BASE_URL}/api/users/follow.php`, {
+            const res  = await apiFetch(`${API_BASE_URL}/../app/users/follow.php`, {
                 method: 'POST',
                 body: JSON.stringify({ target_id: state.targetId, accion }),
             });
@@ -353,7 +353,7 @@ async function loadFollowersList() {
     list.innerHTML = '<div class="fp-spinner"></div>';
 
     try {
-        const res  = await apiFetch(`${API_BASE_URL}/api/users/get-followers.php?user_id=${state.targetId}&tipo=${state.fpTipo}&page=1`);
+        const res  = await apiFetch(`${API_BASE_URL}/../app/users/get-followers.php?user_id=${state.targetId}&tipo=${state.fpTipo}&page=1`);
         const data = await res.json().catch(() => ({}));
         if (!res.ok) {
             list.innerHTML = `<p class="fp-empty">${data.error || 'No se pudo cargar la lista.'}</p>`;
@@ -412,7 +412,7 @@ async function loadLinkedAccounts() {
 
 async function fetchGameCard(game) {
     try {
-        const accRes  = await apiFetch(`${API_BASE_URL}/api/videogames/${game.path}/get-account.php`);
+        const accRes  = await apiFetch(`${API_BASE_URL}/../app/videogames/${game.path}/get-account.php`);
         const accData = await accRes.json().catch(() => ({}));
         if (!accRes.ok) return null;
 
@@ -424,7 +424,7 @@ async function fetchGameCard(game) {
 
         let statsPerfil = null;
         try {
-            const statsRes  = await apiFetch(`${API_BASE_URL}/api/videogames/${game.path}/get-stats.php?${game.idField}=${encodeURIComponent(identifier)}`);
+            const statsRes  = await apiFetch(`${API_BASE_URL}/../app/videogames/${game.path}/get-stats.php?${game.idField}=${encodeURIComponent(identifier)}`);
             const statsData = await statsRes.json().catch(() => ({}));
             if (statsRes.ok) statsPerfil = statsData.perfil;
         } catch { /* mostramos igual la cuenta vinculada aunque falle el stats */ }
@@ -621,7 +621,7 @@ async function renderVideojuegoPanel(key, name) {
 
 async function fetchGameDataFresh(game) {
     try {
-        const accRes  = await apiFetch(`${API_BASE_URL}/api/videogames/${game.path}/get-account.php`);
+        const accRes  = await apiFetch(`${API_BASE_URL}/../app/videogames/${game.path}/get-account.php`);
         const accData = await accRes.json().catch(() => ({}));
         if (!accRes.ok) return null;
 
@@ -634,7 +634,7 @@ async function fetchGameDataFresh(game) {
 
         let perfil = null;
         try {
-            const statsRes  = await apiFetch(`${API_BASE_URL}/api/videogames/${game.path}/get-stats.php?${game.idField}=${encodeURIComponent(identifier)}`);
+            const statsRes  = await apiFetch(`${API_BASE_URL}/../app/videogames/${game.path}/get-stats.php?${game.idField}=${encodeURIComponent(identifier)}`);
             const statsData = await statsRes.json().catch(() => ({}));
             if (statsRes.ok) perfil = statsData.perfil;
         } catch { /* seguimos igual, mostramos que está vinculada aunque falle el stats */ }
@@ -845,7 +845,7 @@ function wireFutbolForm() {
         };
 
         try {
-            const res  = await apiFetch(`${API_BASE_URL}/api/users/update-profile.php`, {
+            const res  = await apiFetch(`${API_BASE_URL}/../app/users/update-profile.php`, {
                 method: 'POST',
                 body: JSON.stringify(body),
             });
@@ -876,7 +876,7 @@ function setInlinePanelMsg(el, texto, tipo) {
 //  MINECRAFT — la API de Mojang solo confirma usuario/UUID
 //  (getAccount/stats no traen "estadísticas" reales). El resto
 //  del panel (estilo, estrategia, especialidad, modos) es
-//  carga manual del usuario. El skin se renderiza con crafatar.com
+//  carga manual del usuario. El skin se renderiza con mc-heads.net
 //  (imagen estática, sin dependencias) con un botón opcional
 //  para pasar a un visor 3D interactivo real (skinview3d, vía CDN).
 // ══════════════════════════════════════════════════════════
@@ -924,7 +924,9 @@ function renderMinecraftSkinSection(mcAccount) {
     }
     return `
         <div class="stats-panel-cover" id="mc-skin-cover">
-            <img src="https://crafatar.com/renders/body/${mcAccount.uuid}?overlay" alt="Skin de ${escapeHtml(mcAccount.nombre)}">
+            <img src="https://mc-heads.net/body/${mcAccount.uuid}/300"
+                alt="Skin de ${escapeHtml(mcAccount.nombre)}"
+                style="max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;image-rendering:pixelated;">
         </div>
         <div class="stats-panel-skin-actions">
             <button type="button" id="mc-btn-body" class="active">Cuerpo</button>
@@ -1006,7 +1008,9 @@ function wireMinecraftSkinToggle(mcAccount) {
     }
     function renderFlat(view) {
         document.getElementById('mc-skin-cover').innerHTML =
-            `<img src="https://crafatar.com/renders/${view}/${uuid}?overlay" alt="Skin de ${escapeHtml(mcAccount.nombre)}">`;
+            `<img src="https://mc-heads.net/${view}/${uuid}/300" 
+                alt="Skin de ${escapeHtml(mcAccount.nombre)}"
+                style="max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;image-rendering:pixelated;">`;
     }
 
     btnBody.addEventListener('click', () => { setActive(btnBody); renderFlat('body'); });
@@ -1039,19 +1043,19 @@ async function load3dSkinViewer(uuid) {
 
     try {
         await loadSkinview3dScript();
-        cover.innerHTML = '<canvas id="mc-skin-canvas"></canvas>';
+        cover.innerHTML = '<canvas id="mc-skin-canvas" style="max-width:100%;max-height:100%;display:block;margin:auto;"></canvas>';
         const canvas = document.getElementById('mc-skin-canvas');
         const viewer = new window.skinview3d.SkinViewer({
             canvas,
             width:  200,
             height: 266,
-            skin:   `https://crafatar.com/skins/${uuid}`,
+            skin:   `https://mc-heads.net/skin/${uuid}`,
         });
         viewer.autoRotate = true;
     } catch (err) {
         console.error('[view.js] visor 3D:', err);
         // Si falla (sin internet al CDN, etc.) volvemos al render estático de siempre.
-        cover.innerHTML = `<img src="https://crafatar.com/renders/body/${uuid}?overlay" alt="">`;
+        cover.innerHTML = `<img src="https://mc-heads.net/body/${uuid}" alt="">`;
     }
 }
 
@@ -1092,7 +1096,7 @@ function wireMinecraftForm() {
         };
 
         try {
-            const res  = await apiFetch(`${API_BASE_URL}/api/users/update-profile.php`, {
+            const res  = await apiFetch(`${API_BASE_URL}/../app/users/update-profile.php`, {
                 method: 'POST',
                 body: JSON.stringify(body),
             });

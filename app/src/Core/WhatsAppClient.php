@@ -2,11 +2,9 @@
 
 namespace Trinity\Core;
 
-/**
- * Reemplaza a whatsapp_send() y whatsapp_broadcast(). Habla por HTTP
- * con el bot de Node (carpeta /WhatsApp) que expone /api/whatsapp/send
- * y /api/whatsapp/broadcast.
- */
+// Reemplaza a whatsapp_send() y whatsapp_broadcast(). Habla por HTTP
+// con el bot de Node (carpeta /WhatsApp) que expone /api/whatsapp/send
+// y /api/whatsapp/broadcast.
 final class WhatsAppClient
 {
     private function __construct()
@@ -31,9 +29,7 @@ final class WhatsAppClient
         ], 5);
     }
 
-    /**
-     * @param string[] $phones
-     */
+    /** @param string[] $phones */
     public static function broadcast(array $phones, string $message): bool
     {
         if (empty($phones)) {
@@ -51,12 +47,10 @@ final class WhatsAppClient
         ], 60);
     }
 
-    /**
-     * GET /api/whatsapp/status → {"connected": true|false}
+    /** GET /api/whatsapp/status → {"connected": true|false}
      * Se llama antes de cada send()/broadcast() para fallar rápido y con
      * un mensaje claro si el bot todavía no inició sesión en WhatsApp,
-     * en vez de esperar el POST completo y recién ahí enterarnos por el 503.
-     */
+     * en vez de esperar el POST completo y recién ahí enterarnos por el 503. */
     public static function isConnected(): bool
     {
         $url = self::baseUrl() . '/api/whatsapp/status';
@@ -92,16 +86,14 @@ final class WhatsAppClient
 
     private static function baseUrl(): string
     {
-        // Si WA_BOT_URL está seteada (túnel público: ngrok, Cloudflare
-        // Tunnel, etc.) se usa tal cual, con su propio esquema (https)
+        // Si WA_BOT_URL está seteada se usa tal cual, 
+        // con su propio esquema (https)
         // y sin necesidad de puerto explícito.
         $full = trim(Env::get('WA_BOT_URL', ''));
         if ($full !== '') {
             return rtrim($full, '/');
         }
 
-        // Sin WA_BOT_URL: modo local/Docker de siempre.
-        // WA_BOT_HOST es "127.0.0.1" en local y "whatsapp" en Docker.
         $host = Env::get('WA_BOT_HOST', '127.0.0.1');
         $port = Env::get('WA_BOT_PORT', '3001');
         return 'http://' . $host . ':' . $port;
@@ -142,13 +134,11 @@ final class WhatsAppClient
 
         return $ok;
     }
-
-    /**
-     * Headers compartidos por status/send/broadcast. $withContentType
-     * se omite en el GET de status, que no manda body.
-     *
-     * @return string[]
-     */
+    
+    /** Headers compartidos por status/send/broadcast. $withContentType
+      * se omite en el GET de status, que no manda body.
+      *
+      * @return string[] */
     private static function headers(bool $withContentType = false): array
     {
         $headers = [

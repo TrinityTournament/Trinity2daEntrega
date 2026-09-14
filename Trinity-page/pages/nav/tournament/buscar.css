@@ -38,3 +38,11 @@
     margin-top: 2rem;
 }
 .pagination-info { font-size: 13px; color: var(--text-muted); }
+
+.no-tournaments {
+    grid-column: 1 / -1;
+    text-align:  center;
+    padding:     2.5rem 1rem;
+    color:       var(--text-muted);
+    font-size:   14px;
+}

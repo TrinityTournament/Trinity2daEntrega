@@ -2,16 +2,14 @@
 
 namespace Trinity\Core;
 
-/**
- * Excepción de negocio para la capa de API.
- *
- * Cualquier Service puede lanzar esta excepción para comunicar un
- * error "esperado" (validación, permisos, recurso no encontrado, etc.)
- * junto con el código de estado HTTP que corresponde devolver.
- *
- * Controller::handle() la captura y la traduce a una respuesta JSON,
- * evitando repetir try/catch en cada endpoint.
- */
+/** Excepción de negocio para la capa de API.
+  *
+  * Cualquier Service puede lanzar esta excepción para comunicar un
+  * error "esperado" (validación, permisos, recurso no encontrado, etc.)
+  * junto con el código de estado HTTP que cprresponde devolver.
+  *
+  * Controller::handle() la captura y la tradyce a una respuesta JSON,
+  * evitando repetir try/catch en cada endpoint. */
 class ApiException extends \RuntimeException
 {
     private int $status;

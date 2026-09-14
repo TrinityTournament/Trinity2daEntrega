@@ -1,0 +1,4 @@
+# Redundante con <Directory .../app/src> en apache/trinity.conf,
+# se deja también acá por si el Alias /app corre con AllowOverride All.
+# src/ son clases internas (namespace Trinity\...), no son endpoints.
+Require all denied

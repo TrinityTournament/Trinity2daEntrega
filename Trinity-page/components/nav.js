@@ -72,6 +72,7 @@ const navBaseURI = (() => {
                         <span class="dropdown-username" id="dropdown-username">Usuario</span>
                     </div>
                     <a href="${navBaseURI}/pages/profile/acc/view.html" class="dropdown-item">&nbsp; Perfil</a>
+                    <a href="${navBaseURI}/pages/teams/mis-equipos.html" class="dropdown-item">&nbsp; Equipos</a>
                     <a href="${navBaseURI}/pages/admin/index.html" class="dropdown-item dropdown-item--admin" id="nav-admin-link" style="display:none;">&nbsp; Admin</a>
                     <a href="${navBaseURI}/pages/profile/cfg/edit.html" class="dropdown-item">&nbsp; Configuración</a>
                     <div class="dropdown-divider"></div>
@@ -160,7 +161,7 @@ const navBaseURI = (() => {
 
 async function refreshSessionFromServer() {
     try {
-        const res = await fetch(`${navBaseURI}/api/auth/check-session.php`, {
+        const res = await fetch(`${navBaseURI}/../app/auth/check-session.php`, {
             credentials: 'include',
         });
 
@@ -222,7 +223,7 @@ function wireSearch(inputId, resultsId) {
     async function runSearch(q) {
         const reqId = ++lastReq;
         try {
-            const res  = await fetch(`${navBaseURI}/api/users/search-users.php?q=${encodeURIComponent(q)}`, {
+            const res  = await fetch(`${navBaseURI}/../app/users/search-users.php?q=${encodeURIComponent(q)}`, {
                 credentials: 'include',
             });
             const data = await res.json();
@@ -292,10 +293,10 @@ async function logout() {
         // Necesitamos el csrf_token vigente: se pide justo antes de
         // cerrar sesión para no depender de que assets/js/api.js esté
         // cargado en esta página.
-        const tokenRes = await fetch(`${navBaseURI}/api/auth/csrf-token.php`, { credentials: 'include' });
+        const tokenRes = await fetch(`${navBaseURI}/../app/auth/csrf-token.php`, { credentials: 'include' });
         const { csrf_token } = await tokenRes.json();
 
-        await fetch(`${navBaseURI}/api/auth/logout.php`, {
+        await fetch(`${navBaseURI}/../app/auth/logout.php`, {
             method: 'POST',
             credentials: 'include',
             headers: { 'X-CSRF-Token': csrf_token || '' },
