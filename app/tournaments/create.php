@@ -1,13 +1,9 @@
 <?php
-// ══════════════════════════════════════════════════════════
-//  TRINITY — Crear torneo
-//  Body: { titulo, deporte, descripcion, formato, max_participantes,
-//          fecha_inicio, visibilidad, banner_url, publicar }
-//
+
 //  Requiere sesión con rol organizador o admin. Si "publicar" es true
 //  y la visibilidad es pública, dispara aviso por email/WhatsApp a los
 //  usuarios interesados en ese deporte (ver TournamentService::create).
-// ══════════════════════════════════════════════════════════
+
 require_once __DIR__ . '/../config.php';
 
 use Trinity\Core\Auth;

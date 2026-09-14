@@ -1,7 +1,5 @@
 <?php
-// ══════════════════════════════════════════════════════════
-//  TRINITY — Seguir / dejar de seguir un usuario
-// ══════════════════════════════════════════════════════════
+
 require_once __DIR__ . '/../config.php';
 
 use Trinity\Core\Auth;

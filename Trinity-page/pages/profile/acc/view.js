@@ -1,17 +1,4 @@
-// ══════════════════════════════════════════════════════════
-//  TRINITY — Perfil (pages/profile/acc/view.html)
-//  Ver perfil propio o ajeno, seguir/dejar de seguir,
-//  favoritos y (solo perfil propio) cuentas de videojuego
-//  vinculadas con estadísticas reales.
-// ══════════════════════════════════════════════════════════
-
 const $ = (sel) => document.querySelector(sel);
-
-// ── Metadata visual para deportes / videojuegos favoritos ──
-// Reusamos los mismos banners que ya existen para las cards de
-// torneos en el home, así no dependemos de emojis/degradés genéricos.
-// Deportes y videojuegos ahora se muestran juntos bajo "Preferencias"
-// (una sola fila de 3), así que compartimos un único lookup.
 const BANNER_PATH = '../../../assets/cards/tournament-banner/';
 const FAVORITOS_META = {
     'Fútbol':       { img: BANNER_PATH + 'FutbolBG.jpg', emoji: '⚽' },
@@ -22,7 +9,6 @@ const FAVORITOS_META = {
     'Minecraft':    { img: BANNER_PATH + 'MineBG.jpg',  emoji: '🧱' },
 };
 
-// ── Los 4 juegos vinculables (misma info que usa edit.js) ──
 const GAMES = [
     { key: 'brawlstars',  label: 'Brawl Stars',  emoji: '🎯', path: 'BRAWLAPI',       idField: 'tag' },
     { key: 'clashroyale', label: 'Clash Royale',  emoji: '⚔️', path: 'ClashRoyaleAPI', idField: 'tag' },
@@ -80,11 +66,6 @@ async function init() {
     }
 }
 
-// ── Sesión del visitante (sin forzar redirect si es invitado) ──
-// OJO: no usar apiFetch acá — check-session.php devuelve 401 si
-// nadie inició sesión, y apiFetch redirige automáticamente al
-// login en un 401. Un perfil público tiene que poder verse sin
-// estar logueado, así que usamos fetch() directo como hace nav.js.
 async function resolveViewer() {
     try {
         const res = await fetch(`${API_BASE_URL}/../app/auth/check-session.php`, {
@@ -105,9 +86,6 @@ function showError(mensaje) {
     errEl.hidden = false;
 }
 
-// ══════════════════════════════════════════════════════════
-//  RENDER DEL PERFIL
-// ══════════════════════════════════════════════════════════
 function renderProfile() {
     const u = state.profile;
 
@@ -237,9 +215,6 @@ function escapeHtml(str) {
     return div.innerHTML;
 }
 
-// ══════════════════════════════════════════════════════════
-//  SEGUIR / DEJAR DE SEGUIR
-// ══════════════════════════════════════════════════════════
 function wireFollowButton() {
     const btn = $('#btn-follow');
     if (!btn) return;
@@ -280,9 +255,6 @@ function updateFollowButton(btn, siguiendo) {
     btn.classList.toggle('following', siguiendo);
 }
 
-// ══════════════════════════════════════════════════════════
-//  POPUP SEGUIDOS / SEGUIDORES
-// ══════════════════════════════════════════════════════════
 function wireFollowersPopup() {
     const btn = $('#btn-followers');
     btn.addEventListener('click', (e) => {
@@ -386,12 +358,6 @@ async function loadFollowersList() {
     }
 }
 
-// ══════════════════════════════════════════════════════════
-//  CUENTAS DE VIDEOJUEGO VINCULADAS (solo perfil propio)
-//  Nota: get-account.php siempre opera sobre la sesión actual,
-//  el backend no permite pedir la cuenta vinculada de otro
-//  usuario — por eso esta sección solo se muestra en tu perfil.
-// ══════════════════════════════════════════════════════════
 async function loadLinkedAccounts() {
     const section = $('#gamelink-section');
     const grid    = $('#gamelink-grid');
@@ -476,12 +442,6 @@ function statRow(label, value) {
     return `<p class="gamelink-stat"><span>${escapeHtml(label)}</span><strong>${escapeHtml(String(value))}</strong></p>`;
 }
 
-// ══════════════════════════════════════════════════════════
-//  PANEL DE ESTADÍSTICAS (al clickear una carta de Preferencias)
-//
-//  Se abre igual que el cropper de edit.js: toggle de la clase
-//  "open" en un .modal-overlay ya presente en el HTML.
-// ══════════════════════════════════════════════════════════
 function openStatsModal() { document.getElementById('stats-modal').classList.add('open'); }
 function closeStatsModal() { document.getElementById('stats-modal').classList.remove('open'); }
 
@@ -548,7 +508,6 @@ function renderNoDisponiblePanel(titulo, mensaje) {
     `;
 }
 
-// ── Brawl Stars / Clash Royale / Fortnite (cuenta vinculada real) ──
 async function renderVideojuegoPanel(key, name) {
     const game = GAMES.find((g) => g.key === key);
     const meta = FAVORITOS_META[name];
@@ -753,11 +712,6 @@ function wireFortniteTabs() {
     });
 }
 
-// ══════════════════════════════════════════════════════════
-//  FÚTBOL — sin API externa, carga manual (rol/número/equipo).
-//  A futuro esta card se actualizaría sola con partidos de
-//  torneos de Trinity, pero ese sistema todavía no existe.
-// ══════════════════════════════════════════════════════════
 const ROLES_FUTBOL = ['Arquero', 'Defensor', 'Mediocampista', 'Delantero'];
 
 function renderFutbolPanel() {

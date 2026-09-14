@@ -18,7 +18,7 @@ abstract class AbstractGameAccountService
         $this->accounts = new GameAccountModel();
     }
 
-    /** Clave interna usada en la columna `juego` de cuentas_videojuego. */
+    // Clave interna usada en la columna `juego` de cuentas_videojuego.
     abstract protected function gameKey(): string;
 
     public function getLinkedIdentifier(int $userId): ?string

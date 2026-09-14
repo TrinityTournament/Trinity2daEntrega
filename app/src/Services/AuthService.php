@@ -72,20 +72,17 @@ class AuthService
         ];
     }
 
-    /**
-     * @return array<string,mixed>
-     */
+    /** @return array<string,mixed> */
     public function csrfToken(): array
     {
         return ['csrf_token' => SessionManager::csrfToken()];
     }
 
-    /**
-     * Siempre responde ok:true exista o no el email, para no permitir
-     * enumerar cuentas registradas.
-     *
-     * @return array<string,mixed>
-     */
+    
+    /** Siempre responde ok:true exista o no el email, para no permitir
+      * enumerar cuentas registradas.
+      *
+      * @return array<string,mixed> */
     public function requestPasswordReset(string $email): array
     {
         if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {

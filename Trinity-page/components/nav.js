@@ -1,8 +1,3 @@
-// ══════════════════════════════════════════
-//  TRINITY — Nav compartido
-//  Inyecta el nav en todas las páginas.
-// ══════════════════════════════════════════
-
 // Detecta automáticamente la ruta base a partir de dónde se cargó este script,
 // así no depende de cómo se llame la carpeta del proyecto (Trinity-page,
 // Trinity1erEntrega, etc.). Si por algún motivo no se puede detectar, usa
@@ -151,13 +146,10 @@ const navBaseURI = (() => {
         try { setNavLoggedIn(JSON.parse(saved)); } catch {}
     }
 
-    // ...y siempre confirmamos contra el servidor, que es la fuente de
-    // verdad real (la cookie de sesión pudo expirar, o el usuario pudo
-    // cerrar sesión desde otra pestaña).
     refreshSessionFromServer();
 })();
 
-// ── SESIÓN (fuente de verdad: el servidor) ─
+// ── SESIÓN ─
 
 async function refreshSessionFromServer() {
     try {
@@ -257,7 +249,7 @@ function escapeHtml(str) {
     return div.innerHTML;
 }
 
-// ── AUTH ──────────────────────────────────
+// ── AUTH ─────────────
 
 function setNavLoggedIn(u) {
     const guestEl    = document.getElementById('nav-guest');

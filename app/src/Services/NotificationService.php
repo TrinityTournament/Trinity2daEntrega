@@ -20,14 +20,13 @@ class NotificationService
         $this->users         = new UserModel();
     }
 
-    /**
-     * Crea una notificación in-app y, además, la reenvía por email
-     * (si el usuario tiene email y Brevo está configurado) y por
-     * WhatsApp (solo con opt-in + teléfono registrado).
-     *
-     * La usan SocialService (follow), TournamentService (invitaciones)
-     * y AdminService. Réplica fiel de la antigua crear_notificacion().
-     */
+    
+    /** Crea una notificación in-app y, además, la reenvía por email
+      * (si el usuario tiene email y Brevo está configurado) y por
+      * WhatsApp (solo con opt-in + teléfono registrado).
+      *
+      * La usan SocialService (follow), TournamentService (invitaciones)
+      * y AdminService. Réplica fiel de la antigua crear_notificacion(). */
     public function create(int $userId, string $tipo, string $titulo, string $mensaje, ?string $link = null): void
     {
         try {
@@ -72,9 +71,7 @@ class NotificationService
         }
     }
 
-    /**
-     * @return array<string,mixed>
-     */
+    /** @return array<string,mixed> */
     public function list(int $userId, int $page, int $limit): array
     {
         $page  = max(1, $page);
@@ -87,9 +84,7 @@ class NotificationService
         ];
     }
 
-    /**
-     * @return array<string,mixed>
-     */
+    /** @return array<string,mixed> */
     public function markRead(int $userId, ?int $id, bool $all): array
     {
         if ($all) {

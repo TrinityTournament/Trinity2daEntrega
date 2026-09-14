@@ -1,7 +1,3 @@
-// ══════════════════════════════════════════════════════════
-//  TRINITY — Crear torneo (pages/nav/tournament/crear.html)
-// ══════════════════════════════════════════════════════════
-
 const $ = (sel) => document.querySelector(sel);
 
 function setMensaje(texto, tipo) {
@@ -15,8 +11,6 @@ function leerFormato() {
     const cards = document.querySelectorAll('input[name="formato"]');
     const seleccionado = Array.from(cards).find((r) => r.checked);
     if (!seleccionado) return '';
-    // El texto visible de la card es lo que espera el backend (ver
-    // TournamentService::FORMATO_LABELS).
     return seleccionado.closest('.option-card').querySelector('.option-card-title').textContent.trim();
 }
 
@@ -103,9 +97,6 @@ async function enviarTorneo(publicar) {
             'ok'
         );
 
-        // NOTA: todavía no redirigimos a "Mis torneos" / panel de organizador
-        // porque esas pantallas son maquetado sin datos reales — se conectan
-        // en un paso siguiente. Por ahora dejamos la confirmación acá mismo.
         btnCrear.disabled = false;
         btnBorrador.disabled = false;
     } catch (err) {

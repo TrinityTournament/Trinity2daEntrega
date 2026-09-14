@@ -7,11 +7,9 @@ use PDOException;
 use Trinity\Core\ApiException;
 use Trinity\Core\Database;
 
-/**
- * Solicitudes de usuarios para convertirse en 'organizador'.
- * Igual que TournamentModel, envuelve en guarded() por si la
- * migración todavía no corrió en este despliegue.
- */
+/** Solicitudes de usuarios para convertirse en 'organizador'.
+  * Igual que TournamentModel, envuelve en guarded() por si la
+  * migración todavía no corrió en este despliegue. */
 class OrganizerRequestModel
 {
     private PDO $pdo;

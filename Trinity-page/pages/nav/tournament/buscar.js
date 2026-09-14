@@ -1,7 +1,3 @@
-// ══════════════════════════════════════════════════════════
-//  TRINITY — Buscar torneos (pages/nav/tournament/buscar.html)
-// ══════════════════════════════════════════════════════════
-
 const $ = (sel) => document.querySelector(sel);
 
 const BANNER_PATH = '../../../assets/cards/tournament-banner/';
@@ -23,10 +19,6 @@ function init() {
     const params = new URLSearchParams(window.location.search);
     const disciplina = params.get('disciplina');
     if (disciplina) {
-        // El <select> de disciplina usa <option> sin value (el texto
-        // visible es el valor) — buscamos la opción cuyo texto matchea,
-        // sin importar mayúsculas/acentos, ya que el link de origen
-        // puede escribirlo distinto (ver tournament.html).
         const select = $('#f-disciplina');
         const target = normalizar(disciplina);
         const match = [...select.options].find((o) => normalizar(o.textContent) === target);

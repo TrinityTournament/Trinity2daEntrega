@@ -1,8 +1,5 @@
 <?php
-// ══════════════════════════════════════════════════════════
-//  TRINITY — Enviar código de verificación
-//  Soporta dos flujos: 1) email  2) teléfono (WhatsApp)
-// ══════════════════════════════════════════════════════════
+
 require_once __DIR__ . '/../config.php';
 
 use Trinity\Core\Controller;

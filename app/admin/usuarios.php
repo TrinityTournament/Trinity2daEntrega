@@ -1,9 +1,8 @@
 <?php
-// ══════════════════════════════════════════════════════════
-//  TRINITY — Admin: gestión de usuarios
+
 //  GET  → lista todos los usuarios
 //  PATCH { id, rol } → cambia el rol de un usuario
-// ══════════════════════════════════════════════════════════
+
 require_once __DIR__ . '/../config.php';
 
 use Trinity\Core\ApiException;

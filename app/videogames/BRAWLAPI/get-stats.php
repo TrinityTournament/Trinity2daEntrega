@@ -1,5 +1,4 @@
 <?php
-// TRINITY — Brawl Stars: estadísticas del jugador
 // GET ?tag=#VOYUUUO | GET (sin params) → cuenta vinculada
 require_once __DIR__ . '/../../config.php';
 

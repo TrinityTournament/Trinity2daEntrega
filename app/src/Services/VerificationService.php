@@ -19,13 +19,12 @@ class VerificationService
         $this->users = new UserModel();
     }
 
-    /**
-     * Envía un código de 6 dígitos por email. Soporta dos flujos:
-     * registro (el email NO debe existir) y cambio de contraseña
-     * (el email SÍ debe existir).
-     *
-     * @return array<string,mixed>
-     */
+    
+    /** Envía un código de 6 dígitos por email. Soporta dos flujos:
+      * registro (el email NO debe existir) y cambio de contraseña
+      * (el email SÍ debe existir).
+      *
+      * @return array<string,mixed> */
     public function sendEmailCode(string $email, bool $cambioPassword): array
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -64,13 +63,11 @@ class VerificationService
         return [];
     }
 
-    /**
-     * Envía un código de 6 dígitos por WhatsApp. Soporta registro,
-     * cambio de contraseña y cambio de credencial (nuevo teléfono
-     * desde el perfil, mientras esté logueado).
-     *
-     * @return array<string,mixed>
-     */
+    /** Envía un código de 6 dígitos por WhatsApp. Soporta registro,
+      * cambio de contraseña y cambio de credencial (nuevo teléfono
+      * desde el perfil, mientras esté logueado).
+      *
+      * @return array<string,mixed> */
     public function sendPhoneCode(string $telefono, bool $cambioCredencial, bool $cambioPassword): array
     {
         $telNorm = preg_replace('/[^0-9]/', '', $telefono);
@@ -111,13 +108,11 @@ class VerificationService
         return [];
     }
 
-    /**
-     * Verifica el código pendiente y crea la cuenta (registro mínimo).
-     * fecha_nacimiento, tipo y deportes quedan NULL — se completan
-     * después desde el perfil.
-     *
-     * @return array<string,mixed>
-     */
+    /** Verifica el código pendiente y crea la cuenta (registro mínimo).
+      * fecha_nacimiento, tipo y deportes quedan NULL — se completan
+      * después desde el perfil.
+      *
+      * @return array<string,mixed> */
     public function verifyAndRegister(
         string $nombre,
         string $usuario,

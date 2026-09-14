@@ -51,14 +51,12 @@ class TournamentService
         $this->notifications = new NotificationService();
     }
 
-    /**
-     * Crea un torneo. $publicar=true → queda 'abierto' y (si es público)
-     * dispara el aviso por email/WhatsApp a los usuarios interesados en
-     * ese deporte. $publicar=false → 'en_creacion' (borrador, el
-     * organizador puede invitar gente antes de abrirlo).
-     *
-     * @return array<string,mixed>
-     */
+    /** Crea un torneo. $publicar=true → queda 'abierto' y (si es público)
+      * dispara el aviso por email/WhatsApp a los usuarios interesados en
+      * ese deporte. $publicar=false → 'en_creacion' (borrador, el
+      * organizador puede invitar gente antes de abrirlo).
+      *
+      * @return array<string,mixed> */
     public function create(array $organizador, string $titulo, string $deporte, string $descripcion, string $formatoInput, int $cupo, string $fecha, string $visibilidadInput, ?string $bannerUrl, bool $publicar): array
     {
         $titulo = trim($titulo);
@@ -176,9 +174,7 @@ class TournamentService
         return ['torneos' => $torneos];
     }
 
-    /**
-     * @return array<string,mixed>
-     */
+    /** @return array<string,mixed> */
     public function invite(int $organizadorId, string $orgNombre, string $orgUsuario, int $torneoId, int $invitadoId): array
     {
         if (!$torneoId || !$invitadoId) {
@@ -228,12 +224,9 @@ class TournamentService
         return ['mensaje' => "Invitación enviada a {$invitado['nombre']}."];
     }
 
-    /**
-     * Anuncio masivo de torneo (no depende de la tabla `torneos`: solo
-     * necesita la lista de usuarios objetivo y sus preferencias).
-     *
-     * @return array<string,mixed>
-     */
+    /** Anuncio masivo de torneo (no depende de la tabla `torneos`: solo
+      * necesita la lista de usuarios objetivo y sus preferencias).
+      * @return array<string,mixed> */
     public function notify(string $titulo, string $desc, string $fecha, string $deporte, string $target, string $testPhone): array
     {
         if (!$titulo || !$desc) {
@@ -358,12 +351,10 @@ class TournamentService
         'suizo'       => 'Sistema suizo',
     ];
 
-    /**
-     * Búsqueda pública de torneos (pages/nav/tournament/buscar.html).
-     * $formatoInput/$estadoInput llegan como texto visible (lo que manda
-     * el <select> del form), no como código interno — se traducen acá,
-     * igual que ya hace create() con FORMATO_LABELS.
-     */
+    /** Búsqueda pública de torneos (pages/nav/tournament/buscar.html).
+      * $formatoInput/$estadoInput llegan como texto visible (lo que manda
+      * el <select> del form), no como código interno — se traducen acá,
+      * igual que ya hace create() con FORMATO_LABELS. */
     public function searchPublic(
         string $texto,
         string $deporte,

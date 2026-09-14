@@ -13,7 +13,7 @@ class ProfileService
     private UserModel $users;
     private FollowModel $follows;
 
-    /** Opciones válidas — mismas listas que en el código original. */
+    // Opciones válidas — mismas listas que en el código original.
     private const DEPORTES_VALIDOS = ['Fútbol'];
     private const JUEGOS_VALIDOS   = ['Brawl Stars', 'Clash Royale', 'Fortnite', 'Free Fire', 'Minecraft'];
     private const PRONOUNS_VALIDOS = ['', 'He/him', 'She/her', 'He/they', 'She/they', 'They/them', 'Any'];
@@ -32,9 +32,7 @@ class ProfileService
         $this->follows = new FollowModel();
     }
 
-    /**
-     * @return array<string,mixed>
-     */
+    /** @return array<string,mixed> */
     public function getPublicProfile(int $targetId, ?int $viewerId): array
     {
         if (!$targetId) {
@@ -66,10 +64,9 @@ class ProfileService
         return ['user' => $user];
     }
 
-    /**
-     * @param array<string,mixed> $body
-     * @return array<string,mixed>
-     */
+    
+    /** @param array<string,mixed> $body
+      * @return array<string,mixed> */
     public function updateProfile(int $userId, array $body): array
     {
         $fields = [];
@@ -255,9 +252,7 @@ class ProfileService
         return $items;
     }
 
-    /**
-     * @return array<string,mixed>
-     */
+    /** @return array<string,mixed> */
     public function checkEmailAvailable(int $userId, string $email): array
     {
         if (!$email) {
@@ -272,9 +267,7 @@ class ProfileService
         return [];
     }
 
-    /**
-     * @return array<string,mixed>
-     */
+    /** @return array<string,mixed> */
     public function updateEmail(int $userId, string $email): array
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -297,9 +290,7 @@ class ProfileService
         return [];
     }
 
-    /**
-     * @return array<string,mixed>
-     */
+    /** @return array<string,mixed> */
     public function updatePhone(int $userId, string $telefono, string $code): array
     {
         $telNorm = preg_replace('/[^0-9]/', '', $telefono);
@@ -338,9 +329,7 @@ class ProfileService
         return [];
     }
 
-    /**
-     * @return array<string,mixed>
-     */
+    /** @return array<string,mixed> */
     public function changePasswordWithCode(int $userId, string $verifKey, string $code, string $newPassword): array
     {
         if (!$verifKey || !$code || !$newPassword) {
@@ -374,9 +363,7 @@ class ProfileService
         return [];
     }
 
-    /**
-     * @return array<string,mixed>
-     */
+    /** @return array<string,mixed> */
     public function deleteAccount(int $userId): array
     {
         try {

@@ -1,10 +1,3 @@
-// ══════════════════════════════════════════════════════════
-//  TRINITY — pages/nav/tournament/tournament.html
-//  CTA de "Crear torneo" + flujo de verificación para pasar a
-//  organizador (teléfono confirmado + términos aceptados →
-//  solicitud enviada a los admins por WhatsApp).
-// ══════════════════════════════════════════════════════════
-
 const $ = (sel) => document.querySelector(sel);
 
 const state = {
@@ -15,9 +8,6 @@ const state = {
     telefonoPendiente: null,
 };
 
-// ── Juegos con cuenta vinculable (coincide con GAMES en acc/view.js) ──
-// Fútbol y Free Fire no tienen API de cuenta -> sus cards no abren
-// el panel de aviso, navegan directo a buscar.html.
 const ACC_GAMES = {
     brawlstars:  { path: 'BRAWLAPI',       idField: 'tag',      label: 'Brawl Stars',  icon: '../../../assets/logosGames/brawl.png' },
     clashroyale: { path: 'ClashRoyaleAPI', idField: 'tag',      label: 'Clash Royale', icon: '../../../assets/logosGames/clash.png' },
@@ -32,11 +22,8 @@ async function init() {
     wireModal();
     wireGameCards();
     wireAccCheckClose();
-}
+} 
 
-// No usamos apiFetch acá: esta página es pública, un invitado tiene
-// que poder verla sin que lo manden al login (mismo motivo que en
-// view.js al revisar el perfil de otro usuario).
 async function loadEstado() {
     try {
         const res = await fetch(`${API_BASE_URL}/../app/tournaments/organizer/status.php`, { credentials: 'include' });
@@ -79,9 +66,6 @@ function renderCta() {
     $('#btn-open-organizer').addEventListener('click', openOrganizerModal);
 }
 
-// ══════════════════════════════════════════════════════════
-//  MODAL
-// ══════════════════════════════════════════════════════════
 function openOrganizerModal() {
     const tienePhone = !!state.telefono;
     $('#org-step-phone').hidden = tienePhone;
@@ -231,15 +215,6 @@ function wireOtpAutoAdvance(containerSel) {
     });
 }
 
-// ══════════════════════════════════════════════════════════
-//  AVISO: cuenta vinculada / confirmación (grilla de juegos)
-//
-//  Al clickear una card con data-game-id de un juego vinculable
-//  (brawlstars/clashroyale/fortnite/minecraft) interceptamos la
-//  navegación y mostramos este panel en vez de ir directo a
-//  buscar.html. Fútbol y Free Fire no tienen cuenta que vincular,
-//  así que sus cards navegan normal (no están en ACC_GAMES).
-// ══════════════════════════════════════════════════════════
 function wireGameCards() {
     document.querySelectorAll('#gamesGrid .game-card').forEach((card) => {
         const gameId = card.dataset.gameId;
@@ -338,10 +313,6 @@ function accBox(label, value, icon) {
     `;
 }
 
-// Minecraft es un caso aparte: el nombre ya se ve arriba en el nametag
-// (no lo repetimos en una caja), y en vez de stats mostramos solo la
-// cabeza 3D de la skin (endpoint /head/, no /avatar/) suelta, sin caja
-// ni etiqueta alrededor.
 function renderAccStats(gameId, p, nombreMostrado) {
     if (!p) return '<p class="acc-check-warn">No se pudieron cargar las estadísticas ahora mismo.</p>';
 

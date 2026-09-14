@@ -7,20 +7,18 @@ use Trinity\Core\WhatsAppClient;
 use Trinity\Models\OrganizerRequestModel;
 use Trinity\Models\UserModel;
 
-/**
- * Flujo para pasar de 'participante' a 'organizador':
- *   1. El usuario ya tiene que tener un teléfono verificado en su
- *      cuenta (si no, se lo manda primero a Credenciales — ver
- *      wireCredentials() en edit.js, se reusa tal cual).
- *   2. Acepta los términos y condiciones (request() se llama recién
- *      ahí, así que "llamar a request()" ES "aceptar los términos").
- *   3. Se les avisa por WhatsApp a todos los admins con teléfono
- *      cargado, con instrucciones para responder /aprobar N o
- *      /rechazar N.
- *   4. El bot de WhatsApp (WhatsApp/main.js) detecta ese comando y
- *      llama a resolveByPhone() vía api/tournaments/organizer/resolve.php,
- *      autenticado con el mismo WA_SECRET que ya usa el resto del sistema.
- */
+/** Flujo para pasar de 'participante' a 'organizador':
+  *   1. El usuario ya tiene que tener un teléfono verificado en su
+  *      cuenta (si no, se lo manda primero a Credenciales — ver
+  *      wireCredentials() en edit.js, se reusa tal cual).
+  *   2. Acepta los términos y condiciones (request() se llama recién
+  *      ahí, así que "llamar a request()" ES "aceptar los términos").
+  *   3. Se les avisa por WhatsApp a todos los admins con teléfono
+  *      cargado, con instrucciones para responder /aprobar N o
+  *      /rechazar N.
+  *   4. El bot de WhatsApp (WhatsApp/main.js) detecta ese comando y
+  *      llama a resolveByPhone() vía api/tournaments/organizer/resolve.php,
+  *      autenticado con el mismo WA_SECRET que ya usa el resto del sistema. */
 class OrganizerService
 {
     private UserModel $users;
@@ -32,9 +30,7 @@ class OrganizerService
         $this->requests = new OrganizerRequestModel();
     }
 
-    /**
-     * @return array{id:int, estado:string}
-     */
+    /** @return array{id:int, estado:string} */
     public function request(int $userId): array
     {
         $user = $this->users->findById($userId);
@@ -73,9 +69,7 @@ class OrganizerService
         return ['id' => $id, 'estado' => 'pendiente'];
     }
 
-    /**
-     * @return array{rol:string, solicitud: array{id:int,estado:string,creado_en:string}|null}
-     */
+    /** @return array{rol:string, solicitud: array{id:int,estado:string,creado_en:string}|null} */
     public function status(int $userId): array
     {
         $user = $this->users->findById($userId);
@@ -96,29 +90,27 @@ class OrganizerService
         ];
     }
 
-    /**
-     * Llamado por resolve.php cuando el bot detecta /aprobar o /rechazar.
-     * Devuelve el texto que el bot le contesta al admin en WhatsApp.
-     */
+    // Llamado por resolve.php cuando el bot detecta /aprobar o /rechazar.
+    // Devuelve el texto que el bot le contesta al admin en WhatsApp.
     public function resolveByPhone(string $telefono, string $accion, int $solicitudId): string
     {
         if (!in_array($accion, ['aprobar', 'rechazar'], true)) {
-            return '⚠️ Comando no reconocido.';
+            return 'Comando no reconocido.';
         }
 
         $telNorm = preg_replace('/[^0-9]/', '', $telefono);
         $admin   = $this->users->findByTelefono($telNorm);
 
         if (!$admin || ($admin['rol'] ?? '') !== 'admin') {
-            return '⛔ No tenés permisos de administrador en Trinity.';
+            return 'No tenés permisos de administrador en Trinity.';
         }
 
         $solicitud = $this->requests->find($solicitudId);
         if (!$solicitud) {
-            return "⚠️ No encontré la solicitud #{$solicitudId}.";
+            return "No encontré la solicitud #{$solicitudId}.";
         }
         if ($solicitud['estado'] !== 'pendiente') {
-            return "⚠️ La solicitud #{$solicitudId} ya había sido " . $solicitud['estado'] . '.';
+            return "La solicitud #{$solicitudId} ya había sido " . $solicitud['estado'] . '.';
         }
 
         $nuevoEstado = $accion === 'aprobar' ? 'aprobado' : 'rechazado';
@@ -132,18 +124,18 @@ class OrganizerService
             if ($solicitante && !empty($solicitante['telefono'])) {
                 WhatsAppClient::send(
                     $solicitante['telefono'],
-                    '🎉 *TRINITY* — ¡Tu solicitud para ser organizador fue aprobada! Ya podés crear torneos.'
+                    '*TRINITY* — ¡Tu solicitud para ser organizador fue aprobada! Ya podés crear torneos.'
                 );
             }
-            return "✅ Aprobado. {$usuarioTag} ya puede crear torneos.";
+            return "Aprobado. {$usuarioTag} ya puede crear torneos.";
         }
 
         if ($solicitante && !empty($solicitante['telefono'])) {
             WhatsAppClient::send(
                 $solicitante['telefono'],
-                '❌ *TRINITY* — Tu solicitud para ser organizador fue rechazada. Podés volver a solicitarlo más adelante.'
+                '*TRINITY* — Tu solicitud para ser organizador fue rechazada. Podés volver a solicitarlo más adelante.'
             );
         }
-        return "❌ Rechazado. Se avisó a {$usuarioTag}.";
+        return "Rechazado. Se avisó a {$usuarioTag}.";
     }
 }

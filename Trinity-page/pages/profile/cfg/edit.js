@@ -1,22 +1,6 @@
-// ══════════════════════════════════════════════════════════
-//  TRINITY — Editar perfil (pages/profile/cfg/edit.html)
-//  Datos básicos, foto (con recorte), preferencias de
-//  deportes/videojuegos, vinculación de cuentas de videojuego,
-//  y credenciales (email / teléfono).
-//
-//  NOTA DE ALCANCE: contraseña / notificaciones / eliminar cuenta
-//  ya están maquetados en el HTML pero NO se tocan acá — son parte
-//  de otro punto del checklist.
-// ══════════════════════════════════════════════════════════
-
 const $ = (sel) => document.querySelector(sel);
-
 const DEPORTES_VALIDOS = ['Fútbol'];
 const JUEGOS_VALIDOS   = ['Brawl Stars', 'Clash Royale', 'Fortnite', 'Free Fire', 'Minecraft'];
-
-// Prefijos que ofrece el <select> de país, ordenados de más a menos
-// dígitos — así al separar un teléfono guardado (ej. "59899123456")
-// probamos primero "598" antes que otros que también podrían calzar.
 const PREFIJOS_TELEFONO = ['598', '54', '55', '56', '57', '51', '52', '34', '1'];
 
 function splitPhone(telefonoCompleto) {
@@ -54,9 +38,6 @@ async function init() {
     wirePasswordChange();
 }
 
-// ══════════════════════════════════════════════════════════
-//  CARGA INICIAL
-// ══════════════════════════════════════════════════════════
 async function loadProfile() {
     let sessionData;
     try {
@@ -124,9 +105,6 @@ function setMsg(id, texto, tipo) {
     if (tipo) el.classList.add(tipo);
 }
 
-// ══════════════════════════════════════════════════════════
-//  FORMULARIO PRINCIPAL (nombre / usuario / pronombres / desc / foto)
-// ══════════════════════════════════════════════════════════
 function wirePreviewForm() {
     $('#preview-form').addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -165,9 +143,6 @@ function wirePreviewForm() {
     });
 }
 
-// ══════════════════════════════════════════════════════════
-//  PREFERENCIAS (deportes / videojuegos favoritos)
-// ══════════════════════════════════════════════════════════
 function renderPills(containerId, validos, seleccionados) {
     const container = document.getElementById(containerId);
     container.innerHTML = '';
@@ -210,9 +185,6 @@ function wirePrefs() {
     });
 }
 
-// ══════════════════════════════════════════════════════════
-//  RECORTE DE FOTO DE PERFIL (canvas, sin librerías externas)
-// ══════════════════════════════════════════════════════════
 const EDIT_SIZE   = 320; // tamaño del canvas de edición (cuadrado)
 const OUTPUT_SIZE = 400; // resolución de salida de la foto recortada
 
@@ -352,6 +324,7 @@ function onDragEnd() {
 }
 
 function openCropperModal() { $('#cropper-modal').classList.add('open'); }
+
 function closeCropperModal() {
     $('#cropper-modal').classList.remove('open');
     cropper.img = null;
@@ -395,9 +368,6 @@ function confirmCrop() {
     closeCropperModal();
 }
 
-// ══════════════════════════════════════════════════════════
-//  CUENTAS DE VIDEOJUEGO (Brawl Stars / Clash Royale / Fortnite / Minecraft)
-// ══════════════════════════════════════════════════════════
 function wireGameLinks() {
     document.querySelectorAll('.gamelink-form').forEach((form) => {
         loadGameAccount(form);
@@ -471,16 +441,6 @@ function setInlineMsg(el, texto, tipo) {
     if (tipo) el.classList.add(tipo);
 }
 
-// ══════════════════════════════════════════════════════════
-//  CREDENCIALES (email / teléfono)
-//
-//  El email se guarda directo. El teléfono requiere un código
-//  de verificación por WhatsApp (send-code.php → update-credentials.php),
-//  igual que el resto de los flujos de verificación del sitio.
-//
-//  Ambos campos se precargan con el valor real del usuario
-//  (agregado a check-session.php: antes solo devolvía el email).
-// ══════════════════════════════════════════════════════════
 function wireCredentials() {
     const form = $('#credentials-form');
     if (!form) return;
@@ -621,13 +581,6 @@ function wireOtpAutoAdvance(containerSel) {
     });
 }
 
-// ══════════════════════════════════════════════════════════
-//  CAMBIAR CONTRASEÑA (2 pasos: enviar código, confirmar)
-//
-//  El usuario solo elige destino (Email/WhatsApp); el valor real
-//  (state.emailActual / state.telefonoActual) ya se conoce desde
-//  check-session.php, no hace falta pedirlo de nuevo.
-// ══════════════════════════════════════════════════════════
 function wirePasswordChange() {
     $('#pwd-paso1').addEventListener('submit', async (e) => {
         e.preventDefault();

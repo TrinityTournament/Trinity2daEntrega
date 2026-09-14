@@ -1,18 +1,10 @@
-// ══════════════════════════════════════════
-//  TRINITY — LOGIN / REGISTRO / RECUPERAR
-//  Conectado a la API real (app/auth, app/verification).
-//  Usa apiFetch (assets/js/api.js) para las llamadas: agrega
-//  cookies de sesión + header X-CSRF-Token automáticamente.
-// ══════════════════════════════════════════
-
 let metodoActual  = null; // 'email' | 'telefono'
 let canalActual   = 'whatsapp'; // 'whatsapp' — ya viene marcado como activo en el HTML
 let codigoListo   = false; // true cuando el OTP del método activo tiene 6 dígitos
 
-// ── NAVEGACIÓN ENTRE VISTAS ───────────────────────────────
 // La navegación entre #card / #registro / #recuperar la maneja el
 // propio HTML con anchor links (href="#registro", etc). Acá solo
-// escuchamos el cambio de hash para mostrar la card correspondiente
+// se escucha el cambio de hash para mostrar la card correspondiente
 // y resetear el estado del registro cada vez que se entra o se sale
 // de esa card.
 

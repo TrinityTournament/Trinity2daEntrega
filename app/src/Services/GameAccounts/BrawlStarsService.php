@@ -7,11 +7,7 @@ use Trinity\Core\ApiException;
 class BrawlStarsService extends AbstractGameAccountService
 {
     private const API_BASE = 'https://sprcll.vercel.app/brawl/players/';
-
-    protected function gameKey(): string
-    {
-        return 'brawlstars';
-    }
+    protected function gameKey(): string { return 'brawlstars'; }
 
     public function getAccount(int $userId): array
     {
@@ -19,9 +15,7 @@ class BrawlStarsService extends AbstractGameAccountService
         return ['tag' => $tag ? '#' . $tag : null];
     }
 
-    /**
-     * @return array<string,mixed>
-     */
+    /** @return array<string,mixed> */
     public function save(int $userId, string $tagCrudo): array
     {
         $tag = ltrim(strtoupper(trim($tagCrudo)), '#');
@@ -45,9 +39,7 @@ class BrawlStarsService extends AbstractGameAccountService
         return ['tag' => '#' . $tag];
     }
 
-    /**
-     * @return array<string,mixed>
-     */
+    /** @return array<string,mixed> */
     public function stats(?int $userId, string $tagQuery): array
     {
         if ($tagQuery !== '') {
@@ -90,9 +82,7 @@ class BrawlStarsService extends AbstractGameAccountService
         ];
     }
 
-    /**
-     * @return array<string,mixed>
-     */
+    /** @return array<string,mixed> */
     private function fetchProfile(string $tag): array
     {
         $raw = @file_get_contents(self::API_BASE . $tag);

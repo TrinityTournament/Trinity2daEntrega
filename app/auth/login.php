@@ -1,7 +1,5 @@
 <?php
-// ══════════════════════════════════════════════════════════
-//  TRINITY — Login (acepta email o número de teléfono)
-// ══════════════════════════════════════════════════════════
+
 require_once __DIR__ . '/../config.php';
 
 use Trinity\Core\Auth;

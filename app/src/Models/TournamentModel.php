@@ -176,10 +176,9 @@ class TournamentModel
         });
     }
 
-    /**
-     * Ejecuta $fn y convierte "tabla no existe" en un 501 legible.
-     * Deja pasar cualquier otro tipo de error tal cual.
-     */
+    
+    // Ejecuta $fn y convierte "tabla no existe" en un 501 legible.
+    // Deja pasar cualquier otro tipo de error tal cual.
     private function guarded(callable $fn): mixed
     {
         try {

@@ -16,17 +16,13 @@ class AdminService
         $this->users = new UserModel();
     }
 
-    /**
-     * @return array<string,mixed>
-     */
+    /** @return array<string,mixed> */
     public function listUsers(): array
     {
         return ['usuarios' => $this->users->allForAdmin()];
     }
 
-    /**
-     * @return array<string,mixed>
-     */
+    /** @return array<string,mixed> */
     public function changeRole(int $actingUserId, int $targetId, string $rol): array
     {
         if (!$targetId || !$rol) {
@@ -46,12 +42,10 @@ class AdminService
         return [];
     }
 
-    /**
-     * Promueve a admin buscando por id, usuario o email. Pensado para
-     * el primer despliegue, protegido por ADMIN_KEY (ver Auth::requireAdminKey).
-     *
-     * @return array<string,mixed>
-     */
+    /** Promueve a admin buscando por id, usuario o email. Pensado para
+      * el primer despliegue, protegido por ADMIN_KEY (ver Auth::requireAdminKey).
+      *
+      * @return array<string,mixed> */
     public function promoteFirstAdmin(?int $id, ?string $usuario, ?string $email): array
     {
         if ($id) {
