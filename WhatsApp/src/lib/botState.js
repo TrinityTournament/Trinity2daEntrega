@@ -5,7 +5,7 @@
 // ══════════════════════════════════════════════════════════
 
 let _client    = null;
-let _connected = true;
+let _connected = false;
 
 /** Guarda la referencia al client y lo marca como conectado. */
 export const setClient = (client) => {
